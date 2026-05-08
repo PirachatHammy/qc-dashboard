@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QC Defect Dashboard — Ajinomoto</title>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --bg: #f0f4ff;
+  --card: #ffffff;
+  --border: rgba(99,102,241,0.12);
+  --ink: #1e1b4b;
+  --ink2: #4c4f7a;
+  --ink3: #9194b8;
+  --indigo: #6366f1;
+  --indigo-dim: rgba(99,102,241,0.08);
+  --cyan: #06b6d4;
+  --violet: #8b5cf6;
+  --green: #10b981;
+  --green-dim: rgba(16,185,129,0.10);
+  --red: #ef4444;
+  --red-dim: rgba(239,68,68,0.08);
+  --amber: #f59e0b;
+  --amber-dim: rgba(245,158,11,0.08);
+  --r: 16px;
+  --shadow: 0 2px 16px rgba(99,102,241,0.08);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{font-size:14px;}
+body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+
+/* BLOBS */
+.blob{position:fixed;border-radius:50%;filter:blur(70px);opacity:.25;pointer-events:none;z-index:0;}
+.b1{width:400px;height:400px;background:radial-gradient(circle,#a5b4fc,#818cf8);top:-100px;left:-100px;animation:bf 9s ease-in-out infinite;}
+.b2{width:300px;height:300px;background:radial-gradient(circle,#67e8f9,#22d3ee);bottom:-80px;right:-80px;animation:bf 7s ease-in-out infinite reverse;}
+.b3{width:250px;height:250px;background:radial-gradient(circle,#fde68a,#fbbf24);top:40%;right:10%;animation:bf 11s ease-in-out infinite;}
+@keyframes bf{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(20px,-20px) scale(1.06);}}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(30,27,75,0.96);backdrop-filter:blur(12px);padding:0 28px;height:54px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);}
+.topbar-l{display:flex;align-items:center;gap:12px;}
+.topbar-logo{font-size:14px;font-weight:800;color:#fff;letter-spacing:-.01em;}
+.topbar-div{width:1px;height:20px;background:rgba(255,255,255,0.15);}
+.topbar-sub{font-size:11px;color:rgba(255,255,255,0.45);}
+.topbar-r{display:flex;align-items:center;gap:10px;}
+.last-update{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,0.4);}
+.refresh-btn{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;border:1px solid rgba(99,102,241,0.5);background:rgba(99,102,241,0.15);color:#a5b4fc;font-family:'Kanit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;}
+.refresh-btn:hover{background:rgba(99,102,241,0.3);border-color:rgba(99,102,241,0.8);}
+.refresh-btn.loading .ri{animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* FILTER BAR */
+.filter-bar{background:var(--card);border-bottom:1px solid var(--border);padding:10px 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:54px;z-index:99;box-shadow:0 2px 12px rgba(99,102,241,0.06);}
+.filter-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;}
+.chip-group{display:flex;gap:5px;flex-wrap:wrap;}
+.chip{padding:4px 12px;border-radius:999px;font-size:12px;font-weight:500;cursor:pointer;border:1.5px solid var(--border);background:var(--bg);color:var(--ink2);transition:all .15s;}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink);}
+.chip:hover:not(.on){border-color:var(--ink2);}
+.sep{width:1px;height:22px;background:var(--border);}
+
+/* MAIN */
+.main{max-width:1360px;margin:0 auto;padding:22px 28px 60px;position:relative;z-index:10;}
+
+/* KPI */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;}
+@media(max-width:860px){.kpi-row{grid-template-columns:repeat(2,1fr);}}
+.kpi{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s;}
+.kpi:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(99,102,241,0.14);}
+.kpi-accent{position:absolute;bottom:0;left:0;right:0;height:3px;}
+.kpi-lbl{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;}
+.kpi-val{font-size:32px;font-weight:800;line-height:1;color:var(--ink);}
+.kpi-sub{font-size:11px;color:var(--ink3);margin-top:6px;}
+.kpi-trend{display:inline-flex;align-items:center;gap:3px;margin-top:6px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;}
+.tr-r{background:var(--red-dim);color:var(--red);}
+.tr-g{background:var(--green-dim);color:var(--green);}
+.tr-a{background:var(--amber-dim);color:var(--amber);}
+
+/* CHART GRID */
+.row2{display:grid;grid-template-columns:1.7fr 1fr;gap:14px;margin-bottom:14px;}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;}
+@media(max-width:900px){.row2,.row3{grid-template-columns:1fr;}}
+
+.panel{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .2s;}
+.panel:hover{transform:translateY(-1px);}
+.panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--indigo),var(--violet),var(--cyan));opacity:0;transition:opacity .25s;}
+.panel:hover::before{opacity:1;}
+.ph{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;}
+.pt{font-size:13px;font-weight:600;color:var(--ink);}
+.ps{font-size:11px;color:var(--ink3);margin-top:2px;}
+.ptag{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3);padding:2px 7px;border:1px solid var(--border);border-radius:4px;}
+
+/* HBAR */
+.hbar-row{display:grid;grid-template-columns:160px 1fr 32px;align-items:center;gap:8px;margin-bottom:8px;}
+.hbar-lbl{font-size:11.5px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.hbar-track{height:8px;background:var(--bg);border-radius:99px;overflow:hidden;}
+.hbar-fill{height:100%;border-radius:99px;transition:width 1.2s cubic-bezier(.34,1.2,.64,1);}
+.hbar-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink3);text-align:right;}
+
+/* MC GRID */
+.mc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.mc-c{background:var(--bg);border-radius:12px;padding:12px 14px;}
+.mc-name{font-size:20px;font-weight:800;}
+.mc-n{font-size:24px;font-weight:600;color:var(--ink);line-height:1;margin-top:2px;}
+.mc-s{font-size:10px;color:var(--ink3);margin-top:3px;}
+.mc-bar{height:3px;background:var(--border);border-radius:99px;margin-top:8px;overflow:hidden;}
+.mc-bf{height:100%;border-radius:99px;transition:width 1.2s cubic-bezier(.34,1.2,.64,1);}
+
+/* SIZE BARS */
+.sz-item{display:grid;grid-template-columns:40px 1fr 30px;align-items:center;gap:8px;margin-bottom:10px;}
+.sz-lbl{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink2);}
+.sz-track{height:9px;background:var(--bg);border-radius:99px;overflow:hidden;}
+.sz-fill{height:100%;border-radius:99px;transition:width 1.2s cubic-bezier(.34,1.2,.64,1);}
+.sz-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink3);text-align:right;}
+
+/* TABLE */
+.tbl-wrap{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);}
+.tbl-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);}
+table{width:100%;border-collapse:collapse;table-layout:fixed;}
+th{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink3);font-weight:500;padding:8px 12px;text-align:left;background:var(--bg);border-bottom:1px solid var(--border);white-space:nowrap;}
+td{font-size:12px;color:var(--ink2);padding:9px 12px;border-bottom:1px solid var(--border);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--indigo-dim);}
+.pill{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;}
+.pill-r{background:var(--red-dim);color:var(--red);}
+.pill-g{background:var(--green-dim);color:var(--green);}
+.pill-a{background:var(--amber-dim);color:var(--amber);}
+.pill-b{background:rgba(6,182,212,0.1);color:var(--cyan);}
+.pill-v{background:rgba(139,92,246,0.1);color:var(--violet);}
+.pill-n{background:var(--bg);color:var(--ink3);}
+
+/* LOADING */
+.loading-screen{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;}
+.loading-spinner{width:56px;height:56px;border:3px solid rgba(99,102,241,0.15);border-top-color:var(--indigo);border-radius:50%;animation:spin .7s linear infinite;}
+.loading-text{font-size:14px;color:var(--ink2);font-weight:500;}
+.loading-sub{font-size:11px;color:var(--ink3);}
+
+/* ERROR */
+.error-box{background:var(--red-dim);border:1.5px solid rgba(239,68,68,0.2);border-radius:var(--r);padding:20px 24px;margin:20px 0;color:var(--red);}
+
+/* EMPTY */
+.empty{text-align:center;padding:40px;color:var(--ink3);font-size:13px;}
+
+.shift-bar-wrap{display:flex;align-items:flex-end;gap:3px;height:120px;margin-bottom:8px;}
+.shift-col{display:flex;flex-direction:column;align-items:center;flex:1;gap:3px;}
+.shift-bars-inner{display:flex;align-items:flex-end;gap:2px;height:100px;}
+.sbar{border-radius:3px 3px 0 0;width:14px;transition:height 1.2s cubic-bezier(.34,1.2,.64,1);}
+.shift-lbl-txt{font-size:8.5px;font-family:'JetBrains Mono',monospace;color:var(--ink3);text-align:center;}
+.shift-legend{display:flex;justify-content:center;gap:14px;margin-top:6px;}
+.sleg{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ink2);}
+.sleg-dot{width:8px;height:8px;border-radius:2px;}
+</style>
+</head>
+<body>
+
+<div class="blob b1"></div>
+<div class="blob b2"></div>
+<div class="blob b3"></div>
+
+<!-- LOADING -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-spinner"></div>
+  <div class="loading-text">กำลังโหลดข้อมูลจาก Google Sheets...</div>
+  <div class="loading-sub" id="loadingSub">เชื่อมต่อ...</div>
+</div>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-l">
+    <div class="topbar-logo">⚙ QC DASHBOARD</div>
+    <div class="topbar-div"></div>
+    <div class="topbar-sub">Defect Monitoring · Ajinomoto · Real Data</div>
+  </div>
+  <div class="topbar-r">
+    <div class="last-update" id="lastUpdate">—</div>
+    <button class="refresh-btn" onclick="loadData()">
+      <span class="ri" style="display:inline-block">↻</span> Refresh ข้อมูล
+    </button>
+  </div>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <span class="filter-label">กะ</span>
+  <div class="chip-group" id="shiftChips">
+    <div class="chip on" data-shift="all">ทั้งหมด</div>
+    <div class="chip" data-shift="1">กะ 1 · เช้า</div>
+    <div class="chip" data-shift="2">กะ 2 · บ่าย</div>
+    <div class="chip" data-shift="3">กะ 3 · ดึก</div>
+  </div>
+  <div class="sep"></div>
+  <span class="filter-label">M/C</span>
+  <div class="chip-group" id="mcChips">
+    <div class="chip on" data-mc="all">ทั้งหมด</div>
+    <div class="chip" data-mc="B">B</div>
+    <div class="chip" data-mc="C">C</div>
+    <div class="chip" data-mc="H">H</div>
+    <div class="chip" data-mc="S">S</div>
+  </div>
+  <div class="sep"></div>
+  <span class="filter-label">สถานะ</span>
+  <div class="chip-group" id="statusChips">
+    <div class="chip on" data-status="all">ทั้งหมด</div>
+    <div class="chip" data-status="defect">พบ Defect</div>
+    <div class="chip" data-status="ok">ไม่พบ</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- KPI -->
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--red)"></div>
+      <div class="kpi-lbl">Defect พบทั้งหมด</div>
+      <div class="kpi-val" id="kpiDefect" style="color:var(--red)">—</div>
+      <div class="kpi-sub">รายการ</div>
+      <div class="kpi-trend tr-r" id="kpiDefectRate">—</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--indigo)"></div>
+      <div class="kpi-lbl">กล่องตรวจทั้งหมด</div>
+      <div class="kpi-val" id="kpiTotal" style="color:var(--indigo)">—</div>
+      <div class="kpi-sub">รายการทั้งหมด</div>
+      <div class="kpi-trend tr-a" id="kpiPassRate">—</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--green)"></div>
+      <div class="kpi-lbl">ผ่าน OK</div>
+      <div class="kpi-val" id="kpiOk" style="color:var(--green)">—</div>
+      <div class="kpi-sub">ไม่พบ Defect</div>
+      <div class="kpi-trend tr-g" id="kpiOkRate">—</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--amber)"></div>
+      <div class="kpi-lbl">M/C มีปัญหามากสุด</div>
+      <div class="kpi-val" id="kpiTopMC" style="font-size:24px;color:var(--amber)">—</div>
+      <div class="kpi-sub" id="kpiTopMCSub">—</div>
+      <div class="kpi-trend tr-a" id="kpiTopMCPct">—</div>
+    </div>
+  </div>
+
+  <!-- ROW 2 -->
+  <div class="row2">
+    <div class="panel">
+      <div class="ph"><div><div class="pt">Defect แต่ละประเภท</div><div class="ps">จำนวนรายการที่พบ</div></div><div class="ptag">BAR</div></div>
+      <div id="hbarContainer"></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div><div class="pt">สัดส่วนประเภท</div><div class="ps">% ของ Defect ทั้งหมด</div></div><div class="ptag">DONUT</div></div>
+      <div style="position:relative;height:200px"><canvas id="donutChart" role="img" aria-label="Donut chart สัดส่วน Defect แต่ละประเภท"></canvas></div>
+      <div id="donutLegend" style="display:flex;flex-direction:column;gap:5px;margin-top:10px"></div>
+    </div>
+  </div>
+
+  <!-- ROW 3 -->
+  <div class="row3">
+    <div class="panel">
+      <div class="ph"><div><div class="pt">Defect แยกตามกะ</div><div class="ps">แต่ละรอบตรวจ</div></div><div class="ptag">SHIFT</div></div>
+      <div class="shift-bar-wrap" id="shiftBars"></div>
+      <div class="shift-legend">
+        <div class="sleg"><div class="sleg-dot" style="background:#6366f1"></div>กะ 1</div>
+        <div class="sleg"><div class="sleg-dot" style="background:#f59e0b"></div>กะ 2</div>
+        <div class="sleg"><div class="sleg-dot" style="background:#8b5cf6"></div>กะ 3</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div><div class="pt">Defect แยกตาม M/C</div><div class="ps">จำนวนรายการต่อเครื่อง</div></div><div class="ptag">MC</div></div>
+      <div class="mc-grid" id="mcGrid"></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div><div class="pt">Defect แยกตาม Size</div><div class="ps">กล่องขนาดไหนมีปัญหามากสุด</div></div><div class="ptag">SIZE</div></div>
+      <div id="sizeContainer"></div>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="tbl-wrap">
+    <div class="tbl-hd">
+      <div><div class="pt">รายการล่าสุด</div><div class="ps" id="tblSub">— รายการ</div></div>
+      <div class="ptag">RECENT 20</div>
+    </div>
+    <div style="overflow-x:auto">
+      <table>
+        <thead>
+          <tr>
+            <th style="width:72px">วันที่</th>
+            <th style="width:56px">กะ</th>
+            <th style="width:68px">รอบตรวจ</th>
+            <th style="width:38px">M/C</th>
+            <th style="width:46px">Size</th>
+            <th>รายละเอียด Defect</th>
+            <th style="width:96px">ประเภท</th>
+            <th style="width:52px">กล่อง</th>
+            <th style="width:88px">หัวหน้า</th>
+          </tr>
+        </thead>
+        <tbody id="tblBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const SHEET_ID = '1Ie3365pkUS0LFHwEFe5YbRL1J6BZYEAVaHyKuhTMUws';
+const SHEET_NAME = 'ham';
+const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+
+const COLORS = {
+  defect: ['#6366f1','#ef4444','#06b6d4','#10b981','#f59e0b','#8b5cf6','#f43f5e','#64748b'],
+  mc: {B:'#ef4444',C:'#10b981',H:'#f59e0b',S:'#6366f1'},
+  size: {'72g':'#64748b','250g':'#06b6d4','500g':'#6366f1','1kg':'#8b5cf6'},
+  shift: {1:'#6366f1',2:'#f59e0b',3:'#8b5cf6'},
+};
+
+let allData = [];
+let filters = {shift:'all', mc:'all', status:'all'};
+let donutChart = null;
+
+async function loadData() {
+  const btn = document.querySelector('.refresh-btn');
+  btn.classList.add('loading');
+  document.getElementById('loadingSub').textContent = 'ดึงข้อมูลจาก Google Sheets...';
+
+  try {
+    const res = await fetch(URL);
+    const text = await res.text();
+    const json = JSON.parse(text.replace(/^[^(]+\(/, '').replace(/\);?\s*$/, ''));
+    const rows = json.table.rows;
+    const cols = json.table.cols.map(c => c.label);
+
+    allData = rows.map(r => {
+      const obj = {};
+      cols.forEach((c, i) => { obj[c] = r.c[i] ? (r.c[i].v !== null ? String(r.c[i].v) : '') : ''; });
+      return obj;
+    }).filter(r => Object.values(r).some(v => v));
+
+    document.getElementById('lastUpdate').textContent = 'อัปเดต: ' + new Date().toLocaleTimeString('th-TH');
+    renderAll();
+    document.getElementById('loadingScreen').style.display = 'none';
+  } catch (err) {
+    document.getElementById('loadingSub').textContent = '❌ โหลดไม่ได้: ' + err.message;
+    document.getElementById('loadingSub').style.color = '#ef4444';
+    setTimeout(() => { document.getElementById('loadingScreen').style.display = 'none'; }, 2000);
+  }
+  btn.classList.remove('loading');
+}
+
+function getFiltered() {
+  return allData.filter(r => {
+    const shiftVal = (r['shift'] || r['กะ'] || '').trim();
+    const mcVal = (r['mcNo'] || r['M/C No.'] || r['MC'] || '').trim();
+    const defectVal = (r['defectDetail'] || r['รายละเอียด Defect ที่พบ'] || '').trim();
+    const isOk = defectVal === 'ไม่พบ defect' || defectVal === 'ไม่พบ';
+
+    if (filters.shift !== 'all' && shiftVal !== filters.shift) return false;
+    if (filters.mc !== 'all' && mcVal !== filters.mc) return false;
+    if (filters.status === 'defect' && isOk) return false;
+    if (filters.status === 'ok' && !isOk) return false;
+    return true;
+  });
+}
+
+function getKey(row, ...keys) {
+  for (const k of keys) { if (row[k] !== undefined && row[k] !== '') return row[k].trim(); }
+  return '';
+}
+
+function renderAll() {
+  const data = getFiltered();
+  const defectOnly = data.filter(r => {
+    const d = getKey(r, 'defectDetail', 'รายละเอียด Defect ที่พบ');
+    return d && d !== 'ไม่พบ defect' && d !== 'ไม่พบ';
+  });
+
+  // KPI
+  const total = data.length;
+  const defCount = defectOnly.length;
+  const okCount = total - defCount;
+  document.getElementById('kpiDefect').textContent = defCount.toLocaleString();
+  document.getElementById('kpiTotal').textContent = total.toLocaleString();
+  document.getElementById('kpiOk').textContent = okCount.toLocaleString();
+  document.getElementById('kpiDefectRate').textContent = `Defect Rate ${total ? (defCount/total*100).toFixed(1) : 0}%`;
+  document.getElementById('kpiPassRate').textContent = `Pass Rate ${total ? (okCount/total*100).toFixed(1) : 0}%`;
+  document.getElementById('kpiOkRate').textContent = `${okCount.toLocaleString()} กล่อง OK`;
+
+  // Top MC
+  const mcCount = {};
+  defectOnly.forEach(r => { const mc = getKey(r,'mcNo','M/C No.','MC'); if(mc) mcCount[mc] = (mcCount[mc]||0)+1; });
+  const topMC = Object.entries(mcCount).sort((a,b)=>b[1]-a[1])[0];
+  if (topMC) {
+    document.getElementById('kpiTopMC').textContent = 'M/C ' + topMC[0];
+    document.getElementById('kpiTopMCSub').textContent = `${topMC[1]} รายการ`;
+    document.getElementById('kpiTopMCPct').textContent = `${defCount ? (topMC[1]/defCount*100).toFixed(1) : 0}% ของทั้งหมด`;
+  }
+
+  renderHBar(defectOnly);
+  renderDonut(defectOnly);
+  renderShift(defectOnly);
+  renderMC(defectOnly);
+  renderSize(defectOnly);
+  renderTable(data);
+}
+
+function renderHBar(data) {
+  const counts = {};
+  data.forEach(r => {
+    const t = getKey(r,'defectType','ประเภท Defect') || 'Other';
+    counts[t] = (counts[t]||0)+1;
+  });
+  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const mx = sorted[0]?.[1] || 1;
+  const c = document.getElementById('hbarContainer');
+  c.innerHTML = sorted.length ? sorted.map(([l,n],i) => `
+    <div class="hbar-row">
+      <div class="hbar-lbl" title="${l}">${l}</div>
+      <div class="hbar-track"><div class="hbar-fill" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${COLORS.defect[i%COLORS.defect.length]}"></div></div>
+      <div class="hbar-n">${n}</div>
+    </div>`).join('') : '<div class="empty">ไม่มีข้อมูล Defect</div>';
+  setTimeout(() => { c.querySelectorAll('.hbar-fill').forEach(el => { el.style.width = el.dataset.w + '%'; }); }, 50);
+}
+
+function renderDonut(data) {
+  const counts = {};
+  data.forEach(r => { const t = getKey(r,'defectType','ประเภท Defect') || 'Other'; counts[t]=(counts[t]||0)+1; });
+  const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const total = entries.reduce((s,[,n])=>s+n,0);
+  const labels = entries.map(([l])=>l);
+  const values = entries.map(([,n])=>n);
+  const colors = entries.map((_,i)=>COLORS.defect[i%COLORS.defect.length]);
+
+  if (donutChart) { donutChart.destroy(); donutChart = null; }
+  if (!entries.length) { document.getElementById('donutLegend').innerHTML = '<div class="empty">ไม่มีข้อมูล</div>'; return; }
+
+  donutChart = new Chart(document.getElementById('donutChart'), {
+    type: 'doughnut',
+    data: { labels, datasets: [{ data: values, backgroundColor: colors, borderWidth: 2, borderColor: '#fff', hoverOffset: 4 }] },
+    options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${c.label}: ${c.raw} (${Math.round(c.raw/total*100)}%)` } } } }
+  });
+
+  document.getElementById('donutLegend').innerHTML = entries.slice(0,6).map(([l,n],i) =>
+    `<div style="display:flex;align-items:center;gap:7px;font-size:11px">
+      <div style="width:8px;height:8px;border-radius:2px;background:${colors[i]};flex-shrink:0"></div>
+      <span style="flex:1;color:var(--ink2)">${l}</span>
+      <span style="font-family:'JetBrains Mono',monospace;color:var(--ink3)">${n}</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--ink);min-width:30px;text-align:right">${Math.round(n/total*100)}%</span>
+    </div>`).join('');
+}
+
+function renderShift(data) {
+  const rounds = {};
+  data.forEach(r => {
+    const shift = getKey(r,'shift','กะ');
+    const round = getKey(r,'round','รอบตรวจ');
+    if (!round) return;
+    if (!rounds[round]) rounds[round] = {1:0,2:0,3:0};
+    rounds[round][shift] = (rounds[round][shift]||0)+1;
+  });
+  const sorted = Object.entries(rounds).sort((a,b)=>a[0].localeCompare(b[0]));
+  const mx = Math.max(...sorted.map(([,v])=>Math.max(v[1]||0,v[2]||0,v[3]||0)),1);
+  const c = document.getElementById('shiftBars');
+  c.innerHTML = sorted.length ? sorted.map(([round, vals]) => {
+    const bars = [1,2,3].map(s => vals[s] > 0 ? `<div class="sbar" data-h="${Math.round((vals[s]||0)/mx*94)}" style="height:0;background:${COLORS.shift[s]}"></div>` : '').join('');
+    return `<div class="shift-col"><div class="shift-bars-inner">${bars}</div><div class="shift-lbl-txt">${round.replace(' น.','')}</div></div>`;
+  }).join('') : '<div class="empty" style="width:100%">ไม่มีข้อมูล</div>';
+  setTimeout(() => { c.querySelectorAll('.sbar').forEach(el => { el.style.height = el.dataset.h + 'px'; }); }, 80);
+}
+
+function renderMC(data) {
+  const counts = {};
+  data.forEach(r => { const mc = getKey(r,'mcNo','M/C No.','MC'); if(mc) counts[mc]=(counts[mc]||0)+1; });
+  const total = Object.values(counts).reduce((s,n)=>s+n,0)||1;
+  const mx = Math.max(...Object.values(counts),1);
+  const c = document.getElementById('mcGrid');
+  const mcs = ['B','C','H','S'];
+  c.innerHTML = mcs.map(mc => {
+    const n = counts[mc]||0;
+    const pct = (n/total*100).toFixed(1);
+    const color = COLORS.mc[mc]||'#888';
+    return `<div class="mc-c">
+      <div class="mc-name" style="color:${color}">${mc}</div>
+      <div class="mc-n">${n}</div>
+      <div class="mc-s">${pct}% ของทั้งหมด</div>
+      <div class="mc-bar"><div class="mc-bf" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${color}"></div></div>
+    </div>`;
+  }).join('');
+  setTimeout(() => { c.querySelectorAll('.mc-bf').forEach(el => { el.style.width = el.dataset.w + '%'; }); }, 80);
+}
+
+function renderSize(data) {
+  const counts = {};
+  data.forEach(r => { const s = getKey(r,'size','Size'); if(s) counts[s]=(counts[s]||0)+1; });
+  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const mx = sorted[0]?.[1]||1;
+  const c = document.getElementById('sizeContainer');
+  c.innerHTML = sorted.length ? sorted.map(([sz,n]) => {
+    const color = COLORS.size[sz]||'#6366f1';
+    return `<div class="sz-item">
+      <div class="sz-lbl">${sz}</div>
+      <div class="sz-track"><div class="sz-fill" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${color}"></div></div>
+      <div class="sz-n">${n}</div>
+    </div>`;
+  }).join('') : '<div class="empty">ไม่มีข้อมูล</div>';
+  setTimeout(() => { c.querySelectorAll('.sz-fill').forEach(el => { el.style.width = el.dataset.w + '%'; }); }, 80);
+}
+
+function renderTable(data) {
+  const recent = [...data].reverse().slice(0, 20);
+  document.getElementById('tblSub').textContent = `แสดง ${Math.min(20,data.length)} จาก ${data.length} รายการ`;
+  const shifts = {1:'pill-b',2:'pill-a',3:'pill-v'};
+  const mcs = {B:'pill-r',C:'pill-g',H:'pill-a',S:'pill-b'};
+  const body = document.getElementById('tblBody');
+  body.innerHTML = recent.length ? recent.map(r => {
+    const shift = getKey(r,'shift','กะ');
+    const mc = getKey(r,'mcNo','M/C No.','MC');
+    const defect = getKey(r,'defectDetail','รายละเอียด Defect ที่พบ');
+    const isOk = defect === 'ไม่พบ defect' || defect === 'ไม่พบ';
+    const type = getKey(r,'defectType','ประเภท Defect');
+    const date = getKey(r,'date','วันที่');
+    const round = getKey(r,'round','รอบตรวจ');
+    const box = getKey(r,'boxNo','เลขกล่อง');
+    const sv = getKey(r,'supervisor','หัวหน้างาน');
+    const size = getKey(r,'size','Size');
+    return `<tr>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink3)">${date}</td>
+      <td><span class="pill ${shifts[shift]||'pill-n'}">กะ ${shift}</span></td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${round}</td>
+      <td><span class="pill ${mcs[mc]||'pill-n'}">${mc}</span></td>
+      <td style="font-family:'JetBrains Mono',monospace">${size}</td>
+      <td title="${defect}">${defect}</td>
+      <td><span class="pill ${isOk?'pill-g':'pill-r'}">${type||defect}</span></td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${box}</td>
+      <td>${sv}</td>
+    </tr>`;
+  }).join('') : '<tr><td colspan="9" class="empty">ไม่มีข้อมูล</td></tr>';
+}
+
+// FILTER CHIPS
+['shiftChips','mcChips','statusChips'].forEach(id => {
+  document.getElementById(id).addEventListener('click', e => {
+    const chip = e.target.closest('.chip');
+    if (!chip) return;
+    document.querySelectorAll(`#${id} .chip`).forEach(c => c.classList.remove('on'));
+    chip.classList.add('on');
+    if (id === 'shiftChips') filters.shift = chip.dataset.shift;
+    if (id === 'mcChips') filters.mc = chip.dataset.mc;
+    if (id === 'statusChips') filters.status = chip.dataset.status;
+    renderAll();
+  });
+});
+
+loadData();
+</script>
+</body>
+</html>
