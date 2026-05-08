@@ -306,7 +306,33 @@ tr:hover td{background:var(--indigo-dim);}
 <script>
 const SHEET_ID = '1Ie3365pkUS0LFHwEFe5YbRL1J6BZYEAVaHyKuhTMUws';
 const SHEET_NAME = 'ham';
-const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}`;
+const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&headers=1`;
+
+// Column name aliases — รองรับทั้งภาษาไทยและอังกฤษ
+const COL = {
+  date:     ['วันที่','date','Date'],
+  shift:    ['กะ','shift','Shift'],
+  round:    ['รอบตรวจ','round','Round'],
+  mcNo:     ['M/C No.','MC No.','mcNo','MC'],
+  size:     ['Size','size'],
+  defect:   ['รายละเอียด Defect','รายละเอียด','defectDetail','รายละเอียด Defect ที่พบ'],
+  type:     ['ประเภท Defect','ประเภท Def','defectType'],
+  boxNo:    ['เลขกล่อง','boxNo'],
+  time:     ['เวลา','defectTime'],
+  pallet:   ['Pallet No.','palletNo'],
+  retTime:  ['เวลาคืน','returnTime'],
+  sv:       ['หัวหน้างาน','supervisor'],
+  customer: ['ลูกกะ','customer'],
+  robot:    ['Robot','robot'],
+};
+
+function g(row, field) {
+  for (const k of (COL[field]||[])) {
+    if (row[k] !== undefined && row[k] !== null && String(row[k]).trim() !== '')
+      return String(row[k]).trim();
+  }
+  return '';
+}
 
 const COLORS = {
   defect: ['#6366f1','#ef4444','#06b6d4','#10b981','#f59e0b','#8b5cf6','#f43f5e','#64748b'],
@@ -335,7 +361,7 @@ async function loadData() {
       const obj = {};
       cols.forEach((c, i) => { obj[c] = r.c[i] ? (r.c[i].v !== null ? String(r.c[i].v) : '') : ''; });
       return obj;
-    }).filter(r => Object.values(r).some(v => v));
+    }).filter(r => { const d=g(r,'date'); const s=g(r,'shift'); return d||s; });
 
     document.getElementById('lastUpdate').textContent = 'อัปเดต: ' + new Date().toLocaleTimeString('th-TH');
     renderAll();
@@ -350,10 +376,10 @@ async function loadData() {
 
 function getFiltered() {
   return allData.filter(r => {
-    const shiftVal = (r['shift'] || r['กะ'] || '').trim();
-    const mcVal = (r['mcNo'] || r['M/C No.'] || r['MC'] || '').trim();
-    const defectVal = (r['defectDetail'] || r['รายละเอียด Defect ที่พบ'] || '').trim();
-    const isOk = defectVal === 'ไม่พบ defect' || defectVal === 'ไม่พบ';
+    const shiftVal = g(r,'shift');
+    const mcVal = g(r,'mcNo');
+    const defectVal = g(r,'defect');
+    const isOk = !defectVal || defectVal === 'ไม่พบ defect' || defectVal === 'ไม่พบ';
 
     if (filters.shift !== 'all' && shiftVal !== filters.shift) return false;
     if (filters.mc !== 'all' && mcVal !== filters.mc) return false;
@@ -371,8 +397,8 @@ function getKey(row, ...keys) {
 function renderAll() {
   const data = getFiltered();
   const defectOnly = data.filter(r => {
-    const d = getKey(r, 'defectDetail', 'รายละเอียด Defect ที่พบ');
-    return d && d !== 'ไม่พบ defect' && d !== 'ไม่พบ';
+    const d = g(r,'defect');
+    return d && d !== 'ไม่พบ defect' && d !== 'ไม่พบ' && d !== '';
   });
 
   // KPI
@@ -388,7 +414,7 @@ function renderAll() {
 
   // Top MC
   const mcCount = {};
-  defectOnly.forEach(r => { const mc = getKey(r,'mcNo','M/C No.','MC'); if(mc) mcCount[mc] = (mcCount[mc]||0)+1; });
+  defectOnly.forEach(r => { const mc = g(r,'mcNo'); if(mc) mcCount[mc] = (mcCount[mc]||0)+1; });
   const topMC = Object.entries(mcCount).sort((a,b)=>b[1]-a[1])[0];
   if (topMC) {
     document.getElementById('kpiTopMC').textContent = 'M/C ' + topMC[0];
@@ -407,7 +433,7 @@ function renderAll() {
 function renderHBar(data) {
   const counts = {};
   data.forEach(r => {
-    const t = getKey(r,'defectType','ประเภท Defect') || 'Other';
+    const t = g(r,'type') || 'Other';
     counts[t] = (counts[t]||0)+1;
   });
   const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
@@ -424,7 +450,7 @@ function renderHBar(data) {
 
 function renderDonut(data) {
   const counts = {};
-  data.forEach(r => { const t = getKey(r,'defectType','ประเภท Defect') || 'Other'; counts[t]=(counts[t]||0)+1; });
+  data.forEach(r => { const t = g(r,'type') || 'Other'; counts[t]=(counts[t]||0)+1; });
   const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
   const total = entries.reduce((s,[,n])=>s+n,0);
   const labels = entries.map(([l])=>l);
@@ -452,8 +478,8 @@ function renderDonut(data) {
 function renderShift(data) {
   const rounds = {};
   data.forEach(r => {
-    const shift = getKey(r,'shift','กะ');
-    const round = getKey(r,'round','รอบตรวจ');
+    const shift = g(r,'shift');
+    const round = g(r,'round');
     if (!round) return;
     if (!rounds[round]) rounds[round] = {1:0,2:0,3:0};
     rounds[round][shift] = (rounds[round][shift]||0)+1;
@@ -470,7 +496,7 @@ function renderShift(data) {
 
 function renderMC(data) {
   const counts = {};
-  data.forEach(r => { const mc = getKey(r,'mcNo','M/C No.','MC'); if(mc) counts[mc]=(counts[mc]||0)+1; });
+  data.forEach(r => { const mc = g(r,'mcNo'); if(mc) counts[mc]=(counts[mc]||0)+1; });
   const total = Object.values(counts).reduce((s,n)=>s+n,0)||1;
   const mx = Math.max(...Object.values(counts),1);
   const c = document.getElementById('mcGrid');
@@ -491,7 +517,7 @@ function renderMC(data) {
 
 function renderSize(data) {
   const counts = {};
-  data.forEach(r => { const s = getKey(r,'size','Size'); if(s) counts[s]=(counts[s]||0)+1; });
+  data.forEach(r => { const s = g(r,'size'); if(s) counts[s]=(counts[s]||0)+1; });
   const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
   const mx = sorted[0]?.[1]||1;
   const c = document.getElementById('sizeContainer');
@@ -513,16 +539,16 @@ function renderTable(data) {
   const mcs = {B:'pill-r',C:'pill-g',H:'pill-a',S:'pill-b'};
   const body = document.getElementById('tblBody');
   body.innerHTML = recent.length ? recent.map(r => {
-    const shift = getKey(r,'shift','กะ');
-    const mc = getKey(r,'mcNo','M/C No.','MC');
-    const defect = getKey(r,'defectDetail','รายละเอียด Defect ที่พบ');
-    const isOk = defect === 'ไม่พบ defect' || defect === 'ไม่พบ';
-    const type = getKey(r,'defectType','ประเภท Defect');
-    const date = getKey(r,'date','วันที่');
-    const round = getKey(r,'round','รอบตรวจ');
-    const box = getKey(r,'boxNo','เลขกล่อง');
-    const sv = getKey(r,'supervisor','หัวหน้างาน');
-    const size = getKey(r,'size','Size');
+    const shift = g(r,'shift');
+    const mc = g(r,'mcNo');
+    const defect = g(r,'defect');
+    const isOk = !defect || defect === 'ไม่พบ defect' || defect === 'ไม่พบ';
+    const type = g(r,'type');
+    const date = g(r,'date');
+    const round = g(r,'round');
+    const box = g(r,'boxNo');
+    const sv = g(r,'sv');
+    const size = g(r,'size');
     return `<tr>
       <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink3)">${date}</td>
       <td><span class="pill ${shifts[shift]||'pill-n'}">กะ ${shift}</span></td>
