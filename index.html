@@ -205,6 +205,25 @@ tr:hover td{background:var(--indigo-dim);}
     <div class="chip" data-status="defect">พบ Defect</div>
     <div class="chip" data-status="ok">ไม่พบ</div>
   </div>
+  <div class="sep"></div>
+  <span class="filter-label">ช่วงวันที่</span>
+  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+    <input type="date" id="dateFrom" style="padding:4px 10px;border-radius:999px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-family:'Kanit',sans-serif;font-size:12px;outline:none;cursor:pointer" onchange="renderAll()">
+    <span style="font-size:11px;color:var(--ink3)">ถึง</span>
+    <input type="date" id="dateTo" style="padding:4px 10px;border-radius:999px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-family:'Kanit',sans-serif;font-size:12px;outline:none;cursor:pointer" onchange="renderAll()">
+    <div class="chip" id="clearDateBtn" onclick="clearDate()" style="font-size:11px;padding:3px 10px">✕ ล้าง</div>
+  </div>
+  <div class="sep"></div>
+  <span class="filter-label">เดือน</span>
+  <select id="monthSel" onchange="renderAll()" style="padding:4px 10px;border-radius:999px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-family:'Kanit',sans-serif;font-size:12px;outline:none;cursor:pointer">
+    <option value="">ทั้งหมด</option>
+    <option value="1">ม.ค.</option><option value="2">ก.พ.</option>
+    <option value="3">มี.ค.</option><option value="4">เม.ย.</option>
+    <option value="5">พ.ค.</option><option value="6">มิ.ย.</option>
+    <option value="7">ก.ค.</option><option value="8">ส.ค.</option>
+    <option value="9">ก.ย.</option><option value="10">ต.ค.</option>
+    <option value="11">พ.ย.</option><option value="12">ธ.ค.</option>
+  </select>
 </div>
 
 <div class="main">
@@ -305,29 +324,30 @@ tr:hover td{background:var(--indigo-dim);}
 
 <script>
 const SHEET_ID = '1Ie3365pkUS0LFHwEFe5YbRL1J6BZYEAVaHyKuhTMUws';
-const SHEET_NAME = 'ham';
+const SHEET_NAME = 'ham'; // เปลี่ยนเป็น 'real defect' ตอนใช้จริง
 const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&headers=1`;
 
-// Column name aliases — รองรับทั้งภาษาไทยและอังกฤษ
-const COL = {
-  date:     ['วันที่','date','Date'],
-  shift:    ['กะ','shift','Shift'],
-  round:    ['รอบตรวจ','round','Round'],
-  mcNo:     ['M/C No.','MC No.','mcNo','MC'],
-  size:     ['Size','size'],
-  defect:   ['รายละเอียด Defect','รายละเอียด','defectDetail','รายละเอียด Defect ที่พบ'],
-  type:     ['ประเภท Defect','ประเภท Def','defectType'],
-  boxNo:    ['เลขกล่อง','boxNo'],
-  time:     ['เวลา','defectTime'],
-  pallet:   ['Pallet No.','palletNo'],
-  retTime:  ['เวลาคืน','returnTime'],
-  sv:       ['หัวหน้างาน','supervisor'],
-  customer: ['ลูกกะ','customer'],
-  robot:    ['Robot','robot'],
-};
-
-function g(row, field) {
-  for (const k of (COL[field]||[])) {
+// Column mapping ตรงกับ GAS script (A-R)
+function g(row, ...keys) {
+  const aliases = {
+    date:    ['วันที่','date','Date'],
+    shift:   ['กะ','shift'],
+    round:   ['รอบตรวจ','round','roundCheck','รอบตรวจ Pallet'],
+    mcNo:    ['M/C No.','mcNo','MC No.','MC'],
+    size:    ['Size','size'],
+    defect:  ['รายละเอียด Defect','defectDetail','รายละเอียด'],
+    type:    ['ประเภท Defect','defectType','ประเภท Def'],
+    boxNo:   ['เลขกล่อง','boxNo'],
+    time:    ['เวลา','defectTime','time'],
+    pallet:  ['Pallet No.','palletNo'],
+    retTime: ['เวลาคืน','returnTime'],
+    sv:      ['หัวหน้างาน','supervisor'],
+    worker:  ['ลูกกะ','customer','worker'],
+    robot:   ['Robot','robot'],
+    fileUrl: ['URL ไฟล์','URL','fileUrl'],
+  };
+  const lookupKeys = keys.length === 1 && aliases[keys[0]] ? aliases[keys[0]] : keys;
+  for (const k of lookupKeys) {
     if (row[k] !== undefined && row[k] !== null && String(row[k]).trim() !== '')
       return String(row[k]).trim();
   }
@@ -375,30 +395,60 @@ async function loadData() {
 }
 
 function getFiltered() {
-  return allData.filter(r => {
-    const shiftVal = g(r,'shift');
-    const mcVal = g(r,'mcNo');
-    const defectVal = g(r,'defect');
-    const isOk = !defectVal || defectVal === 'ไม่พบ defect' || defectVal === 'ไม่พบ';
+  const dateFrom = document.getElementById('dateFrom') ? document.getElementById('dateFrom').value : '';
+  const dateTo   = document.getElementById('dateTo')   ? document.getElementById('dateTo').value   : '';
+  const month    = document.getElementById('monthSel') ? document.getElementById('monthSel').value : '';
 
-    if (filters.shift !== 'all' && shiftVal !== filters.shift) return false;
-    if (filters.mc !== 'all' && mcVal !== filters.mc) return false;
-    if (filters.status === 'defect' && isOk) return false;
-    if (filters.status === 'ok' && !isOk) return false;
+  return allData.filter(r => {
+    const shiftVal  = g(r,'shift');
+    const mcVal     = g(r,'mcNo');
+    const defectVal = g(r,'defect');
+    const isOk      = !defectVal || defectVal.indexOf('ไม่พบ') >= 0;
+    const dateVal   = g(r,'date');
+
+    if (filters.shift  !== 'all' && shiftVal !== filters.shift) return false;
+    if (filters.mc     !== 'all' && mcVal    !== filters.mc)    return false;
+    if (filters.status === 'defect' && isOk)  return false;
+    if (filters.status === 'ok'    && !isOk)  return false;
+
+    if (dateFrom || dateTo || month) {
+      const d = parseDateStr(dateVal);
+      if (!d) return false;
+      if (dateFrom && d < new Date(dateFrom)) return false;
+      if (dateTo   && d > new Date(dateTo + 'T23:59:59')) return false;
+      if (month    && (d.getMonth()+1) !== parseInt(month)) return false;
+    }
     return true;
   });
 }
 
-function getKey(row, ...keys) {
-  for (const k of keys) { if (row[k] !== undefined && row[k] !== '') return row[k].trim(); }
-  return '';
+function parseDateStr(str) {
+  if (!str) return null;
+  if (str.indexOf('-') > 0 && str.length >= 10) return new Date(str.substring(0,10));
+  var m = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (m) return new Date(parseInt(m[3]), parseInt(m[2])-1, parseInt(m[1]));
+  if (/^\d+$/.test(str)) {
+    var d = new Date(1899, 11, 30);
+    d.setDate(d.getDate() + parseInt(str));
+    return d;
+  }
+  return null;
 }
+
+function clearDate() {
+  document.getElementById('dateFrom').value = '';
+  document.getElementById('dateTo').value   = '';
+  document.getElementById('monthSel').value = '';
+  renderAll();
+}
+
+// getKey replaced by g()
 
 function renderAll() {
   const data = getFiltered();
   const defectOnly = data.filter(r => {
     const d = g(r,'defect');
-    return d && d !== 'ไม่พบ defect' && d !== 'ไม่พบ' && d !== '';
+    return d && d !== 'ไม่พบ defect' && d !== 'ไม่พบ';
   });
 
   // KPI
@@ -542,7 +592,7 @@ function renderTable(data) {
     const shift = g(r,'shift');
     const mc = g(r,'mcNo');
     const defect = g(r,'defect');
-    const isOk = !defect || defect === 'ไม่พบ defect' || defect === 'ไม่พบ';
+    const isOk = defect === 'ไม่พบ defect' || defect === 'ไม่พบ';
     const type = g(r,'type');
     const date = g(r,'date');
     const round = g(r,'round');
