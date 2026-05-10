@@ -681,7 +681,7 @@ function renderTable(data) {
       <td><span class="pill ${isOk?'pill-g':'pill-r'}">${type||defect}</span></td>
       <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${box}</td>
       <td>${sv}</td>
-      <td>${fileUrl ? `<button class="view-img-btn" onclick="openImg('${fileUrl}','${date}')">🖼️ ดู</button>` : '<span style="color:var(--ink3);font-size:10px">—</span>'}</td>
+      <td>${fileUrl ? `<a href="${fileUrl}" target="_blank" rel="noopener" class="view-img-btn">🖼️ ดู</a>` : '<span style="color:var(--ink3);font-size:10px">—</span>'}</td>
     </tr>`;
   }).join('') : '<tr><td colspan="9" class="empty">ไม่มีข้อมูล</td></tr>';
 }
