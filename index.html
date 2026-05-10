@@ -379,7 +379,24 @@ async function loadData() {
 
     allData = rows.map(r => {
       const obj = {};
-      cols.forEach((c, i) => { obj[c] = r.c[i] ? (r.c[i].v !== null ? String(r.c[i].v) : '') : ''; });
+      cols.forEach((c, i) => {
+        if (!r.c[i] || r.c[i].v === null) { obj[c] = ''; return; }
+        const v = r.c[i].v;
+        const f = r.c[i].f; // formatted value
+        // Date type from gviz comes as "Date(year,month,day)"
+        if (typeof v === 'string' && v.startsWith('Date(')) {
+          const parts = v.replace('Date(','').replace(')','').split(',');
+          const yr = parseInt(parts[0]);
+          const mo = parseInt(parts[1])+1; // month is 0-indexed
+          const dy = parseInt(parts[2]);
+          obj[c] = yr+'-'+String(mo).padStart(2,'0')+'-'+String(dy).padStart(2,'0');
+        } else if (f && c.includes('วัน')) {
+          // Use formatted value for date columns
+          obj[c] = f;
+        } else {
+          obj[c] = String(v);
+        }
+      });
       return obj;
     }).filter(r => { const d=g(r,'date'); const s=g(r,'shift'); return d||s; });
 
