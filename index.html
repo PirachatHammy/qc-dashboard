@@ -142,6 +142,16 @@ tr:hover td{background:var(--indigo-dim);}
 /* EMPTY */
 .empty{text-align:center;padding:40px;color:var(--ink3);font-size:13px;}
 
+/* IMAGE MODAL */
+.img-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,10,30,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;flex-direction:column;gap:16px;}
+.img-modal.show{display:flex;}
+.img-modal img{max-width:90vw;max-height:80vh;border-radius:12px;box-shadow:0 24px 80px rgba(0,0,0,0.5);object-fit:contain;}
+.img-modal-close{position:absolute;top:20px;right:24px;background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:22px;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.img-modal-close:hover{background:rgba(255,255,255,0.3);}
+.img-modal-name{font-size:12px;color:rgba(255,255,255,0.6);font-family:'JetBrains Mono',monospace;}
+.view-img-btn{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;border:none;background:rgba(99,102,241,0.15);color:var(--indigo);transition:background .15s;}
+.view-img-btn:hover{background:rgba(99,102,241,0.28);}
+
 .shift-bar-wrap{display:flex;align-items:flex-end;gap:3px;height:120px;margin-bottom:8px;}
 .shift-col{display:flex;flex-direction:column;align-items:center;flex:1;gap:3px;}
 .shift-bars-inner{display:flex;align-items:flex-end;gap:2px;height:100px;}
@@ -163,6 +173,13 @@ tr:hover td{background:var(--indigo-dim);}
   <div class="loading-spinner"></div>
   <div class="loading-text">กำลังโหลดข้อมูลจาก Google Sheets...</div>
   <div class="loading-sub" id="loadingSub">เชื่อมต่อ...</div>
+</div>
+
+<!-- IMAGE MODAL -->
+<div class="img-modal" id="imgModal" onclick="closeImgModal(event)">
+  <button class="img-modal-close" onclick="document.getElementById('imgModal').classList.remove('show')">✕</button>
+  <img id="modalImg" src="" alt="Defect Image">
+  <div class="img-modal-name" id="modalName"></div>
 </div>
 
 <!-- TOPBAR -->
@@ -313,6 +330,7 @@ tr:hover td{background:var(--indigo-dim);}
             <th style="width:96px">ประเภท</th>
             <th style="width:52px">กล่อง</th>
             <th style="width:88px">หัวหน้า</th>
+            <th style="width:52px">รูป</th>
           </tr>
         </thead>
         <tbody id="tblBody"></tbody>
@@ -652,6 +670,7 @@ function renderTable(data) {
     const box = g(r,'boxNo');
     const sv = g(r,'sv');
     const size = g(r,'size');
+    const fileUrl = g(r,'fileUrl');
     return `<tr>
       <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink2);white-space:nowrap">${date}</td>
       <td><span class="pill ${shifts[shift]||'pill-n'}">กะ ${shift}</span></td>
@@ -662,6 +681,7 @@ function renderTable(data) {
       <td><span class="pill ${isOk?'pill-g':'pill-r'}">${type||defect}</span></td>
       <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${box}</td>
       <td>${sv}</td>
+      <td>${fileUrl ? `<button class="view-img-btn" onclick="openImg('${fileUrl}','${date}')">🖼️ ดู</button>` : '<span style="color:var(--ink3);font-size:10px">—</span>'}</td>
     </tr>`;
   }).join('') : '<tr><td colspan="9" class="empty">ไม่มีข้อมูล</td></tr>';
 }
@@ -678,6 +698,21 @@ function renderTable(data) {
     if (id === 'statusChips') filters.status = chip.dataset.status;
     renderAll();
   });
+});
+
+// IMAGE MODAL
+function openImg(url, date) {
+  document.getElementById('modalImg').src = url;
+  document.getElementById('modalName').textContent = 'รูป Defect · ' + date;
+  document.getElementById('imgModal').classList.add('show');
+}
+function closeImgModal(e) {
+  if (e.target === document.getElementById('imgModal')) {
+    document.getElementById('imgModal').classList.remove('show');
+  }
+}
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.getElementById('imgModal').classList.remove('show');
 });
 
 loadData();
