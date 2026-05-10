@@ -438,13 +438,17 @@ function parseDateStr(str) {
     var p = str.substring(0,10).split('-');
     return new Date(parseInt(p[0]), parseInt(p[1])-1, parseInt(p[2]));
   }
-  // DD/MM/YYYY
-  var m1 = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-  if (m1) return new Date(parseInt(m1[3]), parseInt(m1[2])-1, parseInt(m1[1]));
-  // MM/DD/YYYY (browser date input format)
-  var m2 = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-  if (m2) return new Date(parseInt(m2[3]), parseInt(m2[1])-1, parseInt(m2[2]));
-  // Excel serial
+  // D/M/YYYY or DD/MM/YYYY (Google Sheets Thai format)
+  var m = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (m) {
+    var day = parseInt(m[1]);
+    var mon = parseInt(m[2]);
+    var yr  = parseInt(m[3]);
+    // ถ้า month > 12 แสดงว่าเป็น MM/DD format → swap
+    if (mon > 12) return new Date(yr, day-1, mon);
+    return new Date(yr, mon-1, day);
+  }
+  // Excel serial number
   if (/^\d{4,6}$/.test(str)) {
     var d = new Date(1899, 11, 30);
     d.setDate(d.getDate() + parseInt(str));
