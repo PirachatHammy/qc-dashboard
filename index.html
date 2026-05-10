@@ -304,7 +304,7 @@ tr:hover td{background:var(--indigo-dim);}
       <table>
         <thead>
           <tr>
-            <th style="width:72px">วันที่</th>
+            <th style="width:100px">วันที่</th>
             <th style="width:56px">กะ</th>
             <th style="width:68px">รอบตรวจ</th>
             <th style="width:38px">M/C</th>
@@ -653,7 +653,7 @@ function renderTable(data) {
     const sv = g(r,'sv');
     const size = g(r,'size');
     return `<tr>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink3)">${date}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink2);white-space:nowrap">${date}</td>
       <td><span class="pill ${shifts[shift]||'pill-n'}">กะ ${shift}</span></td>
       <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${round}</td>
       <td><span class="pill ${mcs[mc]||'pill-n'}">${mc}</span></td>
