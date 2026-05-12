@@ -8,31 +8,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
 :root {
-  --bg: #f0f4ff;
-  --card: #ffffff;
-  --border: rgba(99,102,241,0.12);
-  --ink: #1e1b4b;
-  --ink2: #4c4f7a;
-  --ink3: #9194b8;
-  --indigo: #6366f1;
-  --indigo-dim: rgba(99,102,241,0.08);
-  --cyan: #06b6d4;
-  --violet: #8b5cf6;
-  --green: #10b981;
-  --green-dim: rgba(16,185,129,0.10);
-  --red: #ef4444;
-  --red-dim: rgba(239,68,68,0.08);
-  --amber: #f59e0b;
-  --amber-dim: rgba(245,158,11,0.08);
-  --r: 16px;
-  --shadow: 0 2px 16px rgba(99,102,241,0.08);
+  --bg:#f0f4ff;--card:#fff;--border:rgba(99,102,241,0.12);
+  --ink:#1e1b4b;--ink2:#4c4f7a;--ink3:#9194b8;
+  --indigo:#6366f1;--cyan:#06b6d4;--violet:#8b5cf6;
+  --green:#10b981;--green-dim:rgba(16,185,129,0.10);
+  --red:#ef4444;--red-dim:rgba(239,68,68,0.08);
+  --amber:#f59e0b;--amber-dim:rgba(245,158,11,0.08);
+  --r:16px;--shadow:0 2px 16px rgba(99,102,241,0.08);
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{font-size:14px;}
 body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
 
-/* BLOBS */
-.blob{position:fixed;border-radius:50%;filter:blur(70px);opacity:.25;pointer-events:none;z-index:0;}
+.blob{position:fixed;border-radius:50%;filter:blur(70px);opacity:.22;pointer-events:none;z-index:0;}
 .b1{width:400px;height:400px;background:radial-gradient(circle,#a5b4fc,#818cf8);top:-100px;left:-100px;animation:bf 9s ease-in-out infinite;}
 .b2{width:300px;height:300px;background:radial-gradient(circle,#67e8f9,#22d3ee);bottom:-80px;right:-80px;animation:bf 7s ease-in-out infinite reverse;}
 .b3{width:250px;height:250px;background:radial-gradient(circle,#fde68a,#fbbf24);top:40%;right:10%;animation:bf 11s ease-in-out infinite;}
@@ -41,13 +28,13 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 /* TOPBAR */
 .topbar{position:sticky;top:0;z-index:100;background:rgba(30,27,75,0.96);backdrop-filter:blur(12px);padding:0 28px;height:54px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);}
 .topbar-l{display:flex;align-items:center;gap:12px;}
-.topbar-logo{font-size:14px;font-weight:800;color:#fff;letter-spacing:-.01em;}
+.topbar-logo{font-size:14px;font-weight:800;color:#fff;}
 .topbar-div{width:1px;height:20px;background:rgba(255,255,255,0.15);}
 .topbar-sub{font-size:11px;color:rgba(255,255,255,0.45);}
 .topbar-r{display:flex;align-items:center;gap:10px;}
 .last-update{font-family:'JetBrains Mono',monospace;font-size:10px;color:rgba(255,255,255,0.4);}
 .refresh-btn{display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;border:1px solid rgba(99,102,241,0.5);background:rgba(99,102,241,0.15);color:#a5b4fc;font-family:'Kanit',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;}
-.refresh-btn:hover{background:rgba(99,102,241,0.3);border-color:rgba(99,102,241,0.8);}
+.refresh-btn:hover{background:rgba(99,102,241,0.3);}
 .refresh-btn.loading .ri{animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 
@@ -59,29 +46,33 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 .chip.on{background:var(--ink);color:#fff;border-color:var(--ink);}
 .chip:hover:not(.on){border-color:var(--ink2);}
 .sep{width:1px;height:22px;background:var(--border);}
+.date-input{padding:4px 10px;border-radius:999px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-family:'Kanit',sans-serif;font-size:12px;outline:none;cursor:pointer;}
+.month-sel{padding:4px 10px;border-radius:999px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-family:'Kanit',sans-serif;font-size:12px;outline:none;cursor:pointer;}
 
 /* MAIN */
 .main{max-width:1360px;margin:0 auto;padding:22px 28px 60px;position:relative;z-index:10;}
 
 /* KPI */
-.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;}
-@media(max-width:860px){.kpi-row{grid-template-columns:repeat(2,1fr);}}
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:18px;}
+@media(max-width:960px){.kpi-row{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:600px){.kpi-row{grid-template-columns:repeat(2,1fr);}}
 .kpi{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden;box-shadow:var(--shadow);transition:transform .2s,box-shadow .2s;}
 .kpi:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(99,102,241,0.14);}
 .kpi-accent{position:absolute;bottom:0;left:0;right:0;height:3px;}
 .kpi-lbl{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;}
-.kpi-val{font-size:32px;font-weight:800;line-height:1;color:var(--ink);}
+.kpi-val{font-size:32px;font-weight:800;line-height:1;}
 .kpi-sub{font-size:11px;color:var(--ink3);margin-top:6px;}
 .kpi-trend{display:inline-flex;align-items:center;gap:3px;margin-top:6px;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;}
 .tr-r{background:var(--red-dim);color:var(--red);}
 .tr-g{background:var(--green-dim);color:var(--green);}
 .tr-a{background:var(--amber-dim);color:var(--amber);}
+.tr-b{background:rgba(99,102,241,0.08);color:var(--indigo);}
 
-/* CHART GRID */
+/* PANELS */
 .row2{display:grid;grid-template-columns:1.7fr 1fr;gap:14px;margin-bottom:14px;}
 .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;}
-@media(max-width:900px){.row2,.row3{grid-template-columns:1fr;}}
-
+.row4{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+@media(max-width:900px){.row2,.row3,.row4{grid-template-columns:1fr;}}
 .panel{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:transform .2s;}
 .panel:hover{transform:translateY(-1px);}
 .panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--indigo),var(--violet),var(--cyan));opacity:0;transition:opacity .25s;}
@@ -92,27 +83,43 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 .ptag{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3);padding:2px 7px;border:1px solid var(--border);border-radius:4px;}
 
 /* HBAR */
-.hbar-row{display:grid;grid-template-columns:160px 1fr 32px;align-items:center;gap:8px;margin-bottom:8px;}
+.hbar-row{display:grid;grid-template-columns:150px 1fr 32px;align-items:center;gap:8px;margin-bottom:8px;}
 .hbar-lbl{font-size:11.5px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .hbar-track{height:8px;background:var(--bg);border-radius:99px;overflow:hidden;}
 .hbar-fill{height:100%;border-radius:99px;transition:width 1.2s cubic-bezier(.34,1.2,.64,1);}
 .hbar-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink3);text-align:right;}
 
-/* MC GRID */
+/* MC / SIZE BARS */
 .mc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .mc-c{background:var(--bg);border-radius:12px;padding:12px 14px;}
 .mc-name{font-size:20px;font-weight:800;}
-.mc-n{font-size:24px;font-weight:600;color:var(--ink);line-height:1;margin-top:2px;}
+.mc-n{font-size:24px;font-weight:600;line-height:1;margin-top:2px;}
 .mc-s{font-size:10px;color:var(--ink3);margin-top:3px;}
 .mc-bar{height:3px;background:var(--border);border-radius:99px;margin-top:8px;overflow:hidden;}
 .mc-bf{height:100%;border-radius:99px;transition:width 1.2s cubic-bezier(.34,1.2,.64,1);}
-
-/* SIZE BARS */
-.sz-item{display:grid;grid-template-columns:40px 1fr 30px;align-items:center;gap:8px;margin-bottom:10px;}
+.sz-item{display:grid;grid-template-columns:44px 1fr 30px;align-items:center;gap:8px;margin-bottom:10px;}
 .sz-lbl{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink2);}
 .sz-track{height:9px;background:var(--bg);border-radius:99px;overflow:hidden;}
 .sz-fill{height:100%;border-radius:99px;transition:width 1.2s cubic-bezier(.34,1.2,.64,1);}
 .sz-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink3);text-align:right;}
+
+/* SHIFT BARS */
+.shift-bar-wrap{display:flex;align-items:flex-end;gap:3px;height:120px;}
+.shift-col{display:flex;flex-direction:column;align-items:center;flex:1;gap:3px;}
+.shift-bars-inner{display:flex;align-items:flex-end;gap:2px;height:100px;}
+.sbar{border-radius:3px 3px 0 0;width:14px;transition:height 1.2s cubic-bezier(.34,1.2,.64,1);}
+.shift-lbl-txt{font-size:8.5px;font-family:'JetBrains Mono',monospace;color:var(--ink3);text-align:center;}
+.shift-legend{display:flex;justify-content:center;gap:14px;margin-top:8px;}
+.sleg{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ink2);}
+.sleg-dot{width:8px;height:8px;border-radius:2px;}
+
+/* SV TABLE */
+.sv-row{display:grid;grid-template-columns:1fr 48px 80px;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);}
+.sv-row:last-child{border-bottom:none;}
+.sv-name{font-size:12px;color:var(--ink2);}
+.sv-count{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink);text-align:center;}
+.sv-bar-track{height:6px;background:var(--bg);border-radius:99px;overflow:hidden;}
+.sv-bar-fill{height:100%;border-radius:99px;background:var(--indigo);transition:width 1.2s cubic-bezier(.34,1.2,.64,1);}
 
 /* TABLE */
 .tbl-wrap{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);}
@@ -121,7 +128,7 @@ table{width:100%;border-collapse:collapse;table-layout:fixed;}
 th{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink3);font-weight:500;padding:8px 12px;text-align:left;background:var(--bg);border-bottom:1px solid var(--border);white-space:nowrap;}
 td{font-size:12px;color:var(--ink2);padding:9px 12px;border-bottom:1px solid var(--border);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 tr:last-child td{border-bottom:none;}
-tr:hover td{background:var(--indigo-dim);}
+tr:hover td{background:rgba(99,102,241,0.04);}
 .pill{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;}
 .pill-r{background:var(--red-dim);color:var(--red);}
 .pill-g{background:var(--green-dim);color:var(--green);}
@@ -130,36 +137,14 @@ tr:hover td{background:var(--indigo-dim);}
 .pill-v{background:rgba(139,92,246,0.1);color:var(--violet);}
 .pill-n{background:var(--bg);color:var(--ink3);}
 
-/* LOADING */
+/* LOADING / EMPTY / ERROR */
 .loading-screen{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;}
 .loading-spinner{width:56px;height:56px;border:3px solid rgba(99,102,241,0.15);border-top-color:var(--indigo);border-radius:50%;animation:spin .7s linear infinite;}
 .loading-text{font-size:14px;color:var(--ink2);font-weight:500;}
 .loading-sub{font-size:11px;color:var(--ink3);}
-
-/* ERROR */
-.error-box{background:var(--red-dim);border:1.5px solid rgba(239,68,68,0.2);border-radius:var(--r);padding:20px 24px;margin:20px 0;color:var(--red);}
-
-/* EMPTY */
 .empty{text-align:center;padding:40px;color:var(--ink3);font-size:13px;}
-
-/* IMAGE MODAL */
-.img-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(10,10,30,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center;flex-direction:column;gap:16px;}
-.img-modal.show{display:flex;}
-.img-modal img{max-width:90vw;max-height:80vh;border-radius:12px;box-shadow:0 24px 80px rgba(0,0,0,0.5);object-fit:contain;}
-.img-modal-close{position:absolute;top:20px;right:24px;background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:22px;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;}
-.img-modal-close:hover{background:rgba(255,255,255,0.3);}
-.img-modal-name{font-size:12px;color:rgba(255,255,255,0.6);font-family:'JetBrains Mono',monospace;}
-.view-img-btn{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;border:none;background:rgba(99,102,241,0.15);color:var(--indigo);transition:background .15s;}
+.view-img-btn{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;border:none;background:rgba(99,102,241,0.15);color:var(--indigo);text-decoration:none;transition:background .15s;}
 .view-img-btn:hover{background:rgba(99,102,241,0.28);}
-
-.shift-bar-wrap{display:flex;align-items:flex-end;gap:3px;height:120px;margin-bottom:8px;}
-.shift-col{display:flex;flex-direction:column;align-items:center;flex:1;gap:3px;}
-.shift-bars-inner{display:flex;align-items:flex-end;gap:2px;height:100px;}
-.sbar{border-radius:3px 3px 0 0;width:14px;transition:height 1.2s cubic-bezier(.34,1.2,.64,1);}
-.shift-lbl-txt{font-size:8.5px;font-family:'JetBrains Mono',monospace;color:var(--ink3);text-align:center;}
-.shift-legend{display:flex;justify-content:center;gap:14px;margin-top:6px;}
-.sleg{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ink2);}
-.sleg-dot{width:8px;height:8px;border-radius:2px;}
 </style>
 </head>
 <body>
@@ -168,18 +153,10 @@ tr:hover td{background:var(--indigo-dim);}
 <div class="blob b2"></div>
 <div class="blob b3"></div>
 
-<!-- LOADING -->
 <div class="loading-screen" id="loadingScreen">
   <div class="loading-spinner"></div>
-  <div class="loading-text">กำลังโหลดข้อมูลจาก Google Sheets...</div>
-  <div class="loading-sub" id="loadingSub">เชื่อมต่อ...</div>
-</div>
-
-<!-- IMAGE MODAL -->
-<div class="img-modal" id="imgModal" onclick="closeImgModal(event)">
-  <button class="img-modal-close" onclick="document.getElementById('imgModal').classList.remove('show')">✕</button>
-  <img id="modalImg" src="" alt="Defect Image">
-  <div class="img-modal-name" id="modalName"></div>
+  <div class="loading-text">กำลังโหลดข้อมูล...</div>
+  <div class="loading-sub" id="loadingSub">เชื่อมต่อ Google Sheets...</div>
 </div>
 
 <!-- TOPBAR -->
@@ -187,12 +164,12 @@ tr:hover td{background:var(--indigo-dim);}
   <div class="topbar-l">
     <div class="topbar-logo">⚙ QC DASHBOARD</div>
     <div class="topbar-div"></div>
-    <div class="topbar-sub">Defect Monitoring · Ajinomoto · Real Data</div>
+    <div class="topbar-sub">Defect Monitoring · Ajinomoto · Real-Time</div>
   </div>
   <div class="topbar-r">
     <div class="last-update" id="lastUpdate">—</div>
     <button class="refresh-btn" onclick="loadData()">
-      <span class="ri" style="display:inline-block">↻</span> Refresh ข้อมูล
+      <span class="ri" style="display:inline-block">↻</span> Refresh
     </button>
   </div>
 </div>
@@ -201,38 +178,47 @@ tr:hover td{background:var(--indigo-dim);}
 <div class="filter-bar">
   <span class="filter-label">กะ</span>
   <div class="chip-group" id="shiftChips">
-    <div class="chip on" data-shift="all">ทั้งหมด</div>
-    <div class="chip" data-shift="1">กะ 1 · เช้า</div>
-    <div class="chip" data-shift="2">กะ 2 · บ่าย</div>
-    <div class="chip" data-shift="3">กะ 3 · ดึก</div>
+    <div class="chip on" data-val="all">ทั้งหมด</div>
+    <div class="chip" data-val="1">กะ 1 · เช้า</div>
+    <div class="chip" data-val="2">กะ 2 · บ่าย</div>
+    <div class="chip" data-val="3">กะ 3 · ดึก</div>
   </div>
   <div class="sep"></div>
   <span class="filter-label">M/C</span>
   <div class="chip-group" id="mcChips">
-    <div class="chip on" data-mc="all">ทั้งหมด</div>
-    <div class="chip" data-mc="B">B</div>
-    <div class="chip" data-mc="C">C</div>
-    <div class="chip" data-mc="H">H</div>
-    <div class="chip" data-mc="S">S</div>
+    <div class="chip on" data-val="all">ทั้งหมด</div>
+    <div class="chip" data-val="B">B</div>
+    <div class="chip" data-val="C">C</div>
+    <div class="chip" data-val="H">H</div>
+    <div class="chip" data-val="S">S</div>
+  </div>
+  <div class="sep"></div>
+  <span class="filter-label">Size</span>
+  <div class="chip-group" id="sizeChips">
+    <div class="chip on" data-val="all">ทั้งหมด</div>
+    <div class="chip" data-val="72g">72g</div>
+    <div class="chip" data-val="250g">250g</div>
+    <div class="chip" data-val="500g">500g</div>
+    <div class="chip" data-val="1kg">1kg</div>
   </div>
   <div class="sep"></div>
   <span class="filter-label">สถานะ</span>
   <div class="chip-group" id="statusChips">
-    <div class="chip on" data-status="all">ทั้งหมด</div>
-    <div class="chip" data-status="defect">พบ Defect</div>
-    <div class="chip" data-status="ok">ไม่พบ</div>
+    <div class="chip on" data-val="all">ทั้งหมด</div>
+    <div class="chip" data-val="defect">พบ Defect</div>
+    <div class="chip" data-val="ok">ไม่พบ</div>
   </div>
   <div class="sep"></div>
-  <span class="filter-label">ช่วงวันที่</span>
+  <span class="filter-label">วันที่</span>
   <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-    <input type="date" id="dateFrom" style="padding:4px 10px;border-radius:999px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-family:'Kanit',sans-serif;font-size:12px;outline:none;cursor:pointer" onchange="renderAll()">
+    <input type="date" id="dateFrom" class="date-input" onchange="renderAll()">
     <span style="font-size:11px;color:var(--ink3)">ถึง</span>
-    <input type="date" id="dateTo" style="padding:4px 10px;border-radius:999px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-family:'Kanit',sans-serif;font-size:12px;outline:none;cursor:pointer" onchange="renderAll()">
-    <div class="chip" id="clearDateBtn" onclick="clearDate()" style="font-size:11px;padding:3px 10px">✕ ล้าง</div>
+    <input type="date" id="dateTo" class="date-input" onchange="renderAll()">
+    <div class="chip" onclick="clearDate()" style="font-size:11px;padding:3px 10px">✕ ล้าง</div>
   </div>
   <div class="sep"></div>
   <span class="filter-label">เดือน</span>
-  <select id="monthSel" onchange="renderAll()" style="padding:4px 10px;border-radius:999px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-family:'Kanit',sans-serif;font-size:12px;outline:none;cursor:pointer">
+  <select id="monthSel" class="month-sel" onchange="renderAll()">
     <option value="">ทั้งหมด</option>
     <option value="1">ม.ค.</option><option value="2">ก.พ.</option>
     <option value="3">มี.ค.</option><option value="4">เม.ย.</option>
@@ -245,21 +231,21 @@ tr:hover td{background:var(--indigo-dim);}
 
 <div class="main">
 
-  <!-- KPI -->
+  <!-- KPI ROW -->
   <div class="kpi-row">
     <div class="kpi">
       <div class="kpi-accent" style="background:var(--red)"></div>
-      <div class="kpi-lbl">Defect พบทั้งหมด</div>
+      <div class="kpi-lbl">พบ Defect</div>
       <div class="kpi-val" id="kpiDefect" style="color:var(--red)">—</div>
       <div class="kpi-sub">รายการ</div>
       <div class="kpi-trend tr-r" id="kpiDefectRate">—</div>
     </div>
     <div class="kpi">
       <div class="kpi-accent" style="background:var(--indigo)"></div>
-      <div class="kpi-lbl">กล่องตรวจทั้งหมด</div>
+      <div class="kpi-lbl">ตรวจทั้งหมด</div>
       <div class="kpi-val" id="kpiTotal" style="color:var(--indigo)">—</div>
-      <div class="kpi-sub">รายการทั้งหมด</div>
-      <div class="kpi-trend tr-a" id="kpiPassRate">—</div>
+      <div class="kpi-sub">กล่อง / รายการ</div>
+      <div class="kpi-trend tr-b" id="kpiRows">—</div>
     </div>
     <div class="kpi">
       <div class="kpi-accent" style="background:var(--green)"></div>
@@ -275,9 +261,16 @@ tr:hover td{background:var(--indigo-dim);}
       <div class="kpi-sub" id="kpiTopMCSub">—</div>
       <div class="kpi-trend tr-a" id="kpiTopMCPct">—</div>
     </div>
+    <div class="kpi">
+      <div class="kpi-accent" style="background:var(--violet)"></div>
+      <div class="kpi-lbl">Defect สูงสุด</div>
+      <div class="kpi-val" id="kpiTopDefect" style="font-size:14px;color:var(--violet);line-height:1.3">—</div>
+      <div class="kpi-sub" id="kpiTopDefectSub">—</div>
+      <div class="kpi-trend tr-r" id="kpiTopDefectPct">—</div>
+    </div>
   </div>
 
-  <!-- ROW 2 -->
+  <!-- ROW 2: hbar + donut -->
   <div class="row2">
     <div class="panel">
       <div class="ph"><div><div class="pt">Defect แต่ละประเภท</div><div class="ps">จำนวนรายการที่พบ</div></div><div class="ptag">BAR</div></div>
@@ -285,12 +278,12 @@ tr:hover td{background:var(--indigo-dim);}
     </div>
     <div class="panel">
       <div class="ph"><div><div class="pt">สัดส่วนประเภท</div><div class="ps">% ของ Defect ทั้งหมด</div></div><div class="ptag">DONUT</div></div>
-      <div style="position:relative;height:200px"><canvas id="donutChart" role="img" aria-label="Donut chart สัดส่วน Defect แต่ละประเภท"></canvas></div>
+      <div style="position:relative;height:200px"><canvas id="donutChart"></canvas></div>
       <div id="donutLegend" style="display:flex;flex-direction:column;gap:5px;margin-top:10px"></div>
     </div>
   </div>
 
-  <!-- ROW 3 -->
+  <!-- ROW 3: shift + mc + size -->
   <div class="row3">
     <div class="panel">
       <div class="ph"><div><div class="pt">Defect แยกตามกะ</div><div class="ps">แต่ละรอบตรวจ</div></div><div class="ptag">SHIFT</div></div>
@@ -311,25 +304,38 @@ tr:hover td{background:var(--indigo-dim);}
     </div>
   </div>
 
+  <!-- ROW 4: หัวหน้างาน + รายละเอียด Defect top 5 -->
+  <div class="row4">
+    <div class="panel">
+      <div class="ph"><div><div class="pt">Defect แยกตามหัวหน้างาน</div><div class="ps">จำนวน Defect ที่พบในกะนั้น</div></div><div class="ptag">SV</div></div>
+      <div id="svContainer"></div>
+    </div>
+    <div class="panel">
+      <div class="ph"><div><div class="pt">รายละเอียด Defect สูงสุด 5 อันดับ</div><div class="ps">รายการที่พบบ่อยที่สุด</div></div><div class="ptag">TOP5</div></div>
+      <div id="top5Container"></div>
+    </div>
+  </div>
+
   <!-- TABLE -->
   <div class="tbl-wrap">
     <div class="tbl-hd">
-      <div><div class="pt">รายการล่าสุด</div><div class="ps" id="tblSub">— รายการ</div></div>
-      <div class="ptag">RECENT 20</div>
+      <div><div class="pt">รายการล่าสุด</div><div class="ps" id="tblSub">—</div></div>
+      <div class="ptag">RECENT 30</div>
     </div>
     <div style="overflow-x:auto">
       <table>
         <thead>
           <tr>
-            <th style="width:100px">วันที่</th>
-            <th style="width:56px">กะ</th>
-            <th style="width:68px">รอบตรวจ</th>
+            <th style="width:96px">วันที่</th>
+            <th style="width:52px">กะ</th>
+            <th style="width:66px">รอบตรวจ</th>
             <th style="width:38px">M/C</th>
             <th style="width:46px">Size</th>
             <th>รายละเอียด Defect</th>
-            <th style="width:96px">ประเภท</th>
+            <th style="width:100px">ประเภท</th>
             <th style="width:52px">กล่อง</th>
-            <th style="width:88px">หัวหน้า</th>
+            <th style="width:52px">Pallet</th>
+            <th style="width:86px">หัวหน้า</th>
             <th style="width:52px">รูป</th>
           </tr>
         </thead>
@@ -341,82 +347,86 @@ tr:hover td{background:var(--indigo-dim);}
 </div>
 
 <script>
-const SHEET_ID = '1Ie3365pkUS0LFHwEFe5YbRL1J6BZYEAVaHyKuhTMUws';
-const SHEET_NAME = 'ham'; // เปลี่ยนเป็น 'real defect' ตอนใช้จริง
-const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&headers=1`;
+// ─── CONFIG ───────────────────────────────────────────────────
+const SHEET_ID   = '1Ie3365pkUS0LFHwEFe5YbRL1J6BZYEAVaHyKuhTMUws';
+const SHEET_NAME = 'ham';
+const GVZ_URL    = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&headers=1`;
 
-// Column mapping ตรงกับ GAS script (A-R)
-function g(row, ...keys) {
-  const aliases = {
-    date:    ['วันที่','date','Date'],
-    shift:   ['กะ','shift'],
-    round:   ['รอบตรวจ','round','roundCheck','รอบตรวจ Pallet'],
-    mcNo:    ['M/C No.','mcNo','MC No.','MC'],
-    size:    ['Size','size'],
-    defect:  ['รายละเอียด Defect','defectDetail','รายละเอียด'],
-    type:    ['ประเภท Defect','defectType','ประเภท Def'],
-    boxNo:   ['เลขกล่อง','boxNo'],
-    time:    ['เวลา','defectTime','time'],
-    pallet:  ['Pallet No.','palletNo'],
-    retTime: ['เวลาคืน','returnTime'],
-    sv:      ['หัวหน้างาน','supervisor'],
-    worker:  ['ลูกกะ','customer','worker'],
-    robot:   ['Robot','robot'],
-    fileUrl: ['URL ไฟล์','URL','fileUrl'],
-  };
-  const lookupKeys = keys.length === 1 && aliases[keys[0]] ? aliases[keys[0]] : keys;
-  for (const k of lookupKeys) {
-    if (row[k] !== undefined && row[k] !== null && String(row[k]).trim() !== '')
-      return String(row[k]).trim();
-  }
-  return '';
+// Column labels ตรงกับ GAS (A-S)
+// A=Timestamp, B=วันที่, C=กะ, D=รอบตรวจ, E=M/C No., F=Size
+// G=รายละเอียด Defect, H=ประเภท Defect, I=เลขกล่อง, J=เวลา
+// K=Pallet No., L=เวลาคืน, M=หัวหน้างาน, N=ลูกกะ, O=Robot
+// P=ชื่อไฟล์, Q=ประเภทไฟล์, R=URL ไฟล์, S=RowGroup
+
+const COL = {
+  ts:       'Timestamp',
+  date:     'วันที่',
+  shift:    'กะ',
+  round:    'รอบตรวจ',
+  mcNo:     'M/C No.',
+  size:     'Size',
+  defect:   'รายละเอียด Defect',
+  type:     'ประเภท Defect',
+  boxNo:    'เลขกล่อง',
+  time:     'เวลา',
+  pallet:   'Pallet No.',
+  retTime:  'เวลาคืน',
+  sv:       'หัวหน้างาน',
+  worker:   'ลูกกะ',
+  robot:    'Robot',
+  fileName: 'ชื่อไฟล์',
+  fileType: 'ประเภทไฟล์',
+  fileUrl:  'URL ไฟล์',
+  rowGroup: 'RowGroup',
+};
+
+function g(row, key) {
+  const v = row[COL[key]];
+  return (v === undefined || v === null) ? '' : String(v).trim();
 }
+
+const isOk = r => {
+  const d = g(r,'defect');
+  return !d || d === 'ไม่พบ defect' || d === 'ไม่พบ';
+};
 
 const COLORS = {
   defect: ['#6366f1','#ef4444','#06b6d4','#10b981','#f59e0b','#8b5cf6','#f43f5e','#64748b'],
-  mc: {B:'#ef4444',C:'#10b981',H:'#f59e0b',S:'#6366f1'},
-  size: {'72g':'#64748b','250g':'#06b6d4','500g':'#6366f1','1kg':'#8b5cf6'},
-  shift: {1:'#6366f1',2:'#f59e0b',3:'#8b5cf6'},
+  mc:     {B:'#ef4444',C:'#10b981',H:'#f59e0b',S:'#6366f1'},
+  size:   {'72g':'#64748b','250g':'#06b6d4','500g':'#6366f1','1kg':'#8b5cf6','All':'#9194b8'},
+  shift:  {'1':'#6366f1','2':'#f59e0b','3':'#8b5cf6'},
 };
 
 let allData = [];
-let filters = {shift:'all', mc:'all', status:'all'};
+let filters = {shift:'all', mc:'all', size:'all', status:'all'};
 let donutChart = null;
 
+// ─── LOAD ─────────────────────────────────────────────────────
 async function loadData() {
   const btn = document.querySelector('.refresh-btn');
   btn.classList.add('loading');
-  document.getElementById('loadingSub').textContent = 'ดึงข้อมูลจาก Google Sheets...';
-
   try {
-    const res = await fetch(URL);
+    const res  = await fetch(GVZ_URL);
     const text = await res.text();
     const json = JSON.parse(text.replace(/^[^(]+\(/, '').replace(/\);?\s*$/, ''));
-    const rows = json.table.rows;
     const cols = json.table.cols.map(c => c.label);
 
-    allData = rows.map(r => {
+    allData = json.table.rows.map(r => {
       const obj = {};
-      cols.forEach((c, i) => {
-        if (!r.c[i] || r.c[i].v === null) { obj[c] = ''; return; }
+      cols.forEach((col, i) => {
+        if (!r.c || !r.c[i] || r.c[i].v === null) { obj[col] = ''; return; }
         const v = r.c[i].v;
-        const f = r.c[i].f; // formatted value
-        // Date type from gviz comes as "Date(year,month,day)"
+        const f = r.c[i].f;
         if (typeof v === 'string' && v.startsWith('Date(')) {
-          const parts = v.replace('Date(','').replace(')','').split(',');
-          const yr = parseInt(parts[0]);
-          const mo = parseInt(parts[1])+1; // month is 0-indexed
-          const dy = parseInt(parts[2]);
-          obj[c] = yr+'-'+String(mo).padStart(2,'0')+'-'+String(dy).padStart(2,'0');
-        } else if (f && c.includes('วัน')) {
-          // Use formatted value for date columns
-          obj[c] = f;
+          const p = v.replace('Date(','').replace(')','').split(',');
+          const yr = parseInt(p[0]), mo = parseInt(p[1])+1, dy = parseInt(p[2]);
+          obj[col] = `${yr}-${String(mo).padStart(2,'0')}-${String(dy).padStart(2,'0')}`;
         } else {
-          obj[c] = String(v);
+          obj[col] = f || String(v);
         }
       });
       return obj;
-    }).filter(r => { const d=g(r,'date'); const s=g(r,'shift'); return d||s; });
+    }).filter(r => g(r,'date') || g(r,'shift'));
 
     document.getElementById('lastUpdate').textContent = 'อัปเดต: ' + new Date().toLocaleTimeString('th-TH');
     renderAll();
@@ -424,86 +434,62 @@ async function loadData() {
   } catch (err) {
     document.getElementById('loadingSub').textContent = '❌ โหลดไม่ได้: ' + err.message;
     document.getElementById('loadingSub').style.color = '#ef4444';
-    setTimeout(() => { document.getElementById('loadingScreen').style.display = 'none'; }, 2000);
+    setTimeout(() => document.getElementById('loadingScreen').style.display = 'none', 2500);
   }
   btn.classList.remove('loading');
 }
 
+// ─── FILTER ───────────────────────────────────────────────────
 function getFiltered() {
-  const dateFrom = document.getElementById('dateFrom') ? document.getElementById('dateFrom').value : '';
-  const dateTo   = document.getElementById('dateTo')   ? document.getElementById('dateTo').value   : '';
-  const month    = document.getElementById('monthSel') ? document.getElementById('monthSel').value : '';
+  const dateFrom = document.getElementById('dateFrom').value;
+  const dateTo   = document.getElementById('dateTo').value;
+  const month    = document.getElementById('monthSel').value;
 
   return allData.filter(r => {
-    const shiftVal  = g(r,'shift');
-    const mcVal     = g(r,'mcNo');
-    const defectVal = g(r,'defect');
-    const isOk      = !defectVal || defectVal.indexOf('ไม่พบ') >= 0;
-    const dateVal   = g(r,'date');
-
-    if (filters.shift  !== 'all' && shiftVal !== filters.shift) return false;
-    if (filters.mc     !== 'all' && mcVal    !== filters.mc)    return false;
-    if (filters.status === 'defect' && isOk)  return false;
-    if (filters.status === 'ok'    && !isOk)  return false;
+    if (filters.shift  !== 'all' && g(r,'shift') !== filters.shift)  return false;
+    if (filters.mc     !== 'all' && g(r,'mcNo')  !== filters.mc)     return false;
+    if (filters.size   !== 'all' && g(r,'size')  !== filters.size)   return false;
+    if (filters.status === 'defect' && isOk(r))   return false;
+    if (filters.status === 'ok'    && !isOk(r))   return false;
 
     if (dateFrom || dateTo || month) {
-      var d = parseDateStr(dateVal);
+      const d = parseDate(g(r,'date'));
       if (!d) return true;
-      var dOnly = toDateOnly(d);
-      if (dateFrom) {
-        var from = parseInputDate(dateFrom);
-        if (from && dOnly < from) return false;
-      }
-      if (dateTo) {
-        var to = parseInputDate(dateTo);
-        if (to && dOnly > to) return false;
-      }
-      if (month && (d.getMonth()+1) !== parseInt(month)) return false;
+      const dOnly = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      if (dateFrom) { const f = parseInputDate(dateFrom); if (f && dOnly < f) return false; }
+      if (dateTo)   { const t = parseInputDate(dateTo);   if (t && dOnly > t) return false; }
+      if (month && (d.getMonth()+1) !== parseInt(month))  return false;
     }
     return true;
   });
 }
 
-function parseDateStr(str) {
+function parseDate(str) {
   if (!str) return null;
   str = String(str).trim();
-
-  // ISO format: 2026-05-08
   if (/^\d{4}-\d{2}-\d{2}/.test(str)) {
-    var p = str.substring(0,10).split('-');
+    const p = str.substring(0,10).split('-');
     return new Date(parseInt(p[0]), parseInt(p[1])-1, parseInt(p[2]));
   }
-  // D/M/YYYY or DD/MM/YYYY (Google Sheets Thai format)
-  var m = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  const m = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
   if (m) {
-    var day = parseInt(m[1]);
-    var mon = parseInt(m[2]);
-    var yr  = parseInt(m[3]);
-    // ถ้า month > 12 แสดงว่าเป็น MM/DD format → swap
-    if (mon > 12) return new Date(yr, day-1, mon);
-    return new Date(yr, mon-1, day);
+    const d=parseInt(m[1]), mo=parseInt(m[2]), yr=parseInt(m[3]);
+    if (mo > 12) return new Date(yr, d-1, mo);
+    return new Date(yr, mo-1, d);
   }
-  // Excel serial number
   if (/^\d{4,6}$/.test(str)) {
-    var d = new Date(1899, 11, 30);
+    const d = new Date(1899, 11, 30);
     d.setDate(d.getDate() + parseInt(str));
     return d;
   }
-  var d2 = new Date(str);
-  if (!isNaN(d2)) return d2;
-  return null;
+  const d2 = new Date(str);
+  return isNaN(d2) ? null : d2;
 }
 
-function toDateOnly(d) {
-  return new Date(d.getFullYear(), d.getMonth(), d.getDate());
-}
-
-// browser date input returns YYYY-MM-DD — convert to Date safely
 function parseInputDate(str) {
   if (!str) return null;
-  var p = str.split('-');
-  if (p.length === 3) return new Date(parseInt(p[0]), parseInt(p[1])-1, parseInt(p[2]));
-  return null;
+  const p = str.split('-');
+  return p.length === 3 ? new Date(parseInt(p[0]), parseInt(p[1])-1, parseInt(p[2])) : null;
 }
 
 function clearDate() {
@@ -513,34 +499,41 @@ function clearDate() {
   renderAll();
 }
 
-// getKey replaced by g()
-
+// ─── RENDER ALL ───────────────────────────────────────────────
 function renderAll() {
-  const data = getFiltered();
-  const defectOnly = data.filter(r => {
-    const d = g(r,'defect');
-    return d && d !== 'ไม่พบ defect' && d !== 'ไม่พบ';
-  });
+  const data       = getFiltered();
+  const defectOnly = data.filter(r => !isOk(r));
+  const okOnly     = data.filter(r => isOk(r));
+  const total      = data.length;
+  const defCount   = defectOnly.length;
+  const okCount    = okOnly.length;
 
   // KPI
-  const total = data.length;
-  const defCount = defectOnly.length;
-  const okCount = total - defCount;
-  document.getElementById('kpiDefect').textContent = defCount.toLocaleString();
-  document.getElementById('kpiTotal').textContent = total.toLocaleString();
-  document.getElementById('kpiOk').textContent = okCount.toLocaleString();
+  document.getElementById('kpiDefect').textContent     = defCount.toLocaleString();
+  document.getElementById('kpiTotal').textContent      = total.toLocaleString();
+  document.getElementById('kpiOk').textContent         = okCount.toLocaleString();
   document.getElementById('kpiDefectRate').textContent = `Defect Rate ${total ? (defCount/total*100).toFixed(1) : 0}%`;
-  document.getElementById('kpiPassRate').textContent = `Pass Rate ${total ? (okCount/total*100).toFixed(1) : 0}%`;
-  document.getElementById('kpiOkRate').textContent = `${okCount.toLocaleString()} กล่อง OK`;
+  document.getElementById('kpiRows').textContent       = `${total} rows ใน Sheet`;
+  document.getElementById('kpiOkRate').textContent     = `Pass Rate ${total ? (okCount/total*100).toFixed(1) : 0}%`;
 
   // Top MC
-  const mcCount = {};
-  defectOnly.forEach(r => { const mc = g(r,'mcNo'); if(mc) mcCount[mc] = (mcCount[mc]||0)+1; });
-  const topMC = Object.entries(mcCount).sort((a,b)=>b[1]-a[1])[0];
+  const mcCnt = {};
+  defectOnly.forEach(r => { const mc = g(r,'mcNo'); if(mc) mcCnt[mc] = (mcCnt[mc]||0)+1; });
+  const topMC = Object.entries(mcCnt).sort((a,b)=>b[1]-a[1])[0];
   if (topMC) {
-    document.getElementById('kpiTopMC').textContent = 'M/C ' + topMC[0];
+    document.getElementById('kpiTopMC').textContent    = 'M/C ' + topMC[0];
     document.getElementById('kpiTopMCSub').textContent = `${topMC[1]} รายการ`;
-    document.getElementById('kpiTopMCPct').textContent = `${defCount ? (topMC[1]/defCount*100).toFixed(1) : 0}% ของทั้งหมด`;
+    document.getElementById('kpiTopMCPct').textContent = `${defCount ? (topMC[1]/defCount*100).toFixed(1) : 0}% ของ Defect`;
+  }
+
+  // Top Defect detail
+  const defDetailCnt = {};
+  defectOnly.forEach(r => { const d = g(r,'defect'); if(d) defDetailCnt[d] = (defDetailCnt[d]||0)+1; });
+  const topDef = Object.entries(defDetailCnt).sort((a,b)=>b[1]-a[1])[0];
+  if (topDef) {
+    document.getElementById('kpiTopDefect').textContent    = topDef[0].substring(0,30) + (topDef[0].length > 30 ? '…' : '');
+    document.getElementById('kpiTopDefectSub').textContent = `${topDef[1]} รายการ`;
+    document.getElementById('kpiTopDefectPct').textContent = `${defCount ? (topDef[1]/defCount*100).toFixed(1) : 0}% ของ Defect`;
   }
 
   renderHBar(defectOnly);
@@ -548,16 +541,16 @@ function renderAll() {
   renderShift(defectOnly);
   renderMC(defectOnly);
   renderSize(defectOnly);
+  renderSV(defectOnly);
+  renderTop5(defectOnly);
   renderTable(data);
 }
 
+// ─── CHARTS ───────────────────────────────────────────────────
 function renderHBar(data) {
-  const counts = {};
-  data.forEach(r => {
-    const t = g(r,'type') || 'Other';
-    counts[t] = (counts[t]||0)+1;
-  });
-  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const cnt = {};
+  data.forEach(r => { const t = g(r,'type') || 'Other'; cnt[t] = (cnt[t]||0)+1; });
+  const sorted = Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
   const mx = sorted[0]?.[1] || 1;
   const c = document.getElementById('hbarContainer');
   c.innerHTML = sorted.length ? sorted.map(([l,n],i) => `
@@ -566,80 +559,73 @@ function renderHBar(data) {
       <div class="hbar-track"><div class="hbar-fill" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${COLORS.defect[i%COLORS.defect.length]}"></div></div>
       <div class="hbar-n">${n}</div>
     </div>`).join('') : '<div class="empty">ไม่มีข้อมูล Defect</div>';
-  setTimeout(() => { c.querySelectorAll('.hbar-fill').forEach(el => { el.style.width = el.dataset.w + '%'; }); }, 50);
+  setTimeout(() => c.querySelectorAll('.hbar-fill').forEach(el => el.style.width = el.dataset.w+'%'), 50);
 }
 
 function renderDonut(data) {
-  const counts = {};
-  data.forEach(r => { const t = g(r,'type') || 'Other'; counts[t]=(counts[t]||0)+1; });
-  const entries = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
-  const total = entries.reduce((s,[,n])=>s+n,0);
-  const labels = entries.map(([l])=>l);
-  const values = entries.map(([,n])=>n);
-  const colors = entries.map((_,i)=>COLORS.defect[i%COLORS.defect.length]);
-
+  const cnt = {};
+  data.forEach(r => { const t = g(r,'type') || 'Other'; cnt[t] = (cnt[t]||0)+1; });
+  const entries = Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
+  const total   = entries.reduce((s,[,n])=>s+n, 0);
   if (donutChart) { donutChart.destroy(); donutChart = null; }
   if (!entries.length) { document.getElementById('donutLegend').innerHTML = '<div class="empty">ไม่มีข้อมูล</div>'; return; }
-
+  const colors = entries.map((_,i) => COLORS.defect[i%COLORS.defect.length]);
   donutChart = new Chart(document.getElementById('donutChart'), {
     type: 'doughnut',
-    data: { labels, datasets: [{ data: values, backgroundColor: colors, borderWidth: 2, borderColor: '#fff', hoverOffset: 4 }] },
+    data: { labels: entries.map(([l])=>l), datasets: [{ data: entries.map(([,n])=>n), backgroundColor: colors, borderWidth: 2, borderColor: '#fff', hoverOffset: 4 }] },
     options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${c.label}: ${c.raw} (${Math.round(c.raw/total*100)}%)` } } } }
   });
-
   document.getElementById('donutLegend').innerHTML = entries.slice(0,6).map(([l,n],i) =>
     `<div style="display:flex;align-items:center;gap:7px;font-size:11px">
       <div style="width:8px;height:8px;border-radius:2px;background:${colors[i]};flex-shrink:0"></div>
       <span style="flex:1;color:var(--ink2)">${l}</span>
       <span style="font-family:'JetBrains Mono',monospace;color:var(--ink3)">${n}</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--ink);min-width:30px;text-align:right">${Math.round(n/total*100)}%</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-weight:600;min-width:30px;text-align:right">${Math.round(n/total*100)}%</span>
     </div>`).join('');
 }
 
 function renderShift(data) {
   const rounds = {};
   data.forEach(r => {
-    const shift = g(r,'shift');
-    const round = g(r,'round');
+    const shift = g(r,'shift'), round = g(r,'round');
     if (!round) return;
-    if (!rounds[round]) rounds[round] = {1:0,2:0,3:0};
+    if (!rounds[round]) rounds[round] = {'1':0,'2':0,'3':0};
     rounds[round][shift] = (rounds[round][shift]||0)+1;
   });
-  const sorted = Object.entries(rounds).sort((a,b)=>a[0].localeCompare(b[0]));
-  const mx = Math.max(...sorted.map(([,v])=>Math.max(v[1]||0,v[2]||0,v[3]||0)),1);
+  const sorted = Object.entries(rounds).sort((a,b) => a[0].localeCompare(b[0]));
+  const mx = Math.max(...sorted.map(([,v]) => Math.max(...Object.values(v))), 1);
   const c = document.getElementById('shiftBars');
   c.innerHTML = sorted.length ? sorted.map(([round, vals]) => {
-    const bars = [1,2,3].map(s => vals[s] > 0 ? `<div class="sbar" data-h="${Math.round((vals[s]||0)/mx*94)}" style="height:0;background:${COLORS.shift[s]}"></div>` : '').join('');
+    const bars = ['1','2','3'].map(s => vals[s] > 0
+      ? `<div class="sbar" data-h="${Math.round(vals[s]/mx*94)}" style="height:0;background:${COLORS.shift[s]}"></div>` : '').join('');
     return `<div class="shift-col"><div class="shift-bars-inner">${bars}</div><div class="shift-lbl-txt">${round.replace(' น.','')}</div></div>`;
   }).join('') : '<div class="empty" style="width:100%">ไม่มีข้อมูล</div>';
-  setTimeout(() => { c.querySelectorAll('.sbar').forEach(el => { el.style.height = el.dataset.h + 'px'; }); }, 80);
+  setTimeout(() => c.querySelectorAll('.sbar').forEach(el => el.style.height = el.dataset.h+'px'), 80);
 }
 
 function renderMC(data) {
-  const counts = {};
-  data.forEach(r => { const mc = g(r,'mcNo'); if(mc) counts[mc]=(counts[mc]||0)+1; });
-  const total = Object.values(counts).reduce((s,n)=>s+n,0)||1;
-  const mx = Math.max(...Object.values(counts),1);
+  const cnt = {};
+  data.forEach(r => { const mc = g(r,'mcNo'); if(mc) cnt[mc] = (cnt[mc]||0)+1; });
+  const total = Object.values(cnt).reduce((s,n)=>s+n,0)||1;
+  const mx = Math.max(...Object.values(cnt),1);
   const c = document.getElementById('mcGrid');
-  const mcs = ['B','C','H','S'];
-  c.innerHTML = mcs.map(mc => {
-    const n = counts[mc]||0;
-    const pct = (n/total*100).toFixed(1);
+  c.innerHTML = ['B','C','H','S'].map(mc => {
+    const n = cnt[mc]||0;
     const color = COLORS.mc[mc]||'#888';
     return `<div class="mc-c">
       <div class="mc-name" style="color:${color}">${mc}</div>
-      <div class="mc-n">${n}</div>
-      <div class="mc-s">${pct}% ของทั้งหมด</div>
+      <div class="mc-n" style="color:${color}">${n}</div>
+      <div class="mc-s">${(n/total*100).toFixed(1)}% ของทั้งหมด</div>
       <div class="mc-bar"><div class="mc-bf" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${color}"></div></div>
     </div>`;
   }).join('');
-  setTimeout(() => { c.querySelectorAll('.mc-bf').forEach(el => { el.style.width = el.dataset.w + '%'; }); }, 80);
+  setTimeout(() => c.querySelectorAll('.mc-bf').forEach(el => el.style.width = el.dataset.w+'%'), 80);
 }
 
 function renderSize(data) {
-  const counts = {};
-  data.forEach(r => { const s = g(r,'size'); if(s) counts[s]=(counts[s]||0)+1; });
-  const sorted = Object.entries(counts).sort((a,b)=>b[1]-a[1]);
+  const cnt = {};
+  data.forEach(r => { const s = g(r,'size'); if(s) cnt[s] = (cnt[s]||0)+1; });
+  const sorted = Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
   const mx = sorted[0]?.[1]||1;
   const c = document.getElementById('sizeContainer');
   c.innerHTML = sorted.length ? sorted.map(([sz,n]) => {
@@ -650,69 +636,80 @@ function renderSize(data) {
       <div class="sz-n">${n}</div>
     </div>`;
   }).join('') : '<div class="empty">ไม่มีข้อมูล</div>';
-  setTimeout(() => { c.querySelectorAll('.sz-fill').forEach(el => { el.style.width = el.dataset.w + '%'; }); }, 80);
+  setTimeout(() => c.querySelectorAll('.sz-fill').forEach(el => el.style.width = el.dataset.w+'%'), 80);
+}
+
+function renderSV(data) {
+  const cnt = {};
+  data.forEach(r => { const sv = g(r,'sv'); if(sv) cnt[sv] = (cnt[sv]||0)+1; });
+  const sorted = Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const mx = sorted[0]?.[1]||1;
+  const c = document.getElementById('svContainer');
+  c.innerHTML = sorted.length ? sorted.map(([name,n]) => `
+    <div class="sv-row">
+      <div class="sv-name">${name}</div>
+      <div class="sv-count">${n}</div>
+      <div class="sv-bar-track"><div class="sv-bar-fill" data-w="${Math.round(n/mx*100)}" style="width:0%"></div></div>
+    </div>`).join('') : '<div class="empty">ไม่มีข้อมูล</div>';
+  setTimeout(() => c.querySelectorAll('.sv-bar-fill').forEach(el => el.style.width = el.dataset.w+'%'), 80);
+}
+
+function renderTop5(data) {
+  const cnt = {};
+  data.forEach(r => { const d = g(r,'defect'); if(d) cnt[d] = (cnt[d]||0)+1; });
+  const sorted = Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const mx = sorted[0]?.[1]||1;
+  const c = document.getElementById('top5Container');
+  c.innerHTML = sorted.length ? sorted.map(([detail,n],i) => `
+    <div class="hbar-row" style="grid-template-columns:1fr 1fr 32px">
+      <div class="hbar-lbl" title="${detail}" style="grid-column:1/-1;font-size:11px;margin-bottom:4px">${i+1}. ${detail}</div>
+      <div class="hbar-track" style="grid-column:1/3"><div class="hbar-fill" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${COLORS.defect[i%COLORS.defect.length]}"></div></div>
+      <div class="hbar-n">${n}</div>
+    </div>`).join('') : '<div class="empty">ไม่มีข้อมูล</div>';
+  setTimeout(() => c.querySelectorAll('.hbar-fill').forEach(el => el.style.width = el.dataset.w+'%'), 80);
 }
 
 function renderTable(data) {
-  const recent = [...data].reverse().slice(0, 20);
-  document.getElementById('tblSub').textContent = `แสดง ${Math.min(20,data.length)} จาก ${data.length} รายการ`;
-  const shifts = {1:'pill-b',2:'pill-a',3:'pill-v'};
-  const mcs = {B:'pill-r',C:'pill-g',H:'pill-a',S:'pill-b'};
-  const body = document.getElementById('tblBody');
-  body.innerHTML = recent.length ? recent.map(r => {
-    const shift = g(r,'shift');
-    const mc = g(r,'mcNo');
-    const defect = g(r,'defect');
-    const isOk = defect === 'ไม่พบ defect' || defect === 'ไม่พบ';
-    const type = g(r,'type');
-    const date = g(r,'date');
-    const round = g(r,'round');
-    const box = g(r,'boxNo');
-    const sv = g(r,'sv');
-    const size = g(r,'size');
+  const recent = [...data].reverse().slice(0, 30);
+  document.getElementById('tblSub').textContent = `แสดง ${Math.min(30,data.length)} จาก ${data.length} รายการ`;
+  const shiftPill = {'1':'pill-b','2':'pill-a','3':'pill-v'};
+  const mcPill    = {B:'pill-r',C:'pill-g',H:'pill-a',S:'pill-b'};
+  document.getElementById('tblBody').innerHTML = recent.length ? recent.map(r => {
+    const shift   = g(r,'shift'), mc = g(r,'mcNo');
+    const defect  = g(r,'defect'), type = g(r,'type');
+    const ok      = isOk(r);
     const fileUrl = g(r,'fileUrl');
     return `<tr>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink2);white-space:nowrap">${date}</td>
-      <td><span class="pill ${shifts[shift]||'pill-n'}">กะ ${shift}</span></td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${round}</td>
-      <td><span class="pill ${mcs[mc]||'pill-n'}">${mc}</span></td>
-      <td style="font-family:'JetBrains Mono',monospace">${size}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:11px">${g(r,'date')}</td>
+      <td><span class="pill ${shiftPill[shift]||'pill-n'}">กะ ${shift}</span></td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'round')}</td>
+      <td><span class="pill ${mcPill[mc]||'pill-n'}">${mc||'—'}</span></td>
+      <td style="font-family:'JetBrains Mono',monospace">${g(r,'size')||'—'}</td>
       <td title="${defect}">${defect}</td>
-      <td><span class="pill ${isOk?'pill-g':'pill-r'}">${type||defect}</span></td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${box}</td>
-      <td>${sv}</td>
+      <td><span class="pill ${ok?'pill-g':'pill-r'}">${type||defect}</span></td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'boxNo')||'—'}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'pallet')||'—'}</td>
+      <td>${g(r,'sv')}</td>
       <td>${fileUrl ? `<a href="${fileUrl}" target="_blank" rel="noopener" class="view-img-btn">🖼️ ดู</a>` : '<span style="color:var(--ink3);font-size:10px">—</span>'}</td>
     </tr>`;
-  }).join('') : '<tr><td colspan="9" class="empty">ไม่มีข้อมูล</td></tr>';
+  }).join('') : '<tr><td colspan="11" class="empty">ไม่มีข้อมูล</td></tr>';
 }
 
-// FILTER CHIPS
-['shiftChips','mcChips','statusChips'].forEach(id => {
+// ─── FILTER CHIPS ─────────────────────────────────────────────
+[
+  ['shiftChips', 'shift'],
+  ['mcChips',    'mc'],
+  ['sizeChips',  'size'],
+  ['statusChips','status'],
+].forEach(([id, key]) => {
   document.getElementById(id).addEventListener('click', e => {
     const chip = e.target.closest('.chip');
     if (!chip) return;
     document.querySelectorAll(`#${id} .chip`).forEach(c => c.classList.remove('on'));
     chip.classList.add('on');
-    if (id === 'shiftChips') filters.shift = chip.dataset.shift;
-    if (id === 'mcChips') filters.mc = chip.dataset.mc;
-    if (id === 'statusChips') filters.status = chip.dataset.status;
+    filters[key] = chip.dataset.val;
     renderAll();
   });
-});
-
-// IMAGE MODAL
-function openImg(url, date) {
-  document.getElementById('modalImg').src = url;
-  document.getElementById('modalName').textContent = 'รูป Defect · ' + date;
-  document.getElementById('imgModal').classList.add('show');
-}
-function closeImgModal(e) {
-  if (e.target === document.getElementById('imgModal')) {
-    document.getElementById('imgModal').classList.remove('show');
-  }
-}
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') document.getElementById('imgModal').classList.remove('show');
 });
 
 loadData();
