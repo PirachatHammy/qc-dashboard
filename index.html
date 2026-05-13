@@ -359,8 +359,8 @@ tr:hover td{background:rgba(99,102,241,0.04);}
             <th style="width:52px">กล่อง</th>
             <th style="width:52px">Pallet</th>
             <th style="width:86px">หัวหน้า</th>
-            <th style="width:52px">รูป</th>
             <th style="width:110px">ตรวจสอบ</th>
+            <th style="width:52px">รูป</th>
           </tr>
         </thead>
         <tbody id="tblBody"></tbody>
@@ -716,8 +716,8 @@ function renderTable(data) {
       <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'boxNo')||'—'}</td>
       <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'pallet')||'—'}</td>
       <td>${g(r,'sv')}</td>
-      <td>${fileUrl ? `<a href="${fileUrl}" target="_blank" rel="noopener" class="view-img-btn">🖼️ ดู</a>` : '<span style="color:var(--ink3);font-size:10px">—</span>'}</td>
       <td>${renderApproveBtn(r)}</td>
+      <td>${fileUrl ? `<a href="${fileUrl}" target="_blank" rel="noopener" class="view-img-btn">🖼️ ดู</a>` : '<span style="color:var(--ink3);font-size:10px">—</span>'}</td>
     </tr>`;
   }).join('') : '<tr><td colspan="11" class="empty">ไม่มีข้อมูล</td></tr>';
 }
