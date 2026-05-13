@@ -25,6 +25,17 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 .b3{width:250px;height:250px;background:radial-gradient(circle,#fde68a,#fbbf24);top:40%;right:10%;animation:bf 11s ease-in-out infinite;}
 @keyframes bf{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(20px,-20px) scale(1.06);}}
 
+
+/* LIVE BADGE */
+.live-badge{display:flex;align-items:center;gap:10px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.35);border-radius:999px;padding:5px 14px;}
+.live-dot-wrap{position:relative;width:14px;height:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.live-ring1{position:absolute;width:26px;height:26px;border-radius:50%;background:rgba(239,68,68,0.25);animation:liveRing 1.6s ease-out infinite;}
+.live-ring2{position:absolute;width:36px;height:36px;border-radius:50%;background:rgba(239,68,68,0.10);animation:liveRing 1.6s ease-out infinite .35s;}
+.live-dot{width:14px;height:14px;border-radius:50%;background:#ef4444;display:block;animation:livePulse 1.4s ease-in-out infinite;}
+.live-text{font-size:12px;font-weight:700;color:#ef4444;letter-spacing:.14em;}
+.live-clock{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,0.55);}
+@keyframes liveRing{0%{transform:scale(.5);opacity:.8}100%{transform:scale(2.2);opacity:0}}
+@keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(1.25)}}
 /* TOPBAR */
 .topbar{position:sticky;top:0;z-index:100;background:rgba(30,27,75,0.96);backdrop-filter:blur(12px);padding:0 28px;height:54px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);}
 .topbar-l{display:flex;align-items:center;gap:12px;}
@@ -145,6 +156,9 @@ tr:hover td{background:rgba(99,102,241,0.04);}
 .empty{text-align:center;padding:40px;color:var(--ink3);font-size:13px;}
 .view-img-btn{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:600;cursor:pointer;border:none;background:rgba(99,102,241,0.15);color:var(--indigo);text-decoration:none;transition:background .15s;}
 .view-img-btn:hover{background:rgba(99,102,241,0.28);}
+.approve-btn{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;border:1.5px solid #d1fae5;background:#f0fdf4;color:#16a34a;transition:all .2s;white-space:nowrap;}
+.approve-btn:hover{background:#16a34a;color:#fff;border-color:#16a34a;}
+.approve-btn.done{background:#d1fae5;color:#16a34a;border-color:#86efac;cursor:default;pointer-events:none;}
 </style>
 </head>
 <body>
@@ -167,6 +181,15 @@ tr:hover td{background:rgba(99,102,241,0.04);}
     <div class="topbar-sub">Defect Monitoring · Ajinomoto · Real-Time</div>
   </div>
   <div class="topbar-r">
+    <div class="live-badge">
+      <div class="live-dot-wrap">
+        <span class="live-ring1"></span>
+        <span class="live-ring2"></span>
+        <span class="live-dot"></span>
+      </div>
+      <span class="live-text">LIVE</span>
+      <span class="live-clock" id="liveClock">00:00:00</span>
+    </div>
     <div class="last-update" id="lastUpdate">—</div>
     <button class="refresh-btn" onclick="loadData()">
       <span class="ri" style="display:inline-block">↻</span> Refresh
@@ -337,6 +360,7 @@ tr:hover td{background:rgba(99,102,241,0.04);}
             <th style="width:52px">Pallet</th>
             <th style="width:86px">หัวหน้า</th>
             <th style="width:52px">รูป</th>
+            <th style="width:110px">ตรวจสอบ</th>
           </tr>
         </thead>
         <tbody id="tblBody"></tbody>
@@ -350,6 +374,7 @@ tr:hover td{background:rgba(99,102,241,0.04);}
 // ─── CONFIG ───────────────────────────────────────────────────
 const SHEET_ID   = '1Ie3365pkUS0LFHwEFe5YbRL1J6BZYEAVaHyKuhTMUws';
 const SHEET_NAME = 'ham';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbyP9DE4M2Er4jimIqYW1zOARLpE7UjzqFlPFRQbHNiP5ZZZFYOtKCy0EkvchRkfdQ3X/exec';
 const GVZ_URL    = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&headers=1`;
 
 // Column labels ตรงกับ GAS (A-S)
@@ -378,6 +403,7 @@ const COL = {
   fileType: 'ประเภทไฟล์',
   fileUrl:  'URL ไฟล์',
   rowGroup: 'RowGroup',
+  approved: 'ตรวจสอบแล้ว',
 };
 
 function g(row, key) {
@@ -691,8 +717,44 @@ function renderTable(data) {
       <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'pallet')||'—'}</td>
       <td>${g(r,'sv')}</td>
       <td>${fileUrl ? `<a href="${fileUrl}" target="_blank" rel="noopener" class="view-img-btn">🖼️ ดู</a>` : '<span style="color:var(--ink3);font-size:10px">—</span>'}</td>
+      <td>${renderApproveBtn(r)}</td>
     </tr>`;
   }).join('') : '<tr><td colspan="11" class="empty">ไม่มีข้อมูล</td></tr>';
+}
+
+// ─── APPROVE ──────────────────────────────────────────────────
+function renderApproveBtn(r) {
+  const approved = g(r,'approved');
+  const rowGroup = g(r,'rowGroup');
+  const boxNo    = g(r,'boxNo');
+  if (approved && approved.includes('✅')) {
+    return `<span class="approve-btn done">✅ รับทราบแล้ว</span>`;
+  }
+  return `<button class="approve-btn" onclick="approveRow(this,'${rowGroup.replace(/'/g,"\'")}','${boxNo.replace(/'/g,"\'")}')">☐ รับทราบ</button>`;
+}
+
+async function approveRow(btn, rowGroup, boxNo) {
+  if (!rowGroup) { alert('ไม่พบ RowGroup'); return; }
+  btn.textContent = '⏳ กำลังบันทึก...';
+  btn.style.pointerEvents = 'none';
+  try {
+    const res  = await fetch(GAS_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ action: 'approve', rowGroup, boxNo })
+    });
+    const json = await res.json();
+    if (json.success) {
+      btn.className = 'approve-btn done';
+      btn.textContent = '✅ รับทราบแล้ว';
+    } else {
+      btn.textContent = '❌ ลองใหม่';
+      btn.style.pointerEvents = 'auto';
+    }
+  } catch {
+    btn.textContent = '❌ ลองใหม่';
+    btn.style.pointerEvents = 'auto';
+  }
 }
 
 // ─── FILTER CHIPS ─────────────────────────────────────────────
@@ -711,6 +773,16 @@ function renderTable(data) {
     renderAll();
   });
 });
+
+// LIVE clock
+function tickClock(){
+  const n=new Date();
+  const t=[n.getHours(),n.getMinutes(),n.getSeconds()].map(x=>String(x).padStart(2,'0')).join(':');
+  const el=document.getElementById('liveClock');
+  if(el) el.textContent=t;
+}
+tickClock();
+setInterval(tickClock,1000);
 
 loadData();
 </script>
