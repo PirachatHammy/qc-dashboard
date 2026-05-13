@@ -343,7 +343,16 @@ tr:hover td{background:rgba(99,102,241,0.04);}
   <div class="tbl-wrap">
     <div class="tbl-hd">
       <div><div class="pt">รายการล่าสุด</div><div class="ps" id="tblSub">—</div></div>
-      <div class="ptag">RECENT 30</div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <a href="https://docs.google.com/spreadsheets/d/1Ie3365pkUS0LFHwEFe5YbRL1J6BZYEAVaHyKuhTMUws/edit?usp=sharing"
+           target="_blank" rel="noopener"
+           style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:600;color:#6366f1;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.25);text-decoration:none;transition:all .2s"
+           onmouseover="this.style.background='rgba(99,102,241,0.18)'"
+           onmouseout="this.style.background='rgba(99,102,241,0.08)'">
+          ✏️ แก้ไขข้อมูลใน Sheet
+        </a>
+        <div class="ptag">RECENT 30</div>
+      </div>
     </div>
     <div style="overflow-x:auto">
       <table>
