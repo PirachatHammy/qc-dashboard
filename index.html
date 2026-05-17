@@ -1068,12 +1068,47 @@ let _modalRowGroup='', _modalBoxNo='', _modalBtn=null, _modalDefect='';
 
 function renderApproveBtn(r){
   const approved=g(r,'approved'), rowGroup=g(r,'rowGroup'), boxNo=g(r,'boxNo'), defect=g(r,'defect');
+
+  // ── แสดงผลหลังบันทึกแล้ว ──
   if(approved&&approved.includes('✅')){
     const isDes=approved.includes('ทำลาย');
-    return `<span class="approve-btn ${isDes?'done-destroy':'done-change'}" style="font-size:10px">${approved}</span>`;
+    const isOkRow=approved.includes('รับทราบ');
+    const cls=isOkRow?'done-change':(isDes?'done-destroy':'done-change');
+    return `<span class="approve-btn ${cls}" style="font-size:10px">${approved}</span>`;
   }
+
   const esc=s=>s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+
+  // ── ไม่พบ defect → กดรับทราบเดียวจบ ──
+  if(isOk(r)){
+    return `<button class="approve-btn" style="border-color:#bfdbfe;background:#eff6ff;color:#1d4ed8"
+      onclick="quickApprove(this,'${esc(rowGroup)}','${esc(boxNo)}')">☐ รับทราบ</button>`;
+  }
+
+  // ── พบ defect → เปิด Modal เลือกการดำเนินการ ──
   return `<button class="approve-btn" onclick="openModal(this,'${esc(rowGroup)}','${esc(boxNo)}','${esc(defect)}')">☐ รับทราบ</button>`;
+}
+
+// กดรับทราบแบบง่าย (ไม่พบ defect)
+async function quickApprove(btn, rowGroup, boxNo){
+  if(!rowGroup){alert('ไม่พบ RowGroup');return;}
+  btn.textContent='⏳...'; btn.style.pointerEvents='none';
+  const approvedVal='✅ รับทราบ';
+  try{
+    const res=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},
+      body:JSON.stringify({action:'approve',rowGroup,boxNo,approved:approvedVal})});
+    const json=await res.json();
+    if(json.success){
+      btn.className='approve-btn done-change';
+      btn.style.fontSize='10px';
+      btn.textContent=approvedVal;
+      btn.onclick=null;
+    } else {
+      btn.textContent='❌ ลองใหม่'; btn.style.pointerEvents='auto';
+    }
+  }catch(e){
+    btn.textContent='❌ ลองใหม่'; btn.style.pointerEvents='auto';
+  }
 }
 
 function openModal(btn,rowGroup,boxNo,defect){
