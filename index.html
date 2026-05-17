@@ -25,7 +25,6 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 .b3{width:250px;height:250px;background:radial-gradient(circle,#fde68a,#fbbf24);top:40%;right:10%;animation:bf 11s ease-in-out infinite;}
 @keyframes bf{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(20px,-20px) scale(1.06);}}
 
-
 /* LIVE BADGE */
 .live-badge{display:flex;align-items:center;gap:10px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.35);border-radius:999px;padding:5px 14px;}
 .live-dot-wrap{position:relative;width:14px;height:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
@@ -36,6 +35,7 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 .live-clock{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,0.55);}
 @keyframes liveRing{0%{transform:scale(.5);opacity:.8}100%{transform:scale(2.2);opacity:0}}
 @keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(1.25)}}
+
 /* TOPBAR */
 .topbar{position:sticky;top:0;z-index:100;background:rgba(30,27,75,0.96);backdrop-filter:blur(12px);padding:0 28px;height:54px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);}
 .topbar-l{display:flex;align-items:center;gap:12px;}
@@ -92,6 +92,43 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 .pt{font-size:13px;font-weight:600;color:var(--ink);}
 .ps{font-size:11px;color:var(--ink3);margin-top:2px;}
 .ptag{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3);padding:2px 7px;border:1px solid var(--border);border-radius:4px;}
+
+/* TREND PANEL */
+.trend-panel{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow);position:relative;overflow:hidden;margin-bottom:14px;transition:transform .2s;}
+.trend-panel:hover{transform:translateY(-1px);}
+.trend-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--indigo),var(--violet),var(--cyan));}
+.trend-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
+.trend-title-wrap{}
+.trend-title{font-size:13px;font-weight:600;color:var(--ink);}
+.trend-sub{font-size:11px;color:var(--ink3);margin-top:2px;}
+.trend-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+
+/* TOGGLE GROUP */
+.toggle-group{display:flex;background:var(--bg);border:1.5px solid var(--border);border-radius:999px;padding:3px;gap:2px;}
+.tgl{padding:4px 14px;border-radius:999px;font-size:11px;font-weight:600;cursor:pointer;color:var(--ink3);transition:all .18s;border:none;background:transparent;font-family:'Kanit',sans-serif;}
+.tgl.on{background:var(--ink);color:#fff;box-shadow:0 2px 8px rgba(30,27,75,0.18);}
+.tgl:hover:not(.on){color:var(--ink2);}
+
+/* MODE TOGGLE */
+.mode-group{display:flex;background:var(--bg);border:1.5px solid var(--border);border-radius:999px;padding:3px;gap:2px;}
+.mode-btn{padding:4px 12px;border-radius:999px;font-size:11px;font-weight:600;cursor:pointer;color:var(--ink3);transition:all .18s;border:none;background:transparent;font-family:'Kanit',sans-serif;}
+.mode-btn.on{background:rgba(99,102,241,0.15);color:var(--indigo);}
+
+/* TREND LEGEND */
+.trend-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;}
+.tleg-item{display:flex;align-items:center;gap:5px;cursor:pointer;padding:3px 10px;border-radius:999px;border:1.5px solid transparent;transition:all .15s;font-size:11px;color:var(--ink2);}
+.tleg-item:hover{border-color:var(--border);}
+.tleg-item.off{opacity:0.38;}
+.tleg-line{width:18px;height:3px;border-radius:2px;}
+.tleg-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+
+/* SPARKLINE ROW */
+.sparkline-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:12px;}
+.spark-card{background:var(--bg);border-radius:12px;padding:12px 14px;position:relative;overflow:hidden;}
+.spark-name{font-size:10px;color:var(--ink3);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.spark-val{font-size:20px;font-weight:800;line-height:1;}
+.spark-trend{font-size:10px;margin-top:2px;}
+.spark-canvas-wrap{height:36px;margin-top:6px;}
 
 /* HBAR */
 .hbar-row{display:grid;grid-template-columns:150px 1fr 32px;align-items:center;gap:8px;margin-bottom:8px;}
@@ -293,6 +330,43 @@ tr:hover td{background:rgba(99,102,241,0.04);}
     </div>
   </div>
 
+  <!-- ═══════════════════════════════════════════════════════
+       TREND PANEL (ใหม่) — วางก่อน row2
+  ════════════════════════════════════════════════════════════ -->
+  <div class="trend-panel">
+    <div class="trend-header">
+      <div class="trend-title-wrap">
+        <div class="trend-title">📈 แนวโน้ม Defect ตามเวลา</div>
+        <div class="trend-sub" id="trendSubTitle">จำนวน Defect รวมแยกตามประเภท</div>
+      </div>
+      <div class="trend-controls">
+        <!-- Mode: ประเภท vs M/C vs Rate -->
+        <div class="mode-group" id="trendModeGroup">
+          <button class="mode-btn on" data-mode="type" onclick="setTrendMode('type',this)">ประเภท Defect</button>
+          <button class="mode-btn" data-mode="mc" onclick="setTrendMode('mc',this)">M/C</button>
+          <button class="mode-btn" data-mode="rate" onclick="setTrendMode('rate',this)">Rate %</button>
+        </div>
+        <!-- Period: daily / weekly / monthly -->
+        <div class="toggle-group" id="trendPeriodGroup">
+          <button class="tgl on" data-period="daily" onclick="setTrendPeriod('daily',this)">รายวัน</button>
+          <button class="tgl" data-period="weekly" onclick="setTrendPeriod('weekly',this)">รายสัปดาห์</button>
+          <button class="tgl" data-period="monthly" onclick="setTrendPeriod('monthly',this)">รายเดือน</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main line chart -->
+    <div style="position:relative;height:280px">
+      <canvas id="trendChart"></canvas>
+    </div>
+
+    <!-- Clickable legend -->
+    <div class="trend-legend" id="trendLegend"></div>
+
+    <!-- Sparkline summary cards -->
+    <div class="sparkline-row" id="sparklineRow"></div>
+  </div>
+
   <!-- ROW 2: hbar + donut -->
   <div class="row2">
     <div class="panel">
@@ -327,7 +401,7 @@ tr:hover td{background:rgba(99,102,241,0.04);}
     </div>
   </div>
 
-  <!-- ROW 4: หัวหน้างาน + รายละเอียด Defect top 5 -->
+  <!-- ROW 4 -->
   <div class="row4">
     <div class="panel">
       <div class="ph"><div><div class="pt">Defect แยกตามหัวหน้างาน</div><div class="ps">จำนวน Defect ที่พบในกะนั้น</div></div><div class="ptag">SV</div></div>
@@ -383,194 +457,401 @@ tr:hover td{background:rgba(99,102,241,0.04);}
 // ─── CONFIG ───────────────────────────────────────────────────
 const SHEET_ID   = '1Ie3365pkUS0LFHwEFe5YbRL1J6BZYEAVaHyKuhTMUws';
 const SHEET_NAME = 'ham';
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbyP9DE4M2Er4jimIqYW1zOARLpE7UjzqFlPFRQbHNiP5ZZZFYOtKCy0EkvchRkfdQ3X/exec';
+const GAS_URL    = 'https://script.google.com/macros/s/AKfycbyP9DE4M2Er4jimIqYW1zOARLpE7UjzqFlPFRQbHNiP5ZZZFYOtKCy0EkvchRkfdQ3X/exec';
 const GVZ_URL    = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&headers=1`;
 
-// Column labels ตรงกับ GAS (A-S)
-// A=Timestamp, B=วันที่, C=กะ, D=รอบตรวจ, E=M/C No., F=Size
-// G=รายละเอียด Defect, H=ประเภท Defect, I=เลขกล่อง, J=เวลา
-// K=Pallet No., L=เวลาคืน, M=หัวหน้างาน, N=ลูกกะ, O=Robot
-// P=ชื่อไฟล์, Q=ประเภทไฟล์, R=URL ไฟล์, S=RowGroup
-
 const COL = {
-  ts:       'Timestamp',
-  date:     'วันที่',
-  shift:    'กะ',
-  round:    'รอบตรวจ',
-  mcNo:     'M/C No.',
-  size:     'Size',
-  defect:   'รายละเอียด Defect',
-  type:     'ประเภท Defect',
-  boxNo:    'เลขกล่อง',
-  time:     'เวลา',
-  pallet:   'Pallet No.',
-  retTime:  'เวลาคืน',
-  sv:       'หัวหน้างาน',
-  worker:   'ลูกกะ',
-  robot:    'Robot',
-  fileName: 'ชื่อไฟล์',
-  fileType: 'ประเภทไฟล์',
-  fileUrl:  'URL ไฟล์',
-  rowGroup: 'RowGroup',
-  approved: 'ตรวจสอบแล้ว',
+  ts:'Timestamp', date:'วันที่', shift:'กะ', round:'รอบตรวจ',
+  mcNo:'M/C No.', size:'Size', defect:'รายละเอียด Defect',
+  type:'ประเภท Defect', boxNo:'เลขกล่อง', time:'เวลา',
+  pallet:'Pallet No.', retTime:'เวลาคืน', sv:'หัวหน้างาน',
+  worker:'ลูกกะ', robot:'Robot', fileName:'ชื่อไฟล์',
+  fileType:'ประเภทไฟล์', fileUrl:'URL ไฟล์',
+  rowGroup:'RowGroup', approved:'ตรวจสอบแล้ว',
 };
 
-function g(row, key) {
-  const v = row[COL[key]];
-  return (v === undefined || v === null) ? '' : String(v).trim();
-}
-
-const isOk = r => {
-  const d = g(r,'defect');
-  return !d || d === 'ไม่พบ defect' || d === 'ไม่พบ';
-};
+function g(row,key){const v=row[COL[key]];return(v===undefined||v===null)?'':String(v).trim();}
+const isOk = r => { const d=g(r,'defect'); return !d||d==='ไม่พบ defect'||d==='ไม่พบ'; };
 
 const COLORS = {
-  defect: ['#6366f1','#ef4444','#06b6d4','#10b981','#f59e0b','#8b5cf6','#f43f5e','#64748b'],
-  mc:     {B:'#ef4444',C:'#10b981',H:'#f59e0b',S:'#6366f1'},
-  size:   {'72g':'#64748b','250g':'#06b6d4','500g':'#6366f1','1kg':'#8b5cf6','All':'#9194b8'},
-  shift:  {'1':'#6366f1','2':'#f59e0b','3':'#8b5cf6'},
+  defect:['#6366f1','#ef4444','#06b6d4','#10b981','#f59e0b','#8b5cf6','#f43f5e','#64748b'],
+  mc:{B:'#ef4444',C:'#10b981',H:'#f59e0b',S:'#6366f1'},
+  size:{'72g':'#64748b','250g':'#06b6d4','500g':'#6366f1','1kg':'#8b5cf6'},
+  shift:{'1':'#6366f1','2':'#f59e0b','3':'#8b5cf6'},
 };
 
-let allData = [];
-let filters = {shift:'all', mc:'all', size:'all', status:'all'};
-let donutChart = null;
+let allData=[], filters={shift:'all',mc:'all',size:'all',status:'all'};
+let donutChart=null, trendChart=null;
+let trendMode='type', trendPeriod='daily';
+let hiddenSeries = new Set();
+
+// ─── TREND STATE ──────────────────────────────────────────────
+function setTrendMode(mode,btn){
+  trendMode=mode;
+  hiddenSeries.clear();
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderTrend(getFiltered().filter(r=>!isOk(r)));
+}
+function setTrendPeriod(period,btn){
+  trendPeriod=period;
+  hiddenSeries.clear();
+  document.querySelectorAll('.tgl').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderTrend(getFiltered().filter(r=>!isOk(r)));
+}
+
+// ─── TREND HELPERS ────────────────────────────────────────────
+function getPeriodKey(dateStr){
+  const d = parseDate(dateStr);
+  if(!d) return null;
+  if(trendPeriod==='daily'){
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+  if(trendPeriod==='weekly'){
+    // ISO week label
+    const jan1 = new Date(d.getFullYear(),0,1);
+    const wk   = Math.ceil(((d-jan1)/86400000+jan1.getDay()+1)/7);
+    return `${d.getFullYear()}-W${String(wk).padStart(2,'0')}`;
+  }
+  // monthly
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+}
+
+function buildTrendDatasets(data){
+  // group by period
+  const periodSet = new Set();
+  const seriesMap = {}; // seriesKey -> { periodKey -> count }
+
+  data.forEach(r => {
+    const pk = getPeriodKey(g(r,'date'));
+    if(!pk) return;
+    periodSet.add(pk);
+
+    let sk;
+    if(trendMode==='type') sk = g(r,'type') || 'Other';
+    else if(trendMode==='mc') sk = g(r,'mcNo') || 'Unknown';
+    else sk = 'Defect Rate %'; // rate uses single series
+
+    if(!seriesMap[sk]) seriesMap[sk]={};
+    seriesMap[sk][pk] = (seriesMap[sk][pk]||0)+1;
+  });
+
+  const labels = [...periodSet].sort();
+
+  if(trendMode==='rate'){
+    // need total per period too
+    const allPeriodMap = {};
+    getFiltered().forEach(r=>{
+      const pk=getPeriodKey(g(r,'date'));
+      if(!pk) return;
+      allPeriodMap[pk]=(allPeriodMap[pk]||0)+1;
+    });
+    const defMap = seriesMap['Defect Rate %']||{};
+    const rateData = labels.map(pk=>{
+      const total = allPeriodMap[pk]||0;
+      const def   = defMap[pk]||0;
+      return total ? +(def/total*100).toFixed(1) : 0;
+    });
+    return {
+      labels,
+      datasets:[{
+        label:'Defect Rate %',
+        data: rateData,
+        borderColor:'#ef4444',
+        backgroundColor:'rgba(239,68,68,0.08)',
+        fill:true,
+        tension:0.42,
+        borderWidth:2.5,
+        pointRadius:4,
+        pointHoverRadius:6,
+        pointBackgroundColor:'#ef4444',
+      }]
+    };
+  }
+
+  // sort series by total desc, take top 8
+  const seriesSorted = Object.entries(seriesMap)
+    .map(([k,v])=>([k,Object.values(v).reduce((a,b)=>a+b,0)]))
+    .sort((a,b)=>b[1]-a[1])
+    .slice(0,8)
+    .map(([k])=>k);
+
+  const colorArr = trendMode==='mc'
+    ? seriesSorted.map(k=>COLORS.mc[k]||'#888')
+    : seriesSorted.map((_,i)=>COLORS.defect[i%COLORS.defect.length]);
+
+  const datasets = seriesSorted.map((sk,i)=>({
+    label: sk,
+    data: labels.map(pk=> seriesMap[sk]?.[pk]||0),
+    borderColor: colorArr[i],
+    backgroundColor: colorArr[i]+'18',
+    fill: false,
+    tension: 0.42,
+    borderWidth: 2.5,
+    pointRadius: 4,
+    pointHoverRadius: 7,
+    pointBackgroundColor: colorArr[i],
+    hidden: hiddenSeries.has(sk),
+  }));
+
+  return {labels, datasets, colorArr, seriesSorted};
+}
+
+// ─── RENDER TREND ─────────────────────────────────────────────
+function renderTrend(data){
+  const subMap = {type:'จำนวน Defect แยกตามประเภท', mc:'จำนวน Defect แยกตาม M/C', rate:'Defect Rate % ตามเวลา'};
+  document.getElementById('trendSubTitle').textContent = subMap[trendMode]||'';
+
+  const {labels, datasets, colorArr, seriesSorted} = buildTrendDatasets(data);
+
+  // ── Draw chart
+  if(trendChart){trendChart.destroy();trendChart=null;}
+  const ctx = document.getElementById('trendChart').getContext('2d');
+
+  trendChart = new Chart(ctx,{
+    type:'line',
+    data:{labels, datasets},
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{display:false},
+        tooltip:{
+          backgroundColor:'rgba(30,27,75,0.92)',
+          titleColor:'#c7d2fe',
+          bodyColor:'#e0e7ff',
+          borderColor:'rgba(99,102,241,0.3)',
+          borderWidth:1,
+          padding:10,
+          titleFont:{family:'JetBrains Mono',size:11},
+          bodyFont:{family:'Kanit',size:12},
+          callbacks:{
+            label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}${trendMode==='rate'?'%':''}`,
+          }
+        }
+      },
+      scales:{
+        x:{
+          grid:{color:'rgba(99,102,241,0.07)'},
+          ticks:{
+            color:'#9194b8',
+            font:{family:'JetBrains Mono',size:9},
+            maxRotation:45,
+            autoSkip:true,
+            maxTicksLimit:16,
+          }
+        },
+        y:{
+          beginAtZero:true,
+          grid:{color:'rgba(99,102,241,0.07)'},
+          ticks:{
+            color:'#9194b8',
+            font:{family:'JetBrains Mono',size:9},
+            callback: v => trendMode==='rate' ? v+'%' : v,
+          }
+        }
+      }
+    }
+  });
+
+  // ── Legend (clickable)
+  renderTrendLegend(datasets, colorArr);
+
+  // ── Sparkline summary
+  renderSparklines(data, labels, datasets, colorArr, seriesSorted);
+}
+
+function renderTrendLegend(datasets, colorArr){
+  const wrap = document.getElementById('trendLegend');
+  wrap.innerHTML = datasets.map((ds,i)=>`
+    <div class="tleg-item ${hiddenSeries.has(ds.label)?'off':''}" onclick="toggleSeries('${ds.label.replace(/'/g,"\\'")}',this)">
+      <div class="tleg-line" style="background:${ds.borderColor}"></div>
+      <div class="tleg-dot" style="background:${ds.borderColor}"></div>
+      <span>${ds.label}</span>
+    </div>`).join('');
+}
+
+function toggleSeries(label,el){
+  if(hiddenSeries.has(label)) hiddenSeries.delete(label);
+  else hiddenSeries.add(label);
+  el.classList.toggle('off');
+  // update chart visibility
+  trendChart.data.datasets.forEach(ds=>{
+    if(ds.label===label) ds.hidden = hiddenSeries.has(label);
+  });
+  trendChart.update();
+}
+
+function renderSparklines(data, labels, datasets, colorArr, seriesSorted){
+  const row = document.getElementById('sparklineRow');
+  if(!datasets||!datasets.length){row.innerHTML='';return;}
+
+  // For each series, compute total, last-period count, prev-period count
+  const cards = datasets.map((ds,i)=>{
+    const vals = ds.data;
+    const total = vals.reduce((s,v)=>s+v,0);
+    const last  = vals[vals.length-1]||0;
+    const prev  = vals[vals.length-2]||0;
+    const delta = last - prev;
+    const color = ds.borderColor;
+    const trendTxt = delta===0 ? '→ เท่าเดิม'
+      : delta>0 ? `▲ +${delta} จากช่วงก่อน`
+      : `▼ ${delta} จากช่วงก่อน`;
+    const trendColor = delta===0?'var(--ink3)':delta>0?'var(--red)':'var(--green)';
+    return `<div class="spark-card">
+      <div class="spark-name" title="${ds.label}">${ds.label}</div>
+      <div class="spark-val" style="color:${color}">${last}${trendMode==='rate'?'%':''}</div>
+      <div class="spark-trend" style="color:${trendColor}">${trendTxt}</div>
+      <div class="spark-canvas-wrap"><canvas id="spark_${i}" height="36"></canvas></div>
+    </div>`;
+  });
+  row.innerHTML = cards.join('');
+
+  // Draw mini sparklines
+  datasets.forEach((ds,i)=>{
+    const c = document.getElementById('spark_'+i);
+    if(!c) return;
+    new Chart(c.getContext('2d'),{
+      type:'line',
+      data:{
+        labels: labels,
+        datasets:[{
+          data: ds.data,
+          borderColor: ds.borderColor,
+          backgroundColor: ds.borderColor+'22',
+          fill:true,
+          tension:0.45,
+          borderWidth:1.8,
+          pointRadius:0,
+        }]
+      },
+      options:{
+        responsive:false,
+        animation:false,
+        plugins:{legend:{display:false},tooltip:{enabled:false}},
+        scales:{x:{display:false},y:{display:false,beginAtZero:true}}
+      }
+    });
+  });
+}
 
 // ─── LOAD ─────────────────────────────────────────────────────
-async function loadData() {
-  const btn = document.querySelector('.refresh-btn');
+async function loadData(){
+  const btn=document.querySelector('.refresh-btn');
   btn.classList.add('loading');
-  try {
+  try{
     const res  = await fetch(GVZ_URL);
     const text = await res.text();
-    const json = JSON.parse(text.replace(/^[^(]+\(/, '').replace(/\);?\s*$/, ''));
-    const cols = json.table.cols.map(c => c.label);
-
-    allData = json.table.rows.map(r => {
-      const obj = {};
-      cols.forEach((col, i) => {
-        if (!r.c || !r.c[i] || r.c[i].v === null) { obj[col] = ''; return; }
-        const v = r.c[i].v;
-        const f = r.c[i].f;
-        if (typeof v === 'string' && v.startsWith('Date(')) {
-          const p = v.replace('Date(','').replace(')','').split(',');
-          const yr = parseInt(p[0]), mo = parseInt(p[1])+1, dy = parseInt(p[2]);
-          obj[col] = `${yr}-${String(mo).padStart(2,'0')}-${String(dy).padStart(2,'0')}`;
-        } else {
-          obj[col] = f || String(v);
-        }
+    const json = JSON.parse(text.replace(/^[^(]+\(/,'').replace(/\);?\s*$/,''));
+    const cols = json.table.cols.map(c=>c.label);
+    allData = json.table.rows.map(r=>{
+      const obj={};
+      cols.forEach((col,i)=>{
+        if(!r.c||!r.c[i]||r.c[i].v===null){obj[col]='';return;}
+        const v=r.c[i].v, f=r.c[i].f;
+        if(typeof v==='string'&&v.startsWith('Date(')){
+          const p=v.replace('Date(','').replace(')','').split(',');
+          const yr=parseInt(p[0]),mo=parseInt(p[1])+1,dy=parseInt(p[2]);
+          obj[col]=`${yr}-${String(mo).padStart(2,'0')}-${String(dy).padStart(2,'0')}`;
+        } else { obj[col]=f||String(v); }
       });
       return obj;
-    }).filter(r => g(r,'date') || g(r,'shift'));
+    }).filter(r=>g(r,'date')||g(r,'shift'));
 
-    document.getElementById('lastUpdate').textContent = 'อัปเดต: ' + new Date().toLocaleTimeString('th-TH');
+    document.getElementById('lastUpdate').textContent='อัปเดต: '+new Date().toLocaleTimeString('th-TH');
     renderAll();
-    document.getElementById('loadingScreen').style.display = 'none';
-  } catch (err) {
-    document.getElementById('loadingSub').textContent = '❌ โหลดไม่ได้: ' + err.message;
-    document.getElementById('loadingSub').style.color = '#ef4444';
-    setTimeout(() => document.getElementById('loadingScreen').style.display = 'none', 2500);
+    document.getElementById('loadingScreen').style.display='none';
+  } catch(err){
+    document.getElementById('loadingSub').textContent='❌ โหลดไม่ได้: '+err.message;
+    document.getElementById('loadingSub').style.color='#ef4444';
+    setTimeout(()=>document.getElementById('loadingScreen').style.display='none',2500);
   }
   btn.classList.remove('loading');
 }
 
 // ─── FILTER ───────────────────────────────────────────────────
-function getFiltered() {
-  const dateFrom = document.getElementById('dateFrom').value;
-  const dateTo   = document.getElementById('dateTo').value;
-  const month    = document.getElementById('monthSel').value;
-
-  return allData.filter(r => {
-    if (filters.shift  !== 'all' && g(r,'shift') !== filters.shift)  return false;
-    if (filters.mc     !== 'all' && g(r,'mcNo')  !== filters.mc)     return false;
-    if (filters.size   !== 'all' && g(r,'size')  !== filters.size)   return false;
-    if (filters.status === 'defect' && isOk(r))   return false;
-    if (filters.status === 'ok'    && !isOk(r))   return false;
-
-    if (dateFrom || dateTo || month) {
-      const d = parseDate(g(r,'date'));
-      if (!d) return true;
-      const dOnly = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-      if (dateFrom) { const f = parseInputDate(dateFrom); if (f && dOnly < f) return false; }
-      if (dateTo)   { const t = parseInputDate(dateTo);   if (t && dOnly > t) return false; }
-      if (month && (d.getMonth()+1) !== parseInt(month))  return false;
+function getFiltered(){
+  const dateFrom=document.getElementById('dateFrom').value;
+  const dateTo  =document.getElementById('dateTo').value;
+  const month   =document.getElementById('monthSel').value;
+  return allData.filter(r=>{
+    if(filters.shift !=='all'&&g(r,'shift')!==filters.shift) return false;
+    if(filters.mc    !=='all'&&g(r,'mcNo') !==filters.mc)    return false;
+    if(filters.size  !=='all'&&g(r,'size') !==filters.size)  return false;
+    if(filters.status==='defect'&&isOk(r))  return false;
+    if(filters.status==='ok'   &&!isOk(r))  return false;
+    if(dateFrom||dateTo||month){
+      const d=parseDate(g(r,'date'));
+      if(!d) return true;
+      const dOnly=new Date(d.getFullYear(),d.getMonth(),d.getDate());
+      if(dateFrom){const f=parseInputDate(dateFrom);if(f&&dOnly<f)return false;}
+      if(dateTo)  {const t=parseInputDate(dateTo);  if(t&&dOnly>t)return false;}
+      if(month&&(d.getMonth()+1)!==parseInt(month)) return false;
     }
     return true;
   });
 }
 
-function parseDate(str) {
-  if (!str) return null;
-  str = String(str).trim();
-  if (/^\d{4}-\d{2}-\d{2}/.test(str)) {
-    const p = str.substring(0,10).split('-');
-    return new Date(parseInt(p[0]), parseInt(p[1])-1, parseInt(p[2]));
+function parseDate(str){
+  if(!str) return null;
+  str=String(str).trim();
+  if(/^\d{4}-\d{2}-\d{2}/.test(str)){
+    const p=str.substring(0,10).split('-');
+    return new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2]));
   }
-  const m = str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-  if (m) {
-    const d=parseInt(m[1]), mo=parseInt(m[2]), yr=parseInt(m[3]);
-    if (mo > 12) return new Date(yr, d-1, mo);
-    return new Date(yr, mo-1, d);
-  }
-  if (/^\d{4,6}$/.test(str)) {
-    const d = new Date(1899, 11, 30);
-    d.setDate(d.getDate() + parseInt(str));
-    return d;
-  }
-  const d2 = new Date(str);
-  return isNaN(d2) ? null : d2;
+  const m=str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if(m){const d=parseInt(m[1]),mo=parseInt(m[2]),yr=parseInt(m[3]);
+    if(mo>12) return new Date(yr,d-1,mo);
+    return new Date(yr,mo-1,d);}
+  if(/^\d{4,6}$/.test(str)){const d=new Date(1899,11,30);d.setDate(d.getDate()+parseInt(str));return d;}
+  const d2=new Date(str);return isNaN(d2)?null:d2;
 }
-
-function parseInputDate(str) {
-  if (!str) return null;
-  const p = str.split('-');
-  return p.length === 3 ? new Date(parseInt(p[0]), parseInt(p[1])-1, parseInt(p[2])) : null;
+function parseInputDate(str){
+  if(!str) return null;
+  const p=str.split('-');
+  return p.length===3?new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2])):null;
 }
-
-function clearDate() {
-  document.getElementById('dateFrom').value = '';
-  document.getElementById('dateTo').value   = '';
-  document.getElementById('monthSel').value = '';
+function clearDate(){
+  document.getElementById('dateFrom').value='';
+  document.getElementById('dateTo').value='';
+  document.getElementById('monthSel').value='';
   renderAll();
 }
 
 // ─── RENDER ALL ───────────────────────────────────────────────
-function renderAll() {
-  const data       = getFiltered();
-  const defectOnly = data.filter(r => !isOk(r));
-  const okOnly     = data.filter(r => isOk(r));
-  const total      = data.length;
-  const defCount   = defectOnly.length;
-  const okCount    = okOnly.length;
+function renderAll(){
+  const data      =getFiltered();
+  const defectOnly=data.filter(r=>!isOk(r));
+  const okOnly    =data.filter(r=>isOk(r));
+  const total=data.length, defCount=defectOnly.length, okCount=okOnly.length;
 
-  // KPI
-  document.getElementById('kpiDefect').textContent     = defCount.toLocaleString();
-  document.getElementById('kpiTotal').textContent      = total.toLocaleString();
-  document.getElementById('kpiOk').textContent         = okCount.toLocaleString();
-  document.getElementById('kpiDefectRate').textContent = `Defect Rate ${total ? (defCount/total*100).toFixed(1) : 0}%`;
-  document.getElementById('kpiRows').textContent       = `${total} rows ใน Sheet`;
-  document.getElementById('kpiOkRate').textContent     = `Pass Rate ${total ? (okCount/total*100).toFixed(1) : 0}%`;
+  document.getElementById('kpiDefect').textContent    =defCount.toLocaleString();
+  document.getElementById('kpiTotal').textContent     =total.toLocaleString();
+  document.getElementById('kpiOk').textContent        =okCount.toLocaleString();
+  document.getElementById('kpiDefectRate').textContent=`Defect Rate ${total?(defCount/total*100).toFixed(1):0}%`;
+  document.getElementById('kpiRows').textContent      =`${total} rows ใน Sheet`;
+  document.getElementById('kpiOkRate').textContent    =`Pass Rate ${total?(okCount/total*100).toFixed(1):0}%`;
 
-  // Top MC
-  const mcCnt = {};
-  defectOnly.forEach(r => { const mc = g(r,'mcNo'); if(mc) mcCnt[mc] = (mcCnt[mc]||0)+1; });
-  const topMC = Object.entries(mcCnt).sort((a,b)=>b[1]-a[1])[0];
-  if (topMC) {
-    document.getElementById('kpiTopMC').textContent    = 'M/C ' + topMC[0];
-    document.getElementById('kpiTopMCSub').textContent = `${topMC[1]} รายการ`;
-    document.getElementById('kpiTopMCPct').textContent = `${defCount ? (topMC[1]/defCount*100).toFixed(1) : 0}% ของ Defect`;
+  const mcCnt={};
+  defectOnly.forEach(r=>{const mc=g(r,'mcNo');if(mc)mcCnt[mc]=(mcCnt[mc]||0)+1;});
+  const topMC=Object.entries(mcCnt).sort((a,b)=>b[1]-a[1])[0];
+  if(topMC){
+    document.getElementById('kpiTopMC').textContent   ='M/C '+topMC[0];
+    document.getElementById('kpiTopMCSub').textContent=`${topMC[1]} รายการ`;
+    document.getElementById('kpiTopMCPct').textContent=`${defCount?(topMC[1]/defCount*100).toFixed(1):0}% ของ Defect`;
+  }
+  const defDetailCnt={};
+  defectOnly.forEach(r=>{const d=g(r,'defect');if(d)defDetailCnt[d]=(defDetailCnt[d]||0)+1;});
+  const topDef=Object.entries(defDetailCnt).sort((a,b)=>b[1]-a[1])[0];
+  if(topDef){
+    document.getElementById('kpiTopDefect').textContent   =topDef[0].substring(0,30)+(topDef[0].length>30?'…':'');
+    document.getElementById('kpiTopDefectSub').textContent=`${topDef[1]} รายการ`;
+    document.getElementById('kpiTopDefectPct').textContent=`${defCount?(topDef[1]/defCount*100).toFixed(1):0}% ของ Defect`;
   }
 
-  // Top Defect detail
-  const defDetailCnt = {};
-  defectOnly.forEach(r => { const d = g(r,'defect'); if(d) defDetailCnt[d] = (defDetailCnt[d]||0)+1; });
-  const topDef = Object.entries(defDetailCnt).sort((a,b)=>b[1]-a[1])[0];
-  if (topDef) {
-    document.getElementById('kpiTopDefect').textContent    = topDef[0].substring(0,30) + (topDef[0].length > 30 ? '…' : '');
-    document.getElementById('kpiTopDefectSub').textContent = `${topDef[1]} รายการ`;
-    document.getElementById('kpiTopDefectPct').textContent = `${defCount ? (topDef[1]/defCount*100).toFixed(1) : 0}% ของ Defect`;
-  }
-
+  renderTrend(defectOnly);
   renderHBar(defectOnly);
   renderDonut(defectOnly);
   renderShift(defectOnly);
@@ -581,36 +862,36 @@ function renderAll() {
   renderTable(data);
 }
 
-// ─── CHARTS ───────────────────────────────────────────────────
-function renderHBar(data) {
-  const cnt = {};
-  data.forEach(r => { const t = g(r,'type') || 'Other'; cnt[t] = (cnt[t]||0)+1; });
-  const sorted = Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
-  const mx = sorted[0]?.[1] || 1;
-  const c = document.getElementById('hbarContainer');
-  c.innerHTML = sorted.length ? sorted.map(([l,n],i) => `
+// ─── ORIGINAL CHARTS (unchanged) ──────────────────────────────
+function renderHBar(data){
+  const cnt={};
+  data.forEach(r=>{const t=g(r,'type')||'Other';cnt[t]=(cnt[t]||0)+1;});
+  const sorted=Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
+  const mx=sorted[0]?.[1]||1;
+  const c=document.getElementById('hbarContainer');
+  c.innerHTML=sorted.length?sorted.map(([l,n],i)=>`
     <div class="hbar-row">
       <div class="hbar-lbl" title="${l}">${l}</div>
       <div class="hbar-track"><div class="hbar-fill" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${COLORS.defect[i%COLORS.defect.length]}"></div></div>
       <div class="hbar-n">${n}</div>
-    </div>`).join('') : '<div class="empty">ไม่มีข้อมูล Defect</div>';
-  setTimeout(() => c.querySelectorAll('.hbar-fill').forEach(el => el.style.width = el.dataset.w+'%'), 50);
+    </div>`).join(''):'<div class="empty">ไม่มีข้อมูล Defect</div>';
+  setTimeout(()=>c.querySelectorAll('.hbar-fill').forEach(el=>el.style.width=el.dataset.w+'%'),50);
 }
 
-function renderDonut(data) {
-  const cnt = {};
-  data.forEach(r => { const t = g(r,'type') || 'Other'; cnt[t] = (cnt[t]||0)+1; });
-  const entries = Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
-  const total   = entries.reduce((s,[,n])=>s+n, 0);
-  if (donutChart) { donutChart.destroy(); donutChart = null; }
-  if (!entries.length) { document.getElementById('donutLegend').innerHTML = '<div class="empty">ไม่มีข้อมูล</div>'; return; }
-  const colors = entries.map((_,i) => COLORS.defect[i%COLORS.defect.length]);
-  donutChart = new Chart(document.getElementById('donutChart'), {
-    type: 'doughnut',
-    data: { labels: entries.map(([l])=>l), datasets: [{ data: entries.map(([,n])=>n), backgroundColor: colors, borderWidth: 2, borderColor: '#fff', hoverOffset: 4 }] },
-    options: { responsive: true, maintainAspectRatio: false, cutout: '62%', plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => `${c.label}: ${c.raw} (${Math.round(c.raw/total*100)}%)` } } } }
+function renderDonut(data){
+  const cnt={};
+  data.forEach(r=>{const t=g(r,'type')||'Other';cnt[t]=(cnt[t]||0)+1;});
+  const entries=Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
+  const total=entries.reduce((s,[,n])=>s+n,0);
+  if(donutChart){donutChart.destroy();donutChart=null;}
+  if(!entries.length){document.getElementById('donutLegend').innerHTML='<div class="empty">ไม่มีข้อมูล</div>';return;}
+  const colors=entries.map((_,i)=>COLORS.defect[i%COLORS.defect.length]);
+  donutChart=new Chart(document.getElementById('donutChart'),{
+    type:'doughnut',
+    data:{labels:entries.map(([l])=>l),datasets:[{data:entries.map(([,n])=>n),backgroundColor:colors,borderWidth:2,borderColor:'#fff',hoverOffset:4}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.label}: ${c.raw} (${Math.round(c.raw/total*100)}%)`}}}}
   });
-  document.getElementById('donutLegend').innerHTML = entries.slice(0,6).map(([l,n],i) =>
+  document.getElementById('donutLegend').innerHTML=entries.slice(0,6).map(([l,n],i)=>
     `<div style="display:flex;align-items:center;gap:7px;font-size:11px">
       <div style="width:8px;height:8px;border-radius:2px;background:${colors[i]};flex-shrink:0"></div>
       <span style="flex:1;color:var(--ink2)">${l}</span>
@@ -619,34 +900,32 @@ function renderDonut(data) {
     </div>`).join('');
 }
 
-function renderShift(data) {
-  const rounds = {};
-  data.forEach(r => {
-    const shift = g(r,'shift'), round = g(r,'round');
-    if (!round) return;
-    if (!rounds[round]) rounds[round] = {'1':0,'2':0,'3':0};
-    rounds[round][shift] = (rounds[round][shift]||0)+1;
+function renderShift(data){
+  const rounds={};
+  data.forEach(r=>{
+    const shift=g(r,'shift'),round=g(r,'round');
+    if(!round) return;
+    if(!rounds[round]) rounds[round]={'1':0,'2':0,'3':0};
+    rounds[round][shift]=(rounds[round][shift]||0)+1;
   });
-  const sorted = Object.entries(rounds).sort((a,b) => a[0].localeCompare(b[0]));
-  const mx = Math.max(...sorted.map(([,v]) => Math.max(...Object.values(v))), 1);
-  const c = document.getElementById('shiftBars');
-  c.innerHTML = sorted.length ? sorted.map(([round, vals]) => {
-    const bars = ['1','2','3'].map(s => vals[s] > 0
-      ? `<div class="sbar" data-h="${Math.round(vals[s]/mx*94)}" style="height:0;background:${COLORS.shift[s]}"></div>` : '').join('');
+  const sorted=Object.entries(rounds).sort((a,b)=>a[0].localeCompare(b[0]));
+  const mx=Math.max(...sorted.map(([,v])=>Math.max(...Object.values(v))),1);
+  const c=document.getElementById('shiftBars');
+  c.innerHTML=sorted.length?sorted.map(([round,vals])=>{
+    const bars=['1','2','3'].map(s=>vals[s]>0?`<div class="sbar" data-h="${Math.round(vals[s]/mx*94)}" style="height:0;background:${COLORS.shift[s]}"></div>`:'').join('');
     return `<div class="shift-col"><div class="shift-bars-inner">${bars}</div><div class="shift-lbl-txt">${round.replace(' น.','')}</div></div>`;
-  }).join('') : '<div class="empty" style="width:100%">ไม่มีข้อมูล</div>';
-  setTimeout(() => c.querySelectorAll('.sbar').forEach(el => el.style.height = el.dataset.h+'px'), 80);
+  }).join(''):'<div class="empty" style="width:100%">ไม่มีข้อมูล</div>';
+  setTimeout(()=>c.querySelectorAll('.sbar').forEach(el=>el.style.height=el.dataset.h+'px'),80);
 }
 
-function renderMC(data) {
-  const cnt = {};
-  data.forEach(r => { const mc = g(r,'mcNo'); if(mc) cnt[mc] = (cnt[mc]||0)+1; });
-  const total = Object.values(cnt).reduce((s,n)=>s+n,0)||1;
-  const mx = Math.max(...Object.values(cnt),1);
-  const c = document.getElementById('mcGrid');
-  c.innerHTML = ['B','C','H','S'].map(mc => {
-    const n = cnt[mc]||0;
-    const color = COLORS.mc[mc]||'#888';
+function renderMC(data){
+  const cnt={};
+  data.forEach(r=>{const mc=g(r,'mcNo');if(mc)cnt[mc]=(cnt[mc]||0)+1;});
+  const total=Object.values(cnt).reduce((s,n)=>s+n,0)||1;
+  const mx=Math.max(...Object.values(cnt),1);
+  const c=document.getElementById('mcGrid');
+  c.innerHTML=['B','C','H','S'].map(mc=>{
+    const n=cnt[mc]||0, color=COLORS.mc[mc]||'#888';
     return `<div class="mc-c">
       <div class="mc-name" style="color:${color}">${mc}</div>
       <div class="mc-n" style="color:${color}">${n}</div>
@@ -654,66 +933,63 @@ function renderMC(data) {
       <div class="mc-bar"><div class="mc-bf" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${color}"></div></div>
     </div>`;
   }).join('');
-  setTimeout(() => c.querySelectorAll('.mc-bf').forEach(el => el.style.width = el.dataset.w+'%'), 80);
+  setTimeout(()=>c.querySelectorAll('.mc-bf').forEach(el=>el.style.width=el.dataset.w+'%'),80);
 }
 
-function renderSize(data) {
-  const cnt = {};
-  data.forEach(r => { const s = g(r,'size'); if(s) cnt[s] = (cnt[s]||0)+1; });
-  const sorted = Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
-  const mx = sorted[0]?.[1]||1;
-  const c = document.getElementById('sizeContainer');
-  c.innerHTML = sorted.length ? sorted.map(([sz,n]) => {
-    const color = COLORS.size[sz]||'#6366f1';
+function renderSize(data){
+  const cnt={};
+  data.forEach(r=>{const s=g(r,'size');if(s)cnt[s]=(cnt[s]||0)+1;});
+  const sorted=Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
+  const mx=sorted[0]?.[1]||1;
+  const c=document.getElementById('sizeContainer');
+  c.innerHTML=sorted.length?sorted.map(([sz,n])=>{
+    const color=COLORS.size[sz]||'#6366f1';
     return `<div class="sz-item">
       <div class="sz-lbl">${sz}</div>
       <div class="sz-track"><div class="sz-fill" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${color}"></div></div>
       <div class="sz-n">${n}</div>
     </div>`;
-  }).join('') : '<div class="empty">ไม่มีข้อมูล</div>';
-  setTimeout(() => c.querySelectorAll('.sz-fill').forEach(el => el.style.width = el.dataset.w+'%'), 80);
+  }).join(''):'<div class="empty">ไม่มีข้อมูล</div>';
+  setTimeout(()=>c.querySelectorAll('.sz-fill').forEach(el=>el.style.width=el.dataset.w+'%'),80);
 }
 
-function renderSV(data) {
-  const cnt = {};
-  data.forEach(r => { const sv = g(r,'sv'); if(sv) cnt[sv] = (cnt[sv]||0)+1; });
-  const sorted = Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  const mx = sorted[0]?.[1]||1;
-  const c = document.getElementById('svContainer');
-  c.innerHTML = sorted.length ? sorted.map(([name,n]) => `
+function renderSV(data){
+  const cnt={};
+  data.forEach(r=>{const sv=g(r,'sv');if(sv)cnt[sv]=(cnt[sv]||0)+1;});
+  const sorted=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const mx=sorted[0]?.[1]||1;
+  const c=document.getElementById('svContainer');
+  c.innerHTML=sorted.length?sorted.map(([name,n])=>`
     <div class="sv-row">
       <div class="sv-name">${name}</div>
       <div class="sv-count">${n}</div>
       <div class="sv-bar-track"><div class="sv-bar-fill" data-w="${Math.round(n/mx*100)}" style="width:0%"></div></div>
-    </div>`).join('') : '<div class="empty">ไม่มีข้อมูล</div>';
-  setTimeout(() => c.querySelectorAll('.sv-bar-fill').forEach(el => el.style.width = el.dataset.w+'%'), 80);
+    </div>`).join(''):'<div class="empty">ไม่มีข้อมูล</div>';
+  setTimeout(()=>c.querySelectorAll('.sv-bar-fill').forEach(el=>el.style.width=el.dataset.w+'%'),80);
 }
 
-function renderTop5(data) {
-  const cnt = {};
-  data.forEach(r => { const d = g(r,'defect'); if(d) cnt[d] = (cnt[d]||0)+1; });
-  const sorted = Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,5);
-  const mx = sorted[0]?.[1]||1;
-  const c = document.getElementById('top5Container');
-  c.innerHTML = sorted.length ? sorted.map(([detail,n],i) => `
+function renderTop5(data){
+  const cnt={};
+  data.forEach(r=>{const d=g(r,'defect');if(d)cnt[d]=(cnt[d]||0)+1;});
+  const sorted=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const mx=sorted[0]?.[1]||1;
+  const c=document.getElementById('top5Container');
+  c.innerHTML=sorted.length?sorted.map(([detail,n],i)=>`
     <div class="hbar-row" style="grid-template-columns:1fr 1fr 32px">
       <div class="hbar-lbl" title="${detail}" style="grid-column:1/-1;font-size:11px;margin-bottom:4px">${i+1}. ${detail}</div>
       <div class="hbar-track" style="grid-column:1/3"><div class="hbar-fill" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${COLORS.defect[i%COLORS.defect.length]}"></div></div>
       <div class="hbar-n">${n}</div>
-    </div>`).join('') : '<div class="empty">ไม่มีข้อมูล</div>';
-  setTimeout(() => c.querySelectorAll('.hbar-fill').forEach(el => el.style.width = el.dataset.w+'%'), 80);
+    </div>`).join(''):'<div class="empty">ไม่มีข้อมูล</div>';
+  setTimeout(()=>c.querySelectorAll('.hbar-fill').forEach(el=>el.style.width=el.dataset.w+'%'),80);
 }
 
-function renderTable(data) {
-  const recent = [...data].reverse().slice(0, 30);
-  document.getElementById('tblSub').textContent = `แสดง ${Math.min(30,data.length)} จาก ${data.length} รายการ`;
-  const shiftPill = {'1':'pill-b','2':'pill-a','3':'pill-v'};
-  const mcPill    = {B:'pill-r',C:'pill-g',H:'pill-a',S:'pill-b'};
-  document.getElementById('tblBody').innerHTML = recent.length ? recent.map(r => {
-    const shift   = g(r,'shift'), mc = g(r,'mcNo');
-    const defect  = g(r,'defect'), type = g(r,'type');
-    const ok      = isOk(r);
-    const fileUrl = g(r,'fileUrl');
+function renderTable(data){
+  const recent=[...data].reverse().slice(0,30);
+  document.getElementById('tblSub').textContent=`แสดง ${Math.min(30,data.length)} จาก ${data.length} รายการ`;
+  const shiftPill={'1':'pill-b','2':'pill-a','3':'pill-v'};
+  const mcPill={B:'pill-r',C:'pill-g',H:'pill-a',S:'pill-b'};
+  document.getElementById('tblBody').innerHTML=recent.length?recent.map(r=>{
+    const shift=g(r,'shift'),mc=g(r,'mcNo'),defect=g(r,'defect'),type=g(r,'type'),ok=isOk(r),fileUrl=g(r,'fileUrl');
     return `<tr>
       <td style="font-family:'JetBrains Mono',monospace;font-size:11px">${g(r,'date')}</td>
       <td><span class="pill ${shiftPill[shift]||'pill-n'}">กะ ${shift}</span></td>
@@ -726,72 +1002,44 @@ function renderTable(data) {
       <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'pallet')||'—'}</td>
       <td>${g(r,'sv')}</td>
       <td>${renderApproveBtn(r)}</td>
-      <td>${fileUrl ? `<a href="${fileUrl}" target="_blank" rel="noopener" class="view-img-btn">🖼️ ดู</a>` : '<span style="color:var(--ink3);font-size:10px">—</span>'}</td>
+      <td>${fileUrl?`<a href="${fileUrl}" target="_blank" rel="noopener" class="view-img-btn">🖼️ ดู</a>`:'<span style="color:var(--ink3);font-size:10px">—</span>'}</td>
     </tr>`;
-  }).join('') : '<tr><td colspan="11" class="empty">ไม่มีข้อมูล</td></tr>';
+  }).join(''):'<tr><td colspan="12" class="empty">ไม่มีข้อมูล</td></tr>';
 }
 
-// ─── APPROVE ──────────────────────────────────────────────────
-function renderApproveBtn(r) {
-  const approved = g(r,'approved');
-  const rowGroup = g(r,'rowGroup');
-  const boxNo    = g(r,'boxNo');
-  if (approved && approved.includes('✅')) {
-    return `<span class="approve-btn done">✅ รับทราบแล้ว</span>`;
-  }
-  return `<button class="approve-btn" onclick="approveRow(this,'${rowGroup.replace(/'/g,"\'")}','${boxNo.replace(/'/g,"\'")}')">☐ รับทราบ</button>`;
+function renderApproveBtn(r){
+  const approved=g(r,'approved'),rowGroup=g(r,'rowGroup'),boxNo=g(r,'boxNo');
+  if(approved&&approved.includes('✅')) return `<span class="approve-btn done">✅ รับทราบแล้ว</span>`;
+  return `<button class="approve-btn" onclick="approveRow(this,'${rowGroup.replace(/'/g,"\\'")}','${boxNo.replace(/'/g,"\\'")}')">☐ รับทราบ</button>`;
 }
 
-async function approveRow(btn, rowGroup, boxNo) {
-  if (!rowGroup) { alert('ไม่พบ RowGroup'); return; }
-  btn.textContent = '⏳ กำลังบันทึก...';
-  btn.style.pointerEvents = 'none';
-  try {
-    const res  = await fetch(GAS_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ action: 'approve', rowGroup, boxNo })
-    });
-    const json = await res.json();
-    if (json.success) {
-      btn.className = 'approve-btn done';
-      btn.textContent = '✅ รับทราบแล้ว';
-    } else {
-      btn.textContent = '❌ ลองใหม่';
-      btn.style.pointerEvents = 'auto';
-    }
-  } catch {
-    btn.textContent = '❌ ลองใหม่';
-    btn.style.pointerEvents = 'auto';
-  }
+async function approveRow(btn,rowGroup,boxNo){
+  if(!rowGroup){alert('ไม่พบ RowGroup');return;}
+  btn.textContent='⏳ กำลังบันทึก...';btn.style.pointerEvents='none';
+  try{
+    const res=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'approve',rowGroup,boxNo})});
+    const json=await res.json();
+    if(json.success){btn.className='approve-btn done';btn.textContent='✅ รับทราบแล้ว';}
+    else{btn.textContent='❌ ลองใหม่';btn.style.pointerEvents='auto';}
+  }catch{btn.textContent='❌ ลองใหม่';btn.style.pointerEvents='auto';}
 }
 
 // ─── FILTER CHIPS ─────────────────────────────────────────────
-[
-  ['shiftChips', 'shift'],
-  ['mcChips',    'mc'],
-  ['sizeChips',  'size'],
-  ['statusChips','status'],
-].forEach(([id, key]) => {
-  document.getElementById(id).addEventListener('click', e => {
-    const chip = e.target.closest('.chip');
-    if (!chip) return;
-    document.querySelectorAll(`#${id} .chip`).forEach(c => c.classList.remove('on'));
-    chip.classList.add('on');
-    filters[key] = chip.dataset.val;
-    renderAll();
+[['shiftChips','shift'],['mcChips','mc'],['sizeChips','size'],['statusChips','status']].forEach(([id,key])=>{
+  document.getElementById(id).addEventListener('click',e=>{
+    const chip=e.target.closest('.chip');if(!chip)return;
+    document.querySelectorAll(`#${id} .chip`).forEach(c=>c.classList.remove('on'));
+    chip.classList.add('on');filters[key]=chip.dataset.val;renderAll();
   });
 });
 
-// LIVE clock
+// ─── CLOCK ────────────────────────────────────────────────────
 function tickClock(){
   const n=new Date();
   const t=[n.getHours(),n.getMinutes(),n.getSeconds()].map(x=>String(x).padStart(2,'0')).join(':');
-  const el=document.getElementById('liveClock');
-  if(el) el.textContent=t;
+  const el=document.getElementById('liveClock');if(el)el.textContent=t;
 }
-tickClock();
-setInterval(tickClock,1000);
+tickClock();setInterval(tickClock,1000);
 
 loadData();
 </script>
