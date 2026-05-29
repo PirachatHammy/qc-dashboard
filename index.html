@@ -7,25 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-:root {
-  --bg:#f0f4ff;--card:#fff;--border:rgba(99,102,241,0.12);
-  --ink:#1e1b4b;--ink2:#4c4f7a;--ink3:#9194b8;
-  --indigo:#6366f1;--cyan:#06b6d4;--violet:#8b5cf6;
-  --green:#10b981;--green-dim:rgba(16,185,129,0.10);
-  --red:#ef4444;--red-dim:rgba(239,68,68,0.08);
-  --amber:#f59e0b;--amber-dim:rgba(245,158,11,0.08);
-  --r:16px;--shadow:0 2px 16px rgba(99,102,241,0.08);
-}
+:root{--bg:#f0f4ff;--card:#fff;--border:rgba(99,102,241,0.12);--ink:#1e1b4b;--ink2:#4c4f7a;--ink3:#9194b8;--indigo:#6366f1;--cyan:#06b6d4;--violet:#8b5cf6;--green:#10b981;--green-dim:rgba(16,185,129,0.10);--red:#ef4444;--red-dim:rgba(239,68,68,0.08);--amber:#f59e0b;--amber-dim:rgba(245,158,11,0.08);--r:16px;--shadow:0 2px 16px rgba(99,102,241,0.08);}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
-
 .blob{position:fixed;border-radius:50%;filter:blur(70px);opacity:.22;pointer-events:none;z-index:0;}
 .b1{width:400px;height:400px;background:radial-gradient(circle,#a5b4fc,#818cf8);top:-100px;left:-100px;animation:bf 9s ease-in-out infinite;}
 .b2{width:300px;height:300px;background:radial-gradient(circle,#67e8f9,#22d3ee);bottom:-80px;right:-80px;animation:bf 7s ease-in-out infinite reverse;}
 .b3{width:250px;height:250px;background:radial-gradient(circle,#fde68a,#fbbf24);top:40%;right:10%;animation:bf 11s ease-in-out infinite;}
 @keyframes bf{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(20px,-20px) scale(1.06);}}
-
-/* LIVE BADGE */
 .live-badge{display:flex;align-items:center;gap:10px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.35);border-radius:999px;padding:5px 14px;}
 .live-dot-wrap{position:relative;width:14px;height:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .live-ring1{position:absolute;width:26px;height:26px;border-radius:50%;background:rgba(239,68,68,0.25);animation:liveRing 1.6s ease-out infinite;}
@@ -35,8 +24,6 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 .live-clock{font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(255,255,255,0.55);}
 @keyframes liveRing{0%{transform:scale(.5);opacity:.8}100%{transform:scale(2.2);opacity:0}}
 @keyframes livePulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(1.25)}}
-
-/* TOPBAR */
 .topbar{position:sticky;top:0;z-index:100;background:rgba(30,27,75,0.96);backdrop-filter:blur(12px);padding:0 28px;height:54px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.08);}
 .topbar-l{display:flex;align-items:center;gap:12px;}
 .topbar-logo{font-size:14px;font-weight:800;color:#fff;}
@@ -48,8 +35,6 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 .refresh-btn:hover{background:rgba(99,102,241,0.3);}
 .refresh-btn.loading .ri{animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
-/* FILTER BAR */
 .filter-bar{background:var(--card);border-bottom:1px solid var(--border);padding:10px 28px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:54px;z-index:99;box-shadow:0 2px 12px rgba(99,102,241,0.06);}
 .filter-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em;}
 .chip-group{display:flex;gap:5px;flex-wrap:wrap;}
@@ -57,13 +42,8 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 .chip.on{background:var(--ink);color:#fff;border-color:var(--ink);}
 .chip:hover:not(.on){border-color:var(--ink2);}
 .sep{width:1px;height:22px;background:var(--border);}
-.date-input{padding:4px 10px;border-radius:999px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-family:'Kanit',sans-serif;font-size:12px;outline:none;cursor:pointer;}
-.month-sel{padding:4px 10px;border-radius:999px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-family:'Kanit',sans-serif;font-size:12px;outline:none;cursor:pointer;}
-
-/* MAIN */
+.date-input,.month-sel{padding:4px 10px;border-radius:999px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-family:'Kanit',sans-serif;font-size:12px;outline:none;cursor:pointer;}
 .main{max-width:1360px;margin:0 auto;padding:22px 28px 60px;position:relative;z-index:10;}
-
-/* KPI */
 .kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:18px;}
 @media(max-width:960px){.kpi-row{grid-template-columns:repeat(3,1fr);}}
 @media(max-width:600px){.kpi-row{grid-template-columns:repeat(2,1fr);}}
@@ -78,8 +58,6 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 .tr-g{background:var(--green-dim);color:var(--green);}
 .tr-a{background:var(--amber-dim);color:var(--amber);}
 .tr-b{background:rgba(99,102,241,0.08);color:var(--indigo);}
-
-/* PANELS */
 .row2{display:grid;grid-template-columns:1.7fr 1fr;gap:14px;margin-bottom:14px;}
 .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:14px;}
 .row4{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
@@ -92,52 +70,33 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 .pt{font-size:13px;font-weight:600;color:var(--ink);}
 .ps{font-size:11px;color:var(--ink3);margin-top:2px;}
 .ptag{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3);padding:2px 7px;border:1px solid var(--border);border-radius:4px;}
-
 /* TREND PANEL */
-.trend-panel{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow);position:relative;overflow:hidden;margin-bottom:14px;transition:transform .2s;}
-.trend-panel:hover{transform:translateY(-1px);}
+.trend-panel{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow);position:relative;overflow:hidden;margin-bottom:14px;}
 .trend-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--indigo),var(--violet),var(--cyan));}
-.trend-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px;}
-.trend-title-wrap{}
+.trend-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
 .trend-title{font-size:13px;font-weight:600;color:var(--ink);}
 .trend-sub{font-size:11px;color:var(--ink3);margin-top:2px;}
-.trend-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
-
-/* TOGGLE GROUP */
 .toggle-group{display:flex;background:var(--bg);border:1.5px solid var(--border);border-radius:999px;padding:3px;gap:2px;}
 .tgl{padding:4px 14px;border-radius:999px;font-size:11px;font-weight:600;cursor:pointer;color:var(--ink3);transition:all .18s;border:none;background:transparent;font-family:'Kanit',sans-serif;}
 .tgl.on{background:var(--ink);color:#fff;box-shadow:0 2px 8px rgba(30,27,75,0.18);}
 .tgl:hover:not(.on){color:var(--ink2);}
-
-/* MODE TOGGLE */
-.mode-group{display:flex;background:var(--bg);border:1.5px solid var(--border);border-radius:999px;padding:3px;gap:2px;}
-.mode-btn{padding:4px 12px;border-radius:999px;font-size:11px;font-weight:600;cursor:pointer;color:var(--ink3);transition:all .18s;border:none;background:transparent;font-family:'Kanit',sans-serif;}
-.mode-btn.on{background:rgba(99,102,241,0.15);color:var(--indigo);}
-
-/* TREND LEGEND */
-.trend-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;}
-.tleg-item{display:flex;align-items:center;gap:5px;cursor:pointer;padding:3px 10px;border-radius:999px;border:1.5px solid transparent;transition:all .15s;font-size:11px;color:var(--ink2);}
-.tleg-item:hover{border-color:var(--border);}
-.tleg-item.off{opacity:0.38;}
-.tleg-line{width:18px;height:3px;border-radius:2px;}
-.tleg-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
-
-/* SPARKLINE ROW */
-.sparkline-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:12px;}
-.spark-card{background:var(--bg);border-radius:12px;padding:12px 14px;position:relative;overflow:hidden;}
-.spark-name{font-size:10px;color:var(--ink3);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.spark-val{font-size:20px;font-weight:800;line-height:1;}
-.spark-trend{font-size:10px;margin-top:2px;}
-.spark-canvas-wrap{height:36px;margin-top:6px;}
-
-/* HBAR */
+.bar-legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.bleg{display:inline-flex;align-items:center;gap:5px;font-size:11px;cursor:pointer;padding:3px 10px;border-radius:999px;border:1.5px solid transparent;transition:all .15s;color:var(--ink2);user-select:none;}
+.bleg.off{opacity:0.35;text-decoration:line-through;}
+.bleg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
+.bar-detail{background:var(--bg);border-radius:12px;padding:14px 16px;margin-top:12px;display:none;}
+.bar-detail.show{display:block;}
+.bar-detail-title{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:10px;}
+.bar-stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;}
+.bar-stat{background:var(--card);border-radius:10px;padding:10px 12px;border:1.5px solid var(--border);border-left-width:3px;}
+.bar-stat-lbl{font-size:10px;color:var(--ink3);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.bar-stat-val{font-size:20px;font-weight:800;line-height:1;}
+.bar-stat-pct{font-size:10px;color:var(--ink3);margin-top:2px;}
 .hbar-row{display:grid;grid-template-columns:150px 1fr 32px;align-items:center;gap:8px;margin-bottom:8px;}
 .hbar-lbl{font-size:11.5px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .hbar-track{height:8px;background:var(--bg);border-radius:99px;overflow:hidden;}
 .hbar-fill{height:100%;border-radius:99px;transition:width 1.2s cubic-bezier(.34,1.2,.64,1);}
 .hbar-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink3);text-align:right;}
-
-/* MC / SIZE BARS */
 .mc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .mc-c{background:var(--bg);border-radius:12px;padding:12px 14px;}
 .mc-name{font-size:20px;font-weight:800;}
@@ -150,8 +109,6 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 .sz-track{height:9px;background:var(--bg);border-radius:99px;overflow:hidden;}
 .sz-fill{height:100%;border-radius:99px;transition:width 1.2s cubic-bezier(.34,1.2,.64,1);}
 .sz-n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink3);text-align:right;}
-
-/* SHIFT BARS */
 .shift-bar-wrap{display:flex;align-items:flex-end;gap:3px;height:120px;}
 .shift-col{display:flex;flex-direction:column;align-items:center;flex:1;gap:3px;}
 .shift-bars-inner{display:flex;align-items:flex-end;gap:2px;height:100px;}
@@ -160,16 +117,12 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 .shift-legend{display:flex;justify-content:center;gap:14px;margin-top:8px;}
 .sleg{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ink2);}
 .sleg-dot{width:8px;height:8px;border-radius:2px;}
-
-/* SV TABLE */
 .sv-row{display:grid;grid-template-columns:1fr 48px 80px;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border);}
 .sv-row:last-child{border-bottom:none;}
 .sv-name{font-size:12px;color:var(--ink2);}
 .sv-count{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--ink);text-align:center;}
 .sv-bar-track{height:6px;background:var(--bg);border-radius:99px;overflow:hidden;}
 .sv-bar-fill{height:100%;border-radius:99px;background:var(--indigo);transition:width 1.2s cubic-bezier(.34,1.2,.64,1);}
-
-/* TABLE */
 .tbl-wrap{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);}
 .tbl-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border);}
 table{width:100%;border-collapse:collapse;table-layout:fixed;}
@@ -184,8 +137,6 @@ tr:hover td{background:rgba(99,102,241,0.04);}
 .pill-b{background:rgba(6,182,212,0.1);color:var(--cyan);}
 .pill-v{background:rgba(139,92,246,0.1);color:var(--violet);}
 .pill-n{background:var(--bg);color:var(--ink3);}
-
-/* LOADING / EMPTY / ERROR */
 .loading-screen{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;}
 .loading-spinner{width:56px;height:56px;border:3px solid rgba(99,102,241,0.15);border-top-color:var(--indigo);border-radius:50%;animation:spin .7s linear infinite;}
 .loading-text{font-size:14px;color:var(--ink2);font-weight:500;}
@@ -198,24 +149,77 @@ tr:hover td{background:rgba(99,102,241,0.04);}
 .approve-btn.done-change{background:#d1fae5;color:#065f46;border-color:#6ee7b7;cursor:default;pointer-events:none;}
 .approve-btn.done-destroy{background:#fee2e2;color:#991b1b;border-color:#fca5a5;cursor:default;pointer-events:none;}
 
-/* MODAL OVERLAY */
+/* ══ MODAL 4M ═══════════════════════════════════════════════ */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,14,40,0.55);backdrop-filter:blur(4px);z-index:9998;align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
-.modal-box{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:28px 28px 22px;width:360px;max-width:92vw;box-shadow:0 20px 60px rgba(30,27,75,0.22);animation:modalIn .2s ease;}
+.modal-box{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:24px 24px 20px;width:500px;max-width:94vw;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(30,27,75,0.22);animation:modalIn .2s ease;}
 @keyframes modalIn{from{transform:translateY(12px) scale(.97);opacity:0}to{transform:none;opacity:1}}
-.modal-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:4px;}
-.modal-sub{font-size:11px;color:var(--ink3);margin-bottom:20px;}
-.modal-defect-pill{display:inline-block;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;background:var(--red-dim);color:var(--red);margin-bottom:18px;}
-.modal-label{font-size:11px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
-.modal-select{width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-family:'Kanit',sans-serif;font-size:13px;outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239194b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;}
+.modal-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:3px;}
+.modal-sub{font-size:11px;color:var(--ink3);margin-bottom:14px;}
+.modal-divider{height:1px;background:var(--border);margin:12px 0;}
+.modal-label{font-size:11px;font-weight:600;color:var(--ink3);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;display:block;}
+.modal-select{width:100%;padding:9px 12px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink);font-family:'Kanit',sans-serif;font-size:13px;outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239194b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;margin-bottom:10px;}
 .modal-select:focus{border-color:var(--indigo);}
-.modal-actions{display:flex;gap:8px;margin-top:20px;}
+.m4-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px;}
+.m4-chip{padding:8px 4px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--ink3);font-size:11px;text-align:center;cursor:pointer;transition:all .15s;line-height:1.4;font-family:'Kanit',sans-serif;}
+.m4-chip .m4-icon{display:block;font-size:18px;margin-bottom:3px;}
+.m4-chip.act-man{border-color:#185FA5;background:#E6F1FB;color:#0C447C;}
+.m4-chip.act-machine{border-color:#A32D2D;background:#FCEBEB;color:#791F1F;}
+.m4-chip.act-method{border-color:#854F0B;background:#FAEEDA;color:#633806;}
+.m4-chip.act-material{border-color:#0F6E56;background:#E1F5EE;color:#085041;}
+.cause-box{border-radius:10px;padding:12px;margin-bottom:8px;display:none;gap:8px;}
+.cause-box.show{display:flex;}
+.cause-box.man{background:#E6F1FB;border:1.5px solid #B5D4F4;}
+.cause-box.machine{background:#FCEBEB;border:1.5px solid #F7C1C1;}
+.cause-box.method{background:#FAEEDA;border:1.5px solid #FAC775;}
+.cause-box.material{background:#E1F5EE;border:1.5px solid #9FE1CB;}
+.cause-col{flex:1;display:flex;flex-direction:column;gap:6px;}
+.cause-col-title{font-size:11px;font-weight:600;}
+.cause-box.man .cause-col-title{color:#0C447C;}
+.cause-box.machine .cause-col-title{color:#791F1F;}
+.cause-box.method .cause-col-title{color:#633806;}
+.cause-box.material .cause-col-title{color:#085041;}
+.col-div{width:1px;align-self:stretch;}
+.cause-box.man .col-div{background:#B5D4F4;}
+.cause-box.machine .col-div{background:#F7C1C1;}
+.cause-box.method .col-div{background:#FAC775;}
+.cause-box.material .col-div{background:#9FE1CB;}
+.tags{display:flex;flex-wrap:wrap;gap:5px;}
+.tag{padding:3px 10px;border-radius:999px;font-size:11px;cursor:pointer;transition:all .15s;font-family:'Kanit',sans-serif;}
+.man .tag{background:#B5D4F4;color:#0C447C;}
+.man .tag:hover,.man .tag.sel{background:#185FA5;color:#E6F1FB;}
+.machine .tag{background:#F7C1C1;color:#791F1F;}
+.machine .tag:hover,.machine .tag.sel{background:#A32D2D;color:#FCEBEB;}
+.method .tag{background:#FAC775;color:#633806;}
+.method .tag:hover,.method .tag.sel{background:#854F0B;color:#FAEEDA;}
+.material .tag{background:#9FE1CB;color:#085041;}
+.material .tag:hover,.material .tag.sel{background:#0F6E56;color:#E1F5EE;}
+.or-div{display:flex;align-items:center;gap:6px;}
+.or-line{flex:1;height:1px;}
+.cause-box.man .or-line{background:#B5D4F4;}
+.cause-box.machine .or-line{background:#F7C1C1;}
+.cause-box.method .or-line{background:#FAC775;}
+.cause-box.material .or-line{background:#9FE1CB;}
+.or-txt{font-size:10px;}
+.cause-box.man .or-txt{color:#185FA5;}
+.cause-box.machine .or-txt{color:#A32D2D;}
+.cause-box.method .or-txt{color:#854F0B;}
+.cause-box.material .or-txt{color:#0F6E56;}
+.cause-ta{width:100%;padding:8px 10px;border-radius:8px;font-size:12px;resize:none;outline:none;line-height:1.5;font-family:'Kanit',sans-serif;}
+.cause-box.man .cause-ta{border:1.5px solid #85B7EB;background:#fff;color:#0C447C;}
+.cause-box.man .cause-ta:focus{border-color:#185FA5;}
+.cause-box.machine .cause-ta{border:1.5px solid #F09595;background:#fff;color:#791F1F;}
+.cause-box.machine .cause-ta:focus{border-color:#A32D2D;}
+.cause-box.method .cause-ta{border:1.5px solid #EF9F27;background:#fff;color:#633806;}
+.cause-box.method .cause-ta:focus{border-color:#854F0B;}
+.cause-box.material .cause-ta{border:1.5px solid #5DCAA5;background:#fff;color:#085041;}
+.cause-box.material .cause-ta:focus{border-color:#0F6E56;}
+.modal-actions{display:flex;gap:8px;margin-top:16px;}
 .modal-confirm{flex:1;padding:10px;border-radius:10px;border:none;background:var(--indigo);color:#fff;font-family:'Kanit',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:background .15s;}
 .modal-confirm:hover{background:#4f46e5;}
 .modal-confirm:disabled{background:var(--ink3);cursor:not-allowed;}
 .modal-cancel{padding:10px 16px;border-radius:10px;border:1.5px solid var(--border);background:transparent;color:var(--ink3);font-family:'Kanit',sans-serif;font-size:13px;cursor:pointer;transition:all .15s;}
 .modal-cancel:hover{border-color:var(--ink2);color:var(--ink2);}
-.modal-divider{height:1px;background:var(--border);margin:16px 0;}
 </style>
 </head>
 <body>
@@ -224,33 +228,116 @@ tr:hover td{background:rgba(99,102,241,0.04);}
 <div class="blob b2"></div>
 <div class="blob b3"></div>
 
-<!-- ═══ APPROVE MODAL ═══════════════════════════════════ -->
+<!-- ══ MODAL 4M ═══════════════════════════════════════════════ -->
 <div class="modal-overlay" id="approveModal">
   <div class="modal-box">
     <div class="modal-title">📋 บันทึกการดำเนินการ</div>
     <div class="modal-sub" id="modalDefectLabel">รายการ Defect</div>
     <div class="modal-divider"></div>
 
-    <div class="modal-label">หัวหน้ากะที่รับผิดชอบ</div>
-    <select class="modal-select" id="modalSvSelect">
+    <span class="modal-label">หัวหน้ากะที่รับผิดชอบ</span>
+    <select class="modal-select" id="modalSvSelect" onchange="chkModal()">
       <option value="">— เลือกชื่อหัวหน้ากะ —</option>
-      <option>Amnat</option>
-      <option>Suriyun</option>
-      <option>Siwakon</option>
-      <option>Chaiphat</option>
-      <option>Rattanan</option>
-      <option>Preecha</option>
-      <option>Pakphum</option>
+      <option>Amnat</option><option>Suriyun</option><option>Siwakon</option>
+      <option>Chaiphat</option><option>Rattanan</option><option>Preecha</option><option>Pakphum</option>
     </select>
 
-    <div style="height:14px"></div>
-
-    <div class="modal-label">การดำเนินการ</div>
-    <select class="modal-select" id="modalActionSelect">
+    <span class="modal-label">การดำเนินการ</span>
+    <select class="modal-select" id="modalActionSelect" onchange="chkModal()">
       <option value="">— เลือกการดำเนินการ —</option>
       <option value="เปลี่ยนกล่องใหม่">♻️ เปลี่ยนกล่องใหม่</option>
       <option value="ทำลาย / ส่ง GA">🗑️ ทำลาย / ส่ง GA</option>
     </select>
+
+    <div class="modal-divider"></div>
+    <span class="modal-label">สาเหตุ 4M <span style="font-size:10px;font-weight:400;text-transform:none">(เลือก 1)</span></span>
+
+    <div class="m4-row">
+      <div class="m4-chip" id="chip-man" onclick="pickM4('man')"><span class="m4-icon">👤</span>Man</div>
+      <div class="m4-chip" id="chip-machine" onclick="pickM4('machine')"><span class="m4-icon">⚙️</span>Machine</div>
+      <div class="m4-chip" id="chip-method" onclick="pickM4('method')"><span class="m4-icon">📋</span>Method</div>
+      <div class="m4-chip" id="chip-material" onclick="pickM4('material')"><span class="m4-icon">📦</span>Material</div>
+    </div>
+
+    <!-- Man -->
+    <div id="cause-man" class="cause-box man">
+      <div class="cause-col">
+        <div class="cause-col-title">สาเหตุ</div>
+        <div class="tags" id="tags-man">
+          <span class="tag" onclick="selTag(this,'man')">ขาดการอบรม</span>
+          <span class="tag" onclick="selTag(this,'man')">ความเมื่อยล้า</span>
+          <span class="tag" onclick="selTag(this,'man')">ทำผิดขั้นตอน</span>
+          <span class="tag" onclick="selTag(this,'man')">พนักงานใหม่</span>
+        </div>
+        <div class="or-div"><div class="or-line"></div><span class="or-txt">หรือพิมพ์เอง</span><div class="or-line"></div></div>
+        <textarea id="ta-cause-man" class="cause-ta" rows="2" placeholder="ระบุสาเหตุ..." oninput="onCauseInput('man')"></textarea>
+      </div>
+      <div class="col-div"></div>
+      <div class="cause-col">
+        <div class="cause-col-title">แนวทางแก้ไข</div>
+        <textarea id="ta-fix-man" class="cause-ta" rows="5" placeholder="ระบุแนวทางแก้ไข..." oninput="chkModal()"></textarea>
+      </div>
+    </div>
+
+    <!-- Machine -->
+    <div id="cause-machine" class="cause-box machine">
+      <div class="cause-col">
+        <div class="cause-col-title">สาเหตุ</div>
+        <div class="tags" id="tags-machine">
+          <span class="tag" onclick="selTag(this,'machine')">เครื่องชำรุด</span>
+          <span class="tag" onclick="selTag(this,'machine')">ต้องการ PM</span>
+          <span class="tag" onclick="selTag(this,'machine')">ตั้งค่าผิด</span>
+          <span class="tag" onclick="selTag(this,'machine')">conveyor ผิดปกติ</span>
+        </div>
+        <div class="or-div"><div class="or-line"></div><span class="or-txt">หรือพิมพ์เอง</span><div class="or-line"></div></div>
+        <textarea id="ta-cause-machine" class="cause-ta" rows="2" placeholder="ระบุสาเหตุ..." oninput="onCauseInput('machine')"></textarea>
+      </div>
+      <div class="col-div"></div>
+      <div class="cause-col">
+        <div class="cause-col-title">แนวทางแก้ไข</div>
+        <textarea id="ta-fix-machine" class="cause-ta" rows="5" placeholder="ระบุแนวทางแก้ไข..." oninput="chkModal()"></textarea>
+      </div>
+    </div>
+
+    <!-- Method -->
+    <div id="cause-method" class="cause-box method">
+      <div class="cause-col">
+        <div class="cause-col-title">สาเหตุ</div>
+        <div class="tags" id="tags-method">
+          <span class="tag" onclick="selTag(this,'method')">WI ไม่ชัดเจน</span>
+          <span class="tag" onclick="selTag(this,'method')">ขั้นตอนผิด</span>
+          <span class="tag" onclick="selTag(this,'method')">ไม่ทำตาม SOP</span>
+          <span class="tag" onclick="selTag(this,'method')">ไม่มี standard</span>
+        </div>
+        <div class="or-div"><div class="or-line"></div><span class="or-txt">หรือพิมพ์เอง</span><div class="or-line"></div></div>
+        <textarea id="ta-cause-method" class="cause-ta" rows="2" placeholder="ระบุสาเหตุ..." oninput="onCauseInput('method')"></textarea>
+      </div>
+      <div class="col-div"></div>
+      <div class="cause-col">
+        <div class="cause-col-title">แนวทางแก้ไข</div>
+        <textarea id="ta-fix-method" class="cause-ta" rows="5" placeholder="ระบุแนวทางแก้ไข..." oninput="chkModal()"></textarea>
+      </div>
+    </div>
+
+    <!-- Material -->
+    <div id="cause-material" class="cause-box material">
+      <div class="cause-col">
+        <div class="cause-col-title">สาเหตุ</div>
+        <div class="tags" id="tags-material">
+          <span class="tag" onclick="selTag(this,'material')">วัสดุด้อยคุณภาพ</span>
+          <span class="tag" onclick="selTag(this,'material')">Lot ผิด</span>
+          <span class="tag" onclick="selTag(this,'material')">จัดเก็บไม่ถูก</span>
+          <span class="tag" onclick="selTag(this,'material')">กล่องมีตำหนิ</span>
+        </div>
+        <div class="or-div"><div class="or-line"></div><span class="or-txt">หรือพิมพ์เอง</span><div class="or-line"></div></div>
+        <textarea id="ta-cause-material" class="cause-ta" rows="2" placeholder="ระบุสาเหตุ..." oninput="onCauseInput('material')"></textarea>
+      </div>
+      <div class="col-div"></div>
+      <div class="cause-col">
+        <div class="cause-col-title">แนวทางแก้ไข</div>
+        <textarea id="ta-fix-material" class="cause-ta" rows="5" placeholder="ระบุแนวทางแก้ไข..." oninput="chkModal()"></textarea>
+      </div>
+    </div>
 
     <div class="modal-actions">
       <button class="modal-cancel" onclick="closeModal()">ยกเลิก</button>
@@ -258,7 +345,7 @@ tr:hover td{background:rgba(99,102,241,0.04);}
     </div>
   </div>
 </div>
-<!-- ════════════════════════════════════════════════════ -->
+<!-- ════════════════════════════════════════════════════════════ -->
 
 <div class="loading-screen" id="loadingScreen">
   <div class="loading-spinner"></div>
@@ -266,7 +353,6 @@ tr:hover td{background:rgba(99,102,241,0.04);}
   <div class="loading-sub" id="loadingSub">เชื่อมต่อ Google Sheets...</div>
 </div>
 
-<!-- TOPBAR -->
 <div class="topbar">
   <div class="topbar-l">
     <div class="topbar-logo">⚙ QC DASHBOARD</div>
@@ -275,22 +361,15 @@ tr:hover td{background:rgba(99,102,241,0.04);}
   </div>
   <div class="topbar-r">
     <div class="live-badge">
-      <div class="live-dot-wrap">
-        <span class="live-ring1"></span>
-        <span class="live-ring2"></span>
-        <span class="live-dot"></span>
-      </div>
+      <div class="live-dot-wrap"><span class="live-ring1"></span><span class="live-ring2"></span><span class="live-dot"></span></div>
       <span class="live-text">LIVE</span>
       <span class="live-clock" id="liveClock">00:00:00</span>
     </div>
     <div class="last-update" id="lastUpdate">—</div>
-    <button class="refresh-btn" onclick="loadData()">
-      <span class="ri" style="display:inline-block">↻</span> Refresh
-    </button>
+    <button class="refresh-btn" onclick="loadData()"><span class="ri" style="display:inline-block">↻</span> Refresh</button>
   </div>
 </div>
 
-<!-- FILTER BAR -->
 <div class="filter-bar">
   <span class="filter-label">กะ</span>
   <div class="chip-group" id="shiftChips">
@@ -303,19 +382,15 @@ tr:hover td{background:rgba(99,102,241,0.04);}
   <span class="filter-label">M/C</span>
   <div class="chip-group" id="mcChips">
     <div class="chip on" data-val="all">ทั้งหมด</div>
-    <div class="chip" data-val="B">B</div>
-    <div class="chip" data-val="C">C</div>
-    <div class="chip" data-val="H">H</div>
-    <div class="chip" data-val="S">S</div>
+    <div class="chip" data-val="B">B</div><div class="chip" data-val="C">C</div>
+    <div class="chip" data-val="H">H</div><div class="chip" data-val="S">S</div>
   </div>
   <div class="sep"></div>
   <span class="filter-label">Size</span>
   <div class="chip-group" id="sizeChips">
     <div class="chip on" data-val="all">ทั้งหมด</div>
-    <div class="chip" data-val="72g">72g</div>
-    <div class="chip" data-val="250g">250g</div>
-    <div class="chip" data-val="500g">500g</div>
-    <div class="chip" data-val="1kg">1kg</div>
+    <div class="chip" data-val="72g">72g</div><div class="chip" data-val="250g">250g</div>
+    <div class="chip" data-val="500g">500g</div><div class="chip" data-val="1kg">1kg</div>
   </div>
   <div class="sep"></div>
   <span class="filter-label">สถานะ</span>
@@ -336,94 +411,45 @@ tr:hover td{background:rgba(99,102,241,0.04);}
   <span class="filter-label">เดือน</span>
   <select id="monthSel" class="month-sel" onchange="renderAll()">
     <option value="">ทั้งหมด</option>
-    <option value="1">ม.ค.</option><option value="2">ก.พ.</option>
-    <option value="3">มี.ค.</option><option value="4">เม.ย.</option>
-    <option value="5">พ.ค.</option><option value="6">มิ.ย.</option>
-    <option value="7">ก.ค.</option><option value="8">ส.ค.</option>
-    <option value="9">ก.ย.</option><option value="10">ต.ค.</option>
-    <option value="11">พ.ย.</option><option value="12">ธ.ค.</option>
+    <option value="1">ม.ค.</option><option value="2">ก.พ.</option><option value="3">มี.ค.</option>
+    <option value="4">เม.ย.</option><option value="5">พ.ค.</option><option value="6">มิ.ย.</option>
+    <option value="7">ก.ค.</option><option value="8">ส.ค.</option><option value="9">ก.ย.</option>
+    <option value="10">ต.ค.</option><option value="11">พ.ย.</option><option value="12">ธ.ค.</option>
   </select>
 </div>
 
 <div class="main">
-
-  <!-- KPI ROW -->
   <div class="kpi-row">
-    <div class="kpi">
-      <div class="kpi-accent" style="background:var(--red)"></div>
-      <div class="kpi-lbl">พบ Defect</div>
-      <div class="kpi-val" id="kpiDefect" style="color:var(--red)">—</div>
-      <div class="kpi-sub">รายการ</div>
-      <div class="kpi-trend tr-r" id="kpiDefectRate">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent" style="background:var(--indigo)"></div>
-      <div class="kpi-lbl">ตรวจทั้งหมด</div>
-      <div class="kpi-val" id="kpiTotal" style="color:var(--indigo)">—</div>
-      <div class="kpi-sub">กล่อง / รายการ</div>
-      <div class="kpi-trend tr-b" id="kpiRows">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent" style="background:var(--green)"></div>
-      <div class="kpi-lbl">ผ่าน OK</div>
-      <div class="kpi-val" id="kpiOk" style="color:var(--green)">—</div>
-      <div class="kpi-sub">ไม่พบ Defect</div>
-      <div class="kpi-trend tr-g" id="kpiOkRate">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent" style="background:var(--amber)"></div>
-      <div class="kpi-lbl">M/C มีปัญหามากสุด</div>
-      <div class="kpi-val" id="kpiTopMC" style="font-size:24px;color:var(--amber)">—</div>
-      <div class="kpi-sub" id="kpiTopMCSub">—</div>
-      <div class="kpi-trend tr-a" id="kpiTopMCPct">—</div>
-    </div>
-    <div class="kpi">
-      <div class="kpi-accent" style="background:var(--violet)"></div>
-      <div class="kpi-lbl">Defect สูงสุด</div>
-      <div class="kpi-val" id="kpiTopDefect" style="font-size:14px;color:var(--violet);line-height:1.3">—</div>
-      <div class="kpi-sub" id="kpiTopDefectSub">—</div>
-      <div class="kpi-trend tr-r" id="kpiTopDefectPct">—</div>
-    </div>
+    <div class="kpi"><div class="kpi-accent" style="background:var(--red)"></div><div class="kpi-lbl">พบ Defect</div><div class="kpi-val" id="kpiDefect" style="color:var(--red)">—</div><div class="kpi-sub">รายการ</div><div class="kpi-trend tr-r" id="kpiDefectRate">—</div></div>
+    <div class="kpi"><div class="kpi-accent" style="background:var(--indigo)"></div><div class="kpi-lbl">ตรวจทั้งหมด</div><div class="kpi-val" id="kpiTotal" style="color:var(--indigo)">—</div><div class="kpi-sub">กล่อง / รายการ</div><div class="kpi-trend tr-b" id="kpiRows">—</div></div>
+    <div class="kpi"><div class="kpi-accent" style="background:var(--green)"></div><div class="kpi-lbl">ผ่าน OK</div><div class="kpi-val" id="kpiOk" style="color:var(--green)">—</div><div class="kpi-sub">ไม่พบ Defect</div><div class="kpi-trend tr-g" id="kpiOkRate">—</div></div>
+    <div class="kpi"><div class="kpi-accent" style="background:var(--amber)"></div><div class="kpi-lbl">M/C มีปัญหามากสุด</div><div class="kpi-val" id="kpiTopMC" style="font-size:24px;color:var(--amber)">—</div><div class="kpi-sub" id="kpiTopMCSub">—</div><div class="kpi-trend tr-a" id="kpiTopMCPct">—</div></div>
+    <div class="kpi"><div class="kpi-accent" style="background:var(--violet)"></div><div class="kpi-lbl">Defect สูงสุด</div><div class="kpi-val" id="kpiTopDefect" style="font-size:14px;color:var(--violet);line-height:1.3">—</div><div class="kpi-sub" id="kpiTopDefectSub">—</div><div class="kpi-trend tr-r" id="kpiTopDefectPct">—</div></div>
   </div>
 
-  <!-- ═══════════════════════════════════════════════════════
-       TREND PANEL (ใหม่) — วางก่อน row2
-  ════════════════════════════════════════════════════════════ -->
+  <!-- ══ TREND BAR CHART ══════════════════════════════════════ -->
   <div class="trend-panel">
     <div class="trend-header">
-      <div class="trend-title-wrap">
-        <div class="trend-title">📈 แนวโน้ม Defect ตามเวลา</div>
-        <div class="trend-sub" id="trendSubTitle">จำนวน Defect รวมแยกตามประเภท</div>
+      <div>
+        <div class="trend-title">📊 แนวโน้ม Defect ตามเวลา</div>
+        <div class="trend-sub">คลิก legend เพื่อซ่อน/แสดง · คลิก bar เพื่อดูรายละเอียด</div>
       </div>
-      <div class="trend-controls">
-        <!-- Mode: ประเภท vs M/C vs Rate -->
-        <div class="mode-group" id="trendModeGroup">
-          <button class="mode-btn on" data-mode="type" onclick="setTrendMode('type',this)">ประเภท Defect</button>
-          <button class="mode-btn" data-mode="mc" onclick="setTrendMode('mc',this)">M/C</button>
-          <button class="mode-btn" data-mode="rate" onclick="setTrendMode('rate',this)">Rate %</button>
-        </div>
-        <!-- Period: daily / weekly / monthly -->
-        <div class="toggle-group" id="trendPeriodGroup">
-          <button class="tgl on" data-period="daily" onclick="setTrendPeriod('daily',this)">รายวัน</button>
-          <button class="tgl" data-period="weekly" onclick="setTrendPeriod('weekly',this)">รายสัปดาห์</button>
-          <button class="tgl" data-period="monthly" onclick="setTrendPeriod('monthly',this)">รายเดือน</button>
-        </div>
+      <div class="toggle-group">
+        <button class="tgl on" onclick="setBarPeriod('daily',this)">รายวัน</button>
+        <button class="tgl" onclick="setBarPeriod('weekly',this)">รายสัปดาห์</button>
+        <button class="tgl" onclick="setBarPeriod('monthly',this)">รายเดือน</button>
       </div>
     </div>
-
-    <!-- Main line chart -->
+    <div class="bar-legend" id="barLegend"></div>
     <div style="position:relative;height:280px">
-      <canvas id="trendChart"></canvas>
+      <canvas id="trendChart" role="img" aria-label="Bar chart แสดงจำนวน Defect แยกตามประเภทและวันที่"></canvas>
     </div>
-
-    <!-- Clickable legend -->
-    <div class="trend-legend" id="trendLegend"></div>
-
-    <!-- Sparkline summary cards -->
-    <div class="sparkline-row" id="sparklineRow"></div>
+    <div class="bar-detail" id="barDetail">
+      <div class="bar-detail-title" id="barDetailTitle"></div>
+      <div class="bar-stat-grid" id="barStatGrid"></div>
+    </div>
   </div>
 
-  <!-- ROW 2: hbar + donut -->
   <div class="row2">
     <div class="panel">
       <div class="ph"><div><div class="pt">Defect แต่ละประเภท</div><div class="ps">จำนวนรายการที่พบ</div></div><div class="ptag">BAR</div></div>
@@ -436,7 +462,6 @@ tr:hover td{background:rgba(99,102,241,0.04);}
     </div>
   </div>
 
-  <!-- ROW 3: shift + mc + size -->
   <div class="row3">
     <div class="panel">
       <div class="ph"><div><div class="pt">Defect แยกตามกะ</div><div class="ps">แต่ละรอบตรวจ</div></div><div class="ptag">SHIFT</div></div>
@@ -457,7 +482,6 @@ tr:hover td{background:rgba(99,102,241,0.04);}
     </div>
   </div>
 
-  <!-- ROW 4 -->
   <div class="row4">
     <div class="panel">
       <div class="ph"><div><div class="pt">Defect แยกตามหัวหน้างาน</div><div class="ps">จำนวน Defect ที่พบในกะนั้น</div></div><div class="ptag">SV</div></div>
@@ -469,16 +493,13 @@ tr:hover td{background:rgba(99,102,241,0.04);}
     </div>
   </div>
 
-  <!-- TABLE -->
   <div class="tbl-wrap">
     <div class="tbl-hd">
       <div><div class="pt">รายการล่าสุด</div><div class="ps" id="tblSub">—</div></div>
       <div style="display:flex;align-items:center;gap:8px">
-        <a href="https://docs.google.com/spreadsheets/d/1Ie3365pkUS0LFHwEFe5YbRL1J6BZYEAVaHyKuhTMUws/edit?usp=sharing"
-           target="_blank" rel="noopener"
-           style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:600;color:#6366f1;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.25);text-decoration:none;transition:all .2s"
-           onmouseover="this.style.background='rgba(99,102,241,0.18)'"
-           onmouseout="this.style.background='rgba(99,102,241,0.08)'">
+        <a href="https://docs.google.com/spreadsheets/d/1Ie3365pkUS0LFHwEFe5YbRL1J6BZYEAVaHyKuhTMUws/edit?usp=sharing" target="_blank" rel="noopener"
+           style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:600;color:#6366f1;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.25);text-decoration:none;"
+           onmouseover="this.style.background='rgba(99,102,241,0.18)'" onmouseout="this.style.background='rgba(99,102,241,0.08)'">
           ✏️ แก้ไขข้อมูลใน Sheet
         </a>
         <div class="ptag">RECENT 30</div>
@@ -488,338 +509,155 @@ tr:hover td{background:rgba(99,102,241,0.04);}
       <table>
         <thead>
           <tr>
-            <th style="width:96px">วันที่</th>
-            <th style="width:52px">กะ</th>
-            <th style="width:66px">รอบตรวจ</th>
-            <th style="width:38px">M/C</th>
-            <th style="width:46px">Size</th>
-            <th>รายละเอียด Defect</th>
-            <th style="width:100px">ประเภท</th>
-            <th style="width:52px">กล่อง</th>
-            <th style="width:52px">Pallet</th>
-            <th style="width:86px">หัวหน้า</th>
-            <th style="width:110px">ตรวจสอบ</th>
-            <th style="width:52px">รูป</th>
+            <th style="width:96px">วันที่</th><th style="width:52px">กะ</th><th style="width:66px">รอบตรวจ</th>
+            <th style="width:38px">M/C</th><th style="width:46px">Size</th><th>รายละเอียด Defect</th>
+            <th style="width:100px">ประเภท</th><th style="width:52px">กล่อง</th><th style="width:52px">Pallet</th>
+            <th style="width:86px">หัวหน้า</th><th style="width:110px">ตรวจสอบ</th><th style="width:52px">รูป</th>
           </tr>
         </thead>
         <tbody id="tblBody"></tbody>
       </table>
     </div>
   </div>
-
 </div>
 
 <script>
-// ─── CONFIG ───────────────────────────────────────────────────
-const SHEET_ID   = '1Ie3365pkUS0LFHwEFe5YbRL1J6BZYEAVaHyKuhTMUws';
-const SHEET_NAME = 'ham';
-const GAS_URL    = 'https://script.google.com/macros/s/AKfycbyP9DE4M2Er4jimIqYW1zOARLpE7UjzqFlPFRQbHNiP5ZZZFYOtKCy0EkvchRkfdQ3X/exec';
-const GVZ_URL    = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&headers=1`;
+const SHEET_ID='1Ie3365pkUS0LFHwEFe5YbRL1J6BZYEAVaHyKuhTMUws';
+const SHEET_NAME='ham';
+const GAS_URL='https://script.google.com/macros/s/AKfycbyP9DE4M2Er4jimIqYW1zOARLpE7UjzqFlPFRQbHNiP5ZZZFYOtKCy0EkvchRkfdQ3X/exec';
+const GVZ_URL=`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&headers=1`;
 
-const COL = {
-  ts:'Timestamp', date:'วันที่', shift:'กะ', round:'รอบตรวจ',
-  mcNo:'M/C No.', size:'Size', defect:'รายละเอียด Defect',
-  type:'ประเภท Defect', boxNo:'เลขกล่อง', time:'เวลา',
-  pallet:'Pallet No.', retTime:'เวลาคืน', sv:'หัวหน้างาน',
-  worker:'ลูกกะ', robot:'Robot', fileName:'ชื่อไฟล์',
-  fileType:'ประเภทไฟล์', fileUrl:'URL ไฟล์',
-  rowGroup:'RowGroup', approved:'ตรวจสอบแล้ว',
+const COL={
+  ts:'Timestamp',date:'วันที่',shift:'กะ',round:'รอบตรวจ',
+  mcNo:'M/C No.',size:'Size',defect:'รายละเอียด Defect',
+  type:'ประเภท Defect',boxNo:'เลขกล่อง',time:'เวลา',
+  pallet:'Pallet No.',retTime:'เวลาคืน',sv:'หัวหน้างาน',
+  worker:'ลูกกะ',robot:'Robot',fileName:'ชื่อไฟล์',
+  fileType:'ประเภทไฟล์',fileUrl:'URL ไฟล์',
+  rowGroup:'RowGroup',approved:'ตรวจสอบแล้ว',
+  cause4m:'4M',causeDetail:'สาเหตุ',fixDetail:'แนวทางแก้ไข',
 };
-
 function g(row,key){const v=row[COL[key]];return(v===undefined||v===null)?'':String(v).trim();}
-const isOk = r => { const d=g(r,'defect'); return !d||d==='ไม่พบ defect'||d==='ไม่พบ'; };
-
-const COLORS = {
+const isOk=r=>{const d=g(r,'defect');return !d||d==='ไม่พบ defect'||d==='ไม่พบ';};
+const COLORS={
   defect:['#6366f1','#ef4444','#06b6d4','#10b981','#f59e0b','#8b5cf6','#f43f5e','#64748b'],
   mc:{B:'#ef4444',C:'#10b981',H:'#f59e0b',S:'#6366f1'},
   size:{'72g':'#64748b','250g':'#06b6d4','500g':'#6366f1','1kg':'#8b5cf6'},
   shift:{'1':'#6366f1','2':'#f59e0b','3':'#8b5cf6'},
 };
 
-let allData=[], filters={shift:'all',mc:'all',size:'all',status:'all'};
-let donutChart=null, trendChart=null;
-let trendMode='type', trendPeriod='daily';
-let hiddenSeries = new Set();
+let allData=[],filters={shift:'all',mc:'all',size:'all',status:'all'};
+let donutChart=null,trendChart=null;
+let barPeriod='daily',hiddenBarSeries=new Set();
+let _barDefectData=[],_barLabels=[],_barSeriesKeys=[],_barColorArr=[];
 
-// ─── TREND STATE ──────────────────────────────────────────────
-function setTrendMode(mode,btn){
-  trendMode=mode;
-  hiddenSeries.clear();
-  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on');
-  renderTrend(getFiltered().filter(r=>!isOk(r)));
-}
-function setTrendPeriod(period,btn){
-  trendPeriod=period;
-  hiddenSeries.clear();
+// ── BAR CHART ─────────────────────────────────────────────────
+function setBarPeriod(p,btn){
+  barPeriod=p;hiddenBarSeries.clear();
   document.querySelectorAll('.tgl').forEach(b=>b.classList.remove('on'));
   btn.classList.add('on');
-  renderTrend(getFiltered().filter(r=>!isOk(r)));
+  document.getElementById('barDetail').className='bar-detail';
+  renderTrend(_barDefectData);
 }
-
-// ─── TREND HELPERS ────────────────────────────────────────────
 function getPeriodKey(dateStr){
-  const d = parseDate(dateStr);
-  if(!d) return null;
-  if(trendPeriod==='daily'){
-    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-  }
-  if(trendPeriod==='weekly'){
-    // ISO week label
-    const jan1 = new Date(d.getFullYear(),0,1);
-    const wk   = Math.ceil(((d-jan1)/86400000+jan1.getDay()+1)/7);
-    return `${d.getFullYear()}-W${String(wk).padStart(2,'0')}`;
-  }
-  // monthly
+  const d=parseDate(dateStr);if(!d)return null;
+  if(barPeriod==='daily')return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  if(barPeriod==='weekly'){const jan1=new Date(d.getFullYear(),0,1);const wk=Math.ceil(((d-jan1)/86400000+jan1.getDay()+1)/7);return `${d.getFullYear()}-W${String(wk).padStart(2,'0')}`;}
   return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
 }
-
-function buildTrendDatasets(data){
-  // group by period
-  const periodSet = new Set();
-  const seriesMap = {}; // seriesKey -> { periodKey -> count }
-
-  data.forEach(r => {
-    const pk = getPeriodKey(g(r,'date'));
-    if(!pk) return;
-    periodSet.add(pk);
-
-    let sk;
-    if(trendMode==='type') sk = g(r,'type') || 'Other';
-    else if(trendMode==='mc') sk = g(r,'mcNo') || 'Unknown';
-    else sk = 'Defect Rate %'; // rate uses single series
-
-    if(!seriesMap[sk]) seriesMap[sk]={};
-    seriesMap[sk][pk] = (seriesMap[sk][pk]||0)+1;
-  });
-
-  const labels = [...periodSet].sort();
-
-  if(trendMode==='rate'){
-    // need total per period too
-    const allPeriodMap = {};
-    getFiltered().forEach(r=>{
-      const pk=getPeriodKey(g(r,'date'));
-      if(!pk) return;
-      allPeriodMap[pk]=(allPeriodMap[pk]||0)+1;
-    });
-    const defMap = seriesMap['Defect Rate %']||{};
-    const rateData = labels.map(pk=>{
-      const total = allPeriodMap[pk]||0;
-      const def   = defMap[pk]||0;
-      return total ? +(def/total*100).toFixed(1) : 0;
-    });
-    return {
-      labels,
-      datasets:[{
-        label:'Defect Rate %',
-        data: rateData,
-        borderColor:'#ef4444',
-        backgroundColor:'rgba(239,68,68,0.08)',
-        fill:true,
-        tension:0,
-        borderWidth:2.5,
-        pointRadius:4,
-        pointHoverRadius:6,
-        pointBackgroundColor:'#ef4444',
-      }]
-    };
-  }
-
-  // sort series by total desc, take top 8
-  const seriesSorted = Object.entries(seriesMap)
-    .map(([k,v])=>([k,Object.values(v).reduce((a,b)=>a+b,0)]))
-    .sort((a,b)=>b[1]-a[1])
-    .slice(0,8)
-    .map(([k])=>k);
-
-  const colorArr = trendMode==='mc'
-    ? seriesSorted.map(k=>COLORS.mc[k]||'#888')
-    : seriesSorted.map((_,i)=>COLORS.defect[i%COLORS.defect.length]);
-
-  const datasets = seriesSorted.map((sk,i)=>({
-    label: sk,
-    data: labels.map(pk=> seriesMap[sk]?.[pk]||0),
-    borderColor: colorArr[i],
-    backgroundColor: colorArr[i]+'18',
-    fill: false,
-    tension: 0,
-    borderWidth: 2.5,
-    pointRadius: 4,
-    pointHoverRadius: 7,
-    pointBackgroundColor: colorArr[i],
-    hidden: hiddenSeries.has(sk),
-  }));
-
-  return {labels, datasets, colorArr, seriesSorted};
-}
-
-// ─── RENDER TREND ─────────────────────────────────────────────
 function renderTrend(data){
-  const subMap = {type:'จำนวน Defect แยกตามประเภท', mc:'จำนวน Defect แยกตาม M/C', rate:'Defect Rate % ตามเวลา'};
-  document.getElementById('trendSubTitle').textContent = subMap[trendMode]||'';
-
-  const {labels, datasets, colorArr, seriesSorted} = buildTrendDatasets(data);
-
-  // ── Draw chart
+  _barDefectData=data;
+  const periodSet=new Set(),seriesMap={};
+  data.forEach(r=>{
+    const pk=getPeriodKey(g(r,'date'));if(!pk)return;
+    periodSet.add(pk);
+    const sk=g(r,'type')||'Other';
+    if(!seriesMap[sk])seriesMap[sk]={};
+    seriesMap[sk][pk]=(seriesMap[sk][pk]||0)+1;
+  });
+  const labels=[...periodSet].sort();
+  _barLabels=labels;
+  const seriesSorted=Object.entries(seriesMap).map(([k,v])=>([k,Object.values(v).reduce((a,b)=>a+b,0)])).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([k])=>k);
+  _barSeriesKeys=seriesSorted;
+  const colorArr=seriesSorted.map((_,i)=>COLORS.defect[i%COLORS.defect.length]);
+  _barColorArr=colorArr;
+  const datasets=seriesSorted.map((sk,i)=>({
+    label:sk,
+    data:labels.map(pk=>seriesMap[sk]?.[pk]||0),
+    backgroundColor:hiddenBarSeries.has(sk)?'transparent':colorArr[i]+'cc',
+    borderColor:hiddenBarSeries.has(sk)?'transparent':colorArr[i],
+    borderWidth:1,borderRadius:3,hidden:hiddenBarSeries.has(sk),
+  }));
   if(trendChart){trendChart.destroy();trendChart=null;}
-  const ctx = document.getElementById('trendChart').getContext('2d');
-
-  trendChart = new Chart(ctx,{
-    type:'line',
-    data:{labels, datasets},
+  const ctx=document.getElementById('trendChart').getContext('2d');
+  trendChart=new Chart(ctx,{
+    type:'bar',data:{labels,datasets},
     options:{
-      responsive:true,
-      maintainAspectRatio:false,
-      interaction:{mode:'index',intersect:false},
+      responsive:true,maintainAspectRatio:false,
       plugins:{
         legend:{display:false},
-        tooltip:{
-          backgroundColor:'rgba(30,27,75,0.92)',
-          titleColor:'#c7d2fe',
-          bodyColor:'#e0e7ff',
-          borderColor:'rgba(99,102,241,0.3)',
-          borderWidth:1,
-          padding:10,
-          titleFont:{family:'JetBrains Mono',size:11},
-          bodyFont:{family:'Kanit',size:12},
-          callbacks:{
-            label: ctx => ` ${ctx.dataset.label}: ${ctx.raw}${trendMode==='rate'?'%':''}`,
-          }
-        }
+        tooltip:{backgroundColor:'rgba(30,27,75,0.92)',titleColor:'#c7d2fe',bodyColor:'#e0e7ff',borderColor:'rgba(99,102,241,0.3)',borderWidth:1,padding:10,titleFont:{family:'JetBrains Mono',size:11},bodyFont:{family:'Kanit',size:12},callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}`}}
       },
+      onClick:(e,els)=>{if(!els.length){document.getElementById('barDetail').className='bar-detail';return;}showBarDetail(els[0].index);},
       scales:{
-        x:{
-          grid:{color:'rgba(99,102,241,0.07)'},
-          ticks:{
-            color:'#9194b8',
-            font:{family:'JetBrains Mono',size:9},
-            maxRotation:45,
-            autoSkip:true,
-            maxTicksLimit:16,
-          }
-        },
-        y:{
-          beginAtZero:true,
-          grid:{color:'rgba(99,102,241,0.07)'},
-          ticks:{
-            color:'#9194b8',
-            font:{family:'JetBrains Mono',size:9},
-            callback: v => trendMode==='rate' ? v+'%' : v,
-          }
-        }
+        x:{stacked:false,grid:{color:'rgba(99,102,241,0.06)'},ticks:{color:'#9194b8',font:{family:'JetBrains Mono',size:9},autoSkip:true,maxRotation:45,maxTicksLimit:16}},
+        y:{beginAtZero:true,grid:{color:'rgba(99,102,241,0.06)'},ticks:{color:'#9194b8',font:{family:'JetBrains Mono',size:9}}}
       }
     }
   });
-
-  // ── Legend (clickable)
-  renderTrendLegend(datasets, colorArr);
-
-  // ── Sparkline summary
-  renderSparklines(data, labels, datasets, colorArr, seriesSorted);
+  renderBarLegend(seriesSorted,colorArr);
 }
-
-function renderTrendLegend(datasets, colorArr){
-  const wrap = document.getElementById('trendLegend');
-  wrap.innerHTML = datasets.map((ds,i)=>`
-    <div class="tleg-item ${hiddenSeries.has(ds.label)?'off':''}" onclick="toggleSeries('${ds.label.replace(/'/g,"\\'")}',this)">
-      <div class="tleg-line" style="background:${ds.borderColor}"></div>
-      <div class="tleg-dot" style="background:${ds.borderColor}"></div>
-      <span>${ds.label}</span>
+function renderBarLegend(series,colors){
+  document.getElementById('barLegend').innerHTML=series.map((sk,i)=>`
+    <div class="bleg ${hiddenBarSeries.has(sk)?'off':''}" onclick="toggleBarSeries('${sk.replace(/'/g,"\\'")}',this)"
+      style="${hiddenBarSeries.has(sk)?'':'background:'+colors[i]+'18;border-color:'+colors[i]}">
+      <div class="bleg-dot" style="background:${hiddenBarSeries.has(sk)?'#ccc':colors[i]}"></div>
+      <span style="${hiddenBarSeries.has(sk)?'':'color:'+colors[i]}">${sk}</span>
     </div>`).join('');
 }
-
-function toggleSeries(label,el){
-  if(hiddenSeries.has(label)) hiddenSeries.delete(label);
-  else hiddenSeries.add(label);
+function toggleBarSeries(sk,el){
+  if(hiddenBarSeries.has(sk))hiddenBarSeries.delete(sk);else hiddenBarSeries.add(sk);
   el.classList.toggle('off');
-  // update chart visibility
+  const i=_barSeriesKeys.indexOf(sk);
   trendChart.data.datasets.forEach(ds=>{
-    if(ds.label===label) ds.hidden = hiddenSeries.has(label);
+    if(ds.label===sk){ds.hidden=hiddenBarSeries.has(sk);ds.backgroundColor=hiddenBarSeries.has(sk)?'transparent':_barColorArr[i]+'cc';ds.borderColor=hiddenBarSeries.has(sk)?'transparent':_barColorArr[i];}
   });
   trendChart.update();
 }
-
-function renderSparklines(data, labels, datasets, colorArr, seriesSorted){
-  const row = document.getElementById('sparklineRow');
-  if(!datasets||!datasets.length){row.innerHTML='';return;}
-
-  // For each series, compute total, last-period count, prev-period count
-  const cards = datasets.map((ds,i)=>{
-    const vals = ds.data;
-    const total = vals.reduce((s,v)=>s+v,0);
-    const last  = vals[vals.length-1]||0;
-    const prev  = vals[vals.length-2]||0;
-    const delta = last - prev;
-    const color = ds.borderColor;
-    const trendTxt = delta===0 ? '→ เท่าเดิม'
-      : delta>0 ? `▲ +${delta} จากช่วงก่อน`
-      : `▼ ${delta} จากช่วงก่อน`;
-    const trendColor = delta===0?'var(--ink3)':delta>0?'var(--red)':'var(--green)';
-    return `<div class="spark-card">
-      <div class="spark-name" title="${ds.label}">${ds.label}</div>
-      <div class="spark-val" style="color:${color}">${last}${trendMode==='rate'?'%':''}</div>
-      <div class="spark-trend" style="color:${trendColor}">${trendTxt}</div>
-      <div class="spark-canvas-wrap"><canvas id="spark_${i}" height="36"></canvas></div>
-    </div>`;
-  });
-  row.innerHTML = cards.join('');
-
-  // Draw mini sparklines
-  datasets.forEach((ds,i)=>{
-    const c = document.getElementById('spark_'+i);
-    if(!c) return;
-    new Chart(c.getContext('2d'),{
-      type:'line',
-      data:{
-        labels: labels,
-        datasets:[{
-          data: ds.data,
-          borderColor: ds.borderColor,
-          backgroundColor: ds.borderColor+'22',
-          fill:true,
-          tension:0,
-          borderWidth:1.8,
-          pointRadius:0,
-        }]
-      },
-      options:{
-        responsive:false,
-        animation:false,
-        plugins:{legend:{display:false},tooltip:{enabled:false}},
-        scales:{x:{display:false},y:{display:false,beginAtZero:true}}
-      }
-    });
-  });
+function showBarDetail(idx){
+  const lbl=_barLabels[idx];
+  document.getElementById('barDetailTitle').textContent=`📅 ${barPeriod==='daily'?'วันที่ '+lbl:barPeriod==='weekly'?'สัปดาห์ '+lbl:'เดือน '+lbl}`;
+  const vals=_barSeriesKeys.map((sk,i)=>({sk,color:_barColorArr[i],n:hiddenBarSeries.has(sk)?0:(trendChart.data.datasets[i]?.data[idx]||0)})).filter(v=>v.n>0).sort((a,b)=>b.n-a.n);
+  const total=vals.reduce((s,v)=>s+v.n,0)||1;
+  document.getElementById('barStatGrid').innerHTML=vals.map(v=>`
+    <div class="bar-stat" style="border-left-color:${v.color}">
+      <div class="bar-stat-lbl" title="${v.sk}">${v.sk}</div>
+      <div class="bar-stat-val" style="color:${v.color}">${v.n}</div>
+      <div class="bar-stat-pct">${Math.round(v.n/total*100)}% ของวันนี้</div>
+    </div>`).join('')||'<div style="font-size:12px;color:var(--ink3)">ไม่พบ defect</div>';
+  document.getElementById('barDetail').className='bar-detail show';
 }
 
-// ─── LOAD ─────────────────────────────────────────────────────
+// ── LOAD ──────────────────────────────────────────────────────
 async function loadData(){
-  const btn=document.querySelector('.refresh-btn');
-  btn.classList.add('loading');
+  const btn=document.querySelector('.refresh-btn');btn.classList.add('loading');
   try{
-    const res  = await fetch(GVZ_URL);
-    const text = await res.text();
-    const json = JSON.parse(text.replace(/^[^(]+\(/,'').replace(/\);?\s*$/,''));
-    const cols = json.table.cols.map(c=>c.label);
-    allData = json.table.rows.map(r=>{
+    const res=await fetch(GVZ_URL);const text=await res.text();
+    const json=JSON.parse(text.replace(/^[^(]+\(/,'').replace(/\);?\s*$/,''));
+    const cols=json.table.cols.map(c=>c.label);
+    allData=json.table.rows.map(r=>{
       const obj={};
       cols.forEach((col,i)=>{
         if(!r.c||!r.c[i]||r.c[i].v===null){obj[col]='';return;}
-        const v=r.c[i].v, f=r.c[i].f;
-        if(typeof v==='string'&&v.startsWith('Date(')){
-          const p=v.replace('Date(','').replace(')','').split(',');
-          const yr=parseInt(p[0]),mo=parseInt(p[1])+1,dy=parseInt(p[2]);
-          obj[col]=`${yr}-${String(mo).padStart(2,'0')}-${String(dy).padStart(2,'0')}`;
-        } else { obj[col]=f||String(v); }
+        const v=r.c[i].v,f=r.c[i].f;
+        if(typeof v==='string'&&v.startsWith('Date(')){const p=v.replace('Date(','').replace(')','').split(',');const yr=parseInt(p[0]),mo=parseInt(p[1])+1,dy=parseInt(p[2]);obj[col]=`${yr}-${String(mo).padStart(2,'0')}-${String(dy).padStart(2,'0')}`;}
+        else{obj[col]=f||String(v);}
       });
       return obj;
     }).filter(r=>g(r,'date')||g(r,'shift'));
-
     document.getElementById('lastUpdate').textContent='อัปเดต: '+new Date().toLocaleTimeString('th-TH');
-    renderAll();
-    document.getElementById('loadingScreen').style.display='none';
-  } catch(err){
+    renderAll();document.getElementById('loadingScreen').style.display='none';
+  }catch(err){
     document.getElementById('loadingSub').textContent='❌ โหลดไม่ได้: '+err.message;
     document.getElementById('loadingSub').style.color='#ef4444';
     setTimeout(()=>document.getElementById('loadingScreen').style.display='none',2500);
@@ -827,346 +665,225 @@ async function loadData(){
   btn.classList.remove('loading');
 }
 
-// ─── FILTER ───────────────────────────────────────────────────
+// ── FILTER ────────────────────────────────────────────────────
 function getFiltered(){
   const dateFrom=document.getElementById('dateFrom').value;
-  const dateTo  =document.getElementById('dateTo').value;
-  const month   =document.getElementById('monthSel').value;
+  const dateTo=document.getElementById('dateTo').value;
+  const month=document.getElementById('monthSel').value;
   return allData.filter(r=>{
-    if(filters.shift !=='all'&&g(r,'shift')!==filters.shift) return false;
-    if(filters.mc    !=='all'&&g(r,'mcNo') !==filters.mc)    return false;
-    if(filters.size  !=='all'&&g(r,'size') !==filters.size)  return false;
-    if(filters.status==='defect'&&isOk(r))  return false;
-    if(filters.status==='ok'   &&!isOk(r))  return false;
+    if(filters.shift!=='all'&&g(r,'shift')!==filters.shift)return false;
+    if(filters.mc!=='all'&&g(r,'mcNo')!==filters.mc)return false;
+    if(filters.size!=='all'&&g(r,'size')!==filters.size)return false;
+    if(filters.status==='defect'&&isOk(r))return false;
+    if(filters.status==='ok'&&!isOk(r))return false;
     if(dateFrom||dateTo||month){
-      const d=parseDate(g(r,'date'));
-      if(!d) return true;
+      const d=parseDate(g(r,'date'));if(!d)return true;
       const dOnly=new Date(d.getFullYear(),d.getMonth(),d.getDate());
       if(dateFrom){const f=parseInputDate(dateFrom);if(f&&dOnly<f)return false;}
-      if(dateTo)  {const t=parseInputDate(dateTo);  if(t&&dOnly>t)return false;}
-      if(month&&(d.getMonth()+1)!==parseInt(month)) return false;
+      if(dateTo){const t=parseInputDate(dateTo);if(t&&dOnly>t)return false;}
+      if(month&&(d.getMonth()+1)!==parseInt(month))return false;
     }
     return true;
   });
 }
-
 function parseDate(str){
-  if(!str) return null;
-  str=String(str).trim();
-  if(/^\d{4}-\d{2}-\d{2}/.test(str)){
-    const p=str.substring(0,10).split('-');
-    return new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2]));
-  }
+  if(!str)return null;str=String(str).trim();
+  if(/^\d{4}-\d{2}-\d{2}/.test(str)){const p=str.substring(0,10).split('-');return new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2]));}
   const m=str.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-  if(m){const d=parseInt(m[1]),mo=parseInt(m[2]),yr=parseInt(m[3]);
-    if(mo>12) return new Date(yr,d-1,mo);
-    return new Date(yr,mo-1,d);}
+  if(m){const d=parseInt(m[1]),mo=parseInt(m[2]),yr=parseInt(m[3]);if(mo>12)return new Date(yr,d-1,mo);return new Date(yr,mo-1,d);}
   if(/^\d{4,6}$/.test(str)){const d=new Date(1899,11,30);d.setDate(d.getDate()+parseInt(str));return d;}
   const d2=new Date(str);return isNaN(d2)?null:d2;
 }
-function parseInputDate(str){
-  if(!str) return null;
-  const p=str.split('-');
-  return p.length===3?new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2])):null;
-}
-function clearDate(){
-  document.getElementById('dateFrom').value='';
-  document.getElementById('dateTo').value='';
-  document.getElementById('monthSel').value='';
-  renderAll();
-}
+function parseInputDate(str){if(!str)return null;const p=str.split('-');return p.length===3?new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2])):null;}
+function clearDate(){document.getElementById('dateFrom').value='';document.getElementById('dateTo').value='';document.getElementById('monthSel').value='';renderAll();}
 
-// ─── RENDER ALL ───────────────────────────────────────────────
+// ── RENDER ALL ────────────────────────────────────────────────
 function renderAll(){
-  const data      =getFiltered();
+  const data=getFiltered();
   const defectOnly=data.filter(r=>!isOk(r));
-  const okOnly    =data.filter(r=>isOk(r));
-  const total=data.length, defCount=defectOnly.length, okCount=okOnly.length;
-
-  document.getElementById('kpiDefect').textContent    =defCount.toLocaleString();
-  document.getElementById('kpiTotal').textContent     =total.toLocaleString();
-  document.getElementById('kpiOk').textContent        =okCount.toLocaleString();
+  const okOnly=data.filter(r=>isOk(r));
+  const total=data.length,defCount=defectOnly.length,okCount=okOnly.length;
+  document.getElementById('kpiDefect').textContent=defCount.toLocaleString();
+  document.getElementById('kpiTotal').textContent=total.toLocaleString();
+  document.getElementById('kpiOk').textContent=okCount.toLocaleString();
   document.getElementById('kpiDefectRate').textContent=`Defect Rate ${total?(defCount/total*100).toFixed(1):0}%`;
-  document.getElementById('kpiRows').textContent      =`${total} rows ใน Sheet`;
-  document.getElementById('kpiOkRate').textContent    =`Pass Rate ${total?(okCount/total*100).toFixed(1):0}%`;
-
-  const mcCnt={};
-  defectOnly.forEach(r=>{const mc=g(r,'mcNo');if(mc)mcCnt[mc]=(mcCnt[mc]||0)+1;});
+  document.getElementById('kpiRows').textContent=`${total} rows ใน Sheet`;
+  document.getElementById('kpiOkRate').textContent=`Pass Rate ${total?(okCount/total*100).toFixed(1):0}%`;
+  const mcCnt={};defectOnly.forEach(r=>{const mc=g(r,'mcNo');if(mc)mcCnt[mc]=(mcCnt[mc]||0)+1;});
   const topMC=Object.entries(mcCnt).sort((a,b)=>b[1]-a[1])[0];
-  if(topMC){
-    document.getElementById('kpiTopMC').textContent   ='M/C '+topMC[0];
-    document.getElementById('kpiTopMCSub').textContent=`${topMC[1]} รายการ`;
-    document.getElementById('kpiTopMCPct').textContent=`${defCount?(topMC[1]/defCount*100).toFixed(1):0}% ของ Defect`;
-  }
-  const defDetailCnt={};
-  defectOnly.forEach(r=>{const d=g(r,'defect');if(d)defDetailCnt[d]=(defDetailCnt[d]||0)+1;});
+  if(topMC){document.getElementById('kpiTopMC').textContent='M/C '+topMC[0];document.getElementById('kpiTopMCSub').textContent=`${topMC[1]} รายการ`;document.getElementById('kpiTopMCPct').textContent=`${defCount?(topMC[1]/defCount*100).toFixed(1):0}% ของ Defect`;}
+  const defDetailCnt={};defectOnly.forEach(r=>{const d=g(r,'defect');if(d)defDetailCnt[d]=(defDetailCnt[d]||0)+1;});
   const topDef=Object.entries(defDetailCnt).sort((a,b)=>b[1]-a[1])[0];
-  if(topDef){
-    document.getElementById('kpiTopDefect').textContent   =topDef[0].substring(0,30)+(topDef[0].length>30?'…':'');
-    document.getElementById('kpiTopDefectSub').textContent=`${topDef[1]} รายการ`;
-    document.getElementById('kpiTopDefectPct').textContent=`${defCount?(topDef[1]/defCount*100).toFixed(1):0}% ของ Defect`;
-  }
-
-  renderTrend(defectOnly);
-  renderHBar(defectOnly);
-  renderDonut(defectOnly);
-  renderShift(defectOnly);
-  renderMC(defectOnly);
-  renderSize(defectOnly);
-  renderSV(defectOnly);
-  renderTop5(defectOnly);
-  renderTable(data);
+  if(topDef){document.getElementById('kpiTopDefect').textContent=topDef[0].substring(0,30)+(topDef[0].length>30?'…':'');document.getElementById('kpiTopDefectSub').textContent=`${topDef[1]} รายการ`;document.getElementById('kpiTopDefectPct').textContent=`${defCount?(topDef[1]/defCount*100).toFixed(1):0}% ของ Defect`;}
+  renderTrend(defectOnly);renderHBar(defectOnly);renderDonut(defectOnly);renderShift(defectOnly);renderMC(defectOnly);renderSize(defectOnly);renderSV(defectOnly);renderTop5(defectOnly);renderTable(data);
 }
 
-// ─── ORIGINAL CHARTS (unchanged) ──────────────────────────────
 function renderHBar(data){
-  const cnt={};
-  data.forEach(r=>{const t=g(r,'type')||'Other';cnt[t]=(cnt[t]||0)+1;});
-  const sorted=Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
-  const mx=sorted[0]?.[1]||1;
+  const cnt={};data.forEach(r=>{const t=g(r,'type')||'Other';cnt[t]=(cnt[t]||0)+1;});
+  const sorted=Object.entries(cnt).sort((a,b)=>b[1]-a[1]);const mx=sorted[0]?.[1]||1;
   const c=document.getElementById('hbarContainer');
-  c.innerHTML=sorted.length?sorted.map(([l,n],i)=>`
-    <div class="hbar-row">
-      <div class="hbar-lbl" title="${l}">${l}</div>
-      <div class="hbar-track"><div class="hbar-fill" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${COLORS.defect[i%COLORS.defect.length]}"></div></div>
-      <div class="hbar-n">${n}</div>
-    </div>`).join(''):'<div class="empty">ไม่มีข้อมูล Defect</div>';
+  c.innerHTML=sorted.length?sorted.map(([l,n],i)=>`<div class="hbar-row"><div class="hbar-lbl" title="${l}">${l}</div><div class="hbar-track"><div class="hbar-fill" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${COLORS.defect[i%COLORS.defect.length]}"></div></div><div class="hbar-n">${n}</div></div>`).join(''):'<div class="empty">ไม่มีข้อมูล Defect</div>';
   setTimeout(()=>c.querySelectorAll('.hbar-fill').forEach(el=>el.style.width=el.dataset.w+'%'),50);
 }
-
 function renderDonut(data){
-  const cnt={};
-  data.forEach(r=>{const t=g(r,'type')||'Other';cnt[t]=(cnt[t]||0)+1;});
-  const entries=Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
-  const total=entries.reduce((s,[,n])=>s+n,0);
+  const cnt={};data.forEach(r=>{const t=g(r,'type')||'Other';cnt[t]=(cnt[t]||0)+1;});
+  const entries=Object.entries(cnt).sort((a,b)=>b[1]-a[1]);const total=entries.reduce((s,[,n])=>s+n,0);
   if(donutChart){donutChart.destroy();donutChart=null;}
   if(!entries.length){document.getElementById('donutLegend').innerHTML='<div class="empty">ไม่มีข้อมูล</div>';return;}
   const colors=entries.map((_,i)=>COLORS.defect[i%COLORS.defect.length]);
-  donutChart=new Chart(document.getElementById('donutChart'),{
-    type:'doughnut',
-    data:{labels:entries.map(([l])=>l),datasets:[{data:entries.map(([,n])=>n),backgroundColor:colors,borderWidth:2,borderColor:'#fff',hoverOffset:4}]},
-    options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.label}: ${c.raw} (${Math.round(c.raw/total*100)}%)`}}}}
-  });
-  document.getElementById('donutLegend').innerHTML=entries.slice(0,6).map(([l,n],i)=>
-    `<div style="display:flex;align-items:center;gap:7px;font-size:11px">
-      <div style="width:8px;height:8px;border-radius:2px;background:${colors[i]};flex-shrink:0"></div>
-      <span style="flex:1;color:var(--ink2)">${l}</span>
-      <span style="font-family:'JetBrains Mono',monospace;color:var(--ink3)">${n}</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-weight:600;min-width:30px;text-align:right">${Math.round(n/total*100)}%</span>
-    </div>`).join('');
+  donutChart=new Chart(document.getElementById('donutChart'),{type:'doughnut',data:{labels:entries.map(([l])=>l),datasets:[{data:entries.map(([,n])=>n),backgroundColor:colors,borderWidth:2,borderColor:'#fff',hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:'62%',plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`${c.label}: ${c.raw} (${Math.round(c.raw/total*100)}%)`}}}}});
+  document.getElementById('donutLegend').innerHTML=entries.slice(0,6).map(([l,n],i)=>`<div style="display:flex;align-items:center;gap:7px;font-size:11px"><div style="width:8px;height:8px;border-radius:2px;background:${colors[i]};flex-shrink:0"></div><span style="flex:1;color:var(--ink2)">${l}</span><span style="font-family:'JetBrains Mono',monospace;color:var(--ink3)">${n}</span><span style="font-family:'JetBrains Mono',monospace;font-weight:600;min-width:30px;text-align:right">${Math.round(n/total*100)}%</span></div>`).join('');
 }
-
 function renderShift(data){
-  const rounds={};
-  data.forEach(r=>{
-    const shift=g(r,'shift'),round=g(r,'round');
-    if(!round) return;
-    if(!rounds[round]) rounds[round]={'1':0,'2':0,'3':0};
-    rounds[round][shift]=(rounds[round][shift]||0)+1;
-  });
-  const sorted=Object.entries(rounds).sort((a,b)=>a[0].localeCompare(b[0]));
-  const mx=Math.max(...sorted.map(([,v])=>Math.max(...Object.values(v))),1);
+  const rounds={};data.forEach(r=>{const shift=g(r,'shift'),round=g(r,'round');if(!round)return;if(!rounds[round])rounds[round]={'1':0,'2':0,'3':0};rounds[round][shift]=(rounds[round][shift]||0)+1;});
+  const sorted=Object.entries(rounds).sort((a,b)=>a[0].localeCompare(b[0]));const mx=Math.max(...sorted.map(([,v])=>Math.max(...Object.values(v))),1);
   const c=document.getElementById('shiftBars');
-  c.innerHTML=sorted.length?sorted.map(([round,vals])=>{
-    const bars=['1','2','3'].map(s=>vals[s]>0?`<div class="sbar" data-h="${Math.round(vals[s]/mx*94)}" style="height:0;background:${COLORS.shift[s]}"></div>`:'').join('');
-    return `<div class="shift-col"><div class="shift-bars-inner">${bars}</div><div class="shift-lbl-txt">${round.replace(' น.','')}</div></div>`;
-  }).join(''):'<div class="empty" style="width:100%">ไม่มีข้อมูล</div>';
+  c.innerHTML=sorted.length?sorted.map(([round,vals])=>{const bars=['1','2','3'].map(s=>vals[s]>0?`<div class="sbar" data-h="${Math.round(vals[s]/mx*94)}" style="height:0;background:${COLORS.shift[s]}"></div>`:'').join('');return `<div class="shift-col"><div class="shift-bars-inner">${bars}</div><div class="shift-lbl-txt">${round.replace(' น.','')}</div></div>`;}).join(''):'<div class="empty" style="width:100%">ไม่มีข้อมูล</div>';
   setTimeout(()=>c.querySelectorAll('.sbar').forEach(el=>el.style.height=el.dataset.h+'px'),80);
 }
-
 function renderMC(data){
-  const cnt={};
-  data.forEach(r=>{const mc=g(r,'mcNo');if(mc)cnt[mc]=(cnt[mc]||0)+1;});
-  const total=Object.values(cnt).reduce((s,n)=>s+n,0)||1;
-  const mx=Math.max(...Object.values(cnt),1);
+  const cnt={};data.forEach(r=>{const mc=g(r,'mcNo');if(mc)cnt[mc]=(cnt[mc]||0)+1;});
+  const total=Object.values(cnt).reduce((s,n)=>s+n,0)||1;const mx=Math.max(...Object.values(cnt),1);
   const c=document.getElementById('mcGrid');
-  c.innerHTML=['B','C','H','S'].map(mc=>{
-    const n=cnt[mc]||0, color=COLORS.mc[mc]||'#888';
-    return `<div class="mc-c">
-      <div class="mc-name" style="color:${color}">${mc}</div>
-      <div class="mc-n" style="color:${color}">${n}</div>
-      <div class="mc-s">${(n/total*100).toFixed(1)}% ของทั้งหมด</div>
-      <div class="mc-bar"><div class="mc-bf" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${color}"></div></div>
-    </div>`;
-  }).join('');
+  c.innerHTML=['B','C','H','S'].map(mc=>{const n=cnt[mc]||0,color=COLORS.mc[mc]||'#888';return `<div class="mc-c"><div class="mc-name" style="color:${color}">${mc}</div><div class="mc-n" style="color:${color}">${n}</div><div class="mc-s">${(n/total*100).toFixed(1)}% ของทั้งหมด</div><div class="mc-bar"><div class="mc-bf" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${color}"></div></div></div>`;}).join('');
   setTimeout(()=>c.querySelectorAll('.mc-bf').forEach(el=>el.style.width=el.dataset.w+'%'),80);
 }
-
 function renderSize(data){
-  const cnt={};
-  data.forEach(r=>{const s=g(r,'size');if(s)cnt[s]=(cnt[s]||0)+1;});
-  const sorted=Object.entries(cnt).sort((a,b)=>b[1]-a[1]);
-  const mx=sorted[0]?.[1]||1;
+  const cnt={};data.forEach(r=>{const s=g(r,'size');if(s)cnt[s]=(cnt[s]||0)+1;});
+  const sorted=Object.entries(cnt).sort((a,b)=>b[1]-a[1]);const mx=sorted[0]?.[1]||1;
   const c=document.getElementById('sizeContainer');
-  c.innerHTML=sorted.length?sorted.map(([sz,n])=>{
-    const color=COLORS.size[sz]||'#6366f1';
-    return `<div class="sz-item">
-      <div class="sz-lbl">${sz}</div>
-      <div class="sz-track"><div class="sz-fill" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${color}"></div></div>
-      <div class="sz-n">${n}</div>
-    </div>`;
-  }).join(''):'<div class="empty">ไม่มีข้อมูล</div>';
+  c.innerHTML=sorted.length?sorted.map(([sz,n])=>{const color=COLORS.size[sz]||'#6366f1';return `<div class="sz-item"><div class="sz-lbl">${sz}</div><div class="sz-track"><div class="sz-fill" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${color}"></div></div><div class="sz-n">${n}</div></div>`;}).join(''):'<div class="empty">ไม่มีข้อมูล</div>';
   setTimeout(()=>c.querySelectorAll('.sz-fill').forEach(el=>el.style.width=el.dataset.w+'%'),80);
 }
-
 function renderSV(data){
-  const cnt={};
-  data.forEach(r=>{const sv=g(r,'sv');if(sv)cnt[sv]=(cnt[sv]||0)+1;});
-  const sorted=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,8);
-  const mx=sorted[0]?.[1]||1;
+  const cnt={};data.forEach(r=>{const sv=g(r,'sv');if(sv)cnt[sv]=(cnt[sv]||0)+1;});
+  const sorted=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,8);const mx=sorted[0]?.[1]||1;
   const c=document.getElementById('svContainer');
-  c.innerHTML=sorted.length?sorted.map(([name,n])=>`
-    <div class="sv-row">
-      <div class="sv-name">${name}</div>
-      <div class="sv-count">${n}</div>
-      <div class="sv-bar-track"><div class="sv-bar-fill" data-w="${Math.round(n/mx*100)}" style="width:0%"></div></div>
-    </div>`).join(''):'<div class="empty">ไม่มีข้อมูล</div>';
+  c.innerHTML=sorted.length?sorted.map(([name,n])=>`<div class="sv-row"><div class="sv-name">${name}</div><div class="sv-count">${n}</div><div class="sv-bar-track"><div class="sv-bar-fill" data-w="${Math.round(n/mx*100)}" style="width:0%"></div></div></div>`).join(''):'<div class="empty">ไม่มีข้อมูล</div>';
   setTimeout(()=>c.querySelectorAll('.sv-bar-fill').forEach(el=>el.style.width=el.dataset.w+'%'),80);
 }
-
 function renderTop5(data){
-  const cnt={};
-  data.forEach(r=>{const d=g(r,'defect');if(d)cnt[d]=(cnt[d]||0)+1;});
-  const sorted=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,5);
-  const mx=sorted[0]?.[1]||1;
+  const cnt={};data.forEach(r=>{const d=g(r,'defect');if(d)cnt[d]=(cnt[d]||0)+1;});
+  const sorted=Object.entries(cnt).sort((a,b)=>b[1]-a[1]).slice(0,5);const mx=sorted[0]?.[1]||1;
   const c=document.getElementById('top5Container');
-  c.innerHTML=sorted.length?sorted.map(([detail,n],i)=>`
-    <div class="hbar-row" style="grid-template-columns:1fr 1fr 32px">
-      <div class="hbar-lbl" title="${detail}" style="grid-column:1/-1;font-size:11px;margin-bottom:4px">${i+1}. ${detail}</div>
-      <div class="hbar-track" style="grid-column:1/3"><div class="hbar-fill" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${COLORS.defect[i%COLORS.defect.length]}"></div></div>
-      <div class="hbar-n">${n}</div>
-    </div>`).join(''):'<div class="empty">ไม่มีข้อมูล</div>';
+  c.innerHTML=sorted.length?sorted.map(([detail,n],i)=>`<div class="hbar-row" style="grid-template-columns:1fr 1fr 32px"><div class="hbar-lbl" title="${detail}" style="grid-column:1/-1;font-size:11px;margin-bottom:4px">${i+1}. ${detail}</div><div class="hbar-track" style="grid-column:1/3"><div class="hbar-fill" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${COLORS.defect[i%COLORS.defect.length]}"></div></div><div class="hbar-n">${n}</div></div>`).join(''):'<div class="empty">ไม่มีข้อมูล</div>';
   setTimeout(()=>c.querySelectorAll('.hbar-fill').forEach(el=>el.style.width=el.dataset.w+'%'),80);
 }
-
 function renderTable(data){
   const recent=[...data].reverse().slice(0,30);
   document.getElementById('tblSub').textContent=`แสดง ${Math.min(30,data.length)} จาก ${data.length} รายการ`;
-  const shiftPill={'1':'pill-b','2':'pill-a','3':'pill-v'};
-  const mcPill={B:'pill-r',C:'pill-g',H:'pill-a',S:'pill-b'};
+  const shiftPill={'1':'pill-b','2':'pill-a','3':'pill-v'};const mcPill={B:'pill-r',C:'pill-g',H:'pill-a',S:'pill-b'};
   document.getElementById('tblBody').innerHTML=recent.length?recent.map(r=>{
     const shift=g(r,'shift'),mc=g(r,'mcNo'),defect=g(r,'defect'),type=g(r,'type'),ok=isOk(r),fileUrl=g(r,'fileUrl');
-    return `<tr>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:11px">${g(r,'date')}</td>
-      <td><span class="pill ${shiftPill[shift]||'pill-n'}">กะ ${shift}</span></td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'round')}</td>
-      <td><span class="pill ${mcPill[mc]||'pill-n'}">${mc||'—'}</span></td>
-      <td style="font-family:'JetBrains Mono',monospace">${g(r,'size')||'—'}</td>
-      <td title="${defect}">${defect}</td>
-      <td><span class="pill ${ok?'pill-g':'pill-r'}">${type||defect}</span></td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'boxNo')||'—'}</td>
-      <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'pallet')||'—'}</td>
-      <td>${g(r,'sv')}</td>
-      <td>${renderApproveBtn(r)}</td>
-      <td>${fileUrl?`<a href="${fileUrl}" target="_blank" rel="noopener" class="view-img-btn">🖼️ ดู</a>`:'<span style="color:var(--ink3);font-size:10px">—</span>'}</td>
-    </tr>`;
+    return `<tr><td style="font-family:'JetBrains Mono',monospace;font-size:11px">${g(r,'date')}</td><td><span class="pill ${shiftPill[shift]||'pill-n'}">กะ ${shift}</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'round')}</td><td><span class="pill ${mcPill[mc]||'pill-n'}">${mc||'—'}</span></td><td style="font-family:'JetBrains Mono',monospace">${g(r,'size')||'—'}</td><td title="${defect}">${defect}</td><td><span class="pill ${ok?'pill-g':'pill-r'}">${type||defect}</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'boxNo')||'—'}</td><td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'pallet')||'—'}</td><td>${g(r,'sv')}</td><td>${renderApproveBtn(r)}</td><td>${fileUrl?`<a href="${fileUrl}" target="_blank" rel="noopener" class="view-img-btn">🖼️ ดู</a>`:'<span style="color:var(--ink3);font-size:10px">—</span>'}</td></tr>`;
   }).join(''):'<tr><td colspan="12" class="empty">ไม่มีข้อมูล</td></tr>';
 }
 
-// ─── APPROVE MODAL ────────────────────────────────────────────
-let _modalRowGroup='', _modalBoxNo='', _modalBtn=null, _modalDefect='';
+// ── MODAL 4M ──────────────────────────────────────────────────
+let _modalRowGroup='',_modalBoxNo='',_modalBtn=null,_curM=null,_curTag=null;
 
 function renderApproveBtn(r){
-  const approved=g(r,'approved'), rowGroup=g(r,'rowGroup'), boxNo=g(r,'boxNo'), defect=g(r,'defect');
-
-  // ── แสดงผลหลังบันทึกแล้ว ──
-  if(approved&&approved.includes('✅')){
-    const isDes=approved.includes('ทำลาย');
-    const isOkRow=approved.includes('รับทราบ');
-    const cls=isOkRow?'done-change':(isDes?'done-destroy':'done-change');
-    return `<span class="approve-btn ${cls}" style="font-size:10px">${approved}</span>`;
-  }
-
+  const approved=g(r,'approved'),rowGroup=g(r,'rowGroup'),boxNo=g(r,'boxNo'),defect=g(r,'defect');
+  if(approved&&approved.includes('✅')){const isDes=approved.includes('ทำลาย');const cls=approved.includes('รับทราบ')?'done-change':(isDes?'done-destroy':'done-change');return `<span class="approve-btn ${cls}" style="font-size:10px">${approved}</span>`;}
   const esc=s=>s.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-
-  // ── ไม่พบ defect → กดรับทราบเดียวจบ ──
-  if(isOk(r)){
-    return `<button class="approve-btn" style="border-color:#bfdbfe;background:#eff6ff;color:#1d4ed8"
-      onclick="quickApprove(this,'${esc(rowGroup)}','${esc(boxNo)}')">☐ รับทราบ</button>`;
-  }
-
-  // ── พบ defect → เปิด Modal เลือกการดำเนินการ ──
+  if(isOk(r))return `<button class="approve-btn" style="border-color:#bfdbfe;background:#eff6ff;color:#1d4ed8" onclick="quickApprove(this,'${esc(rowGroup)}','${esc(boxNo)}')">☐ รับทราบ</button>`;
   return `<button class="approve-btn" onclick="openModal(this,'${esc(rowGroup)}','${esc(boxNo)}','${esc(defect)}')">☐ รับทราบ</button>`;
 }
 
-// กดรับทราบแบบง่าย (ไม่พบ defect)
-async function quickApprove(btn, rowGroup, boxNo){
+async function quickApprove(btn,rowGroup,boxNo){
   if(!rowGroup){alert('ไม่พบ RowGroup');return;}
-  btn.textContent='⏳...'; btn.style.pointerEvents='none';
+  btn.textContent='⏳...';btn.style.pointerEvents='none';
   const approvedVal='✅ รับทราบ';
   try{
-    const res=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},
-      body:JSON.stringify({action:'approve',rowGroup,boxNo,approved:approvedVal})});
+    const res=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'approve',rowGroup,boxNo,approved:approvedVal})});
     const json=await res.json();
-    if(json.success){
-      btn.className='approve-btn done-change';
-      btn.style.fontSize='10px';
-      btn.textContent=approvedVal;
-      btn.onclick=null;
-    } else {
-      btn.textContent='❌ ลองใหม่'; btn.style.pointerEvents='auto';
-    }
-  }catch(e){
-    btn.textContent='❌ ลองใหม่'; btn.style.pointerEvents='auto';
-  }
+    if(json.success){btn.className='approve-btn done-change';btn.style.fontSize='10px';btn.textContent=approvedVal;btn.onclick=null;}
+    else{btn.textContent='❌ ลองใหม่';btn.style.pointerEvents='auto';}
+  }catch(e){btn.textContent='❌ ลองใหม่';btn.style.pointerEvents='auto';}
 }
 
 function openModal(btn,rowGroup,boxNo,defect){
-  _modalRowGroup=rowGroup; _modalBoxNo=boxNo; _modalBtn=btn; _modalDefect=defect;
+  _modalRowGroup=rowGroup;_modalBoxNo=boxNo;_modalBtn=btn;_curM=null;_curTag=null;
   document.getElementById('modalDefectLabel').textContent=defect||'รายการ Defect';
   document.getElementById('modalSvSelect').value='';
   document.getElementById('modalActionSelect').value='';
+  ['man','machine','method','material'].forEach(k=>{
+    document.getElementById('chip-'+k).className='m4-chip';
+    document.getElementById('cause-'+k).className='cause-box '+k;
+    document.querySelectorAll('#tags-'+k+' .tag').forEach(t=>t.classList.remove('sel'));
+    document.getElementById('ta-cause-'+k).value='';
+    document.getElementById('ta-fix-'+k).value='';
+  });
   document.getElementById('modalConfirmBtn').disabled=true;
   document.getElementById('approveModal').classList.add('open');
 }
-
 function closeModal(){document.getElementById('approveModal').classList.remove('open');}
+document.getElementById('approveModal').addEventListener('click',e=>{if(e.target===document.getElementById('approveModal'))closeModal();});
 
-document.getElementById('approveModal').addEventListener('click',e=>{
-  if(e.target===document.getElementById('approveModal')) closeModal();
-});
-
-['modalSvSelect','modalActionSelect'].forEach(id=>{
-  document.getElementById(id).addEventListener('change',()=>{
-    const sv=document.getElementById('modalSvSelect').value;
-    const act=document.getElementById('modalActionSelect').value;
-    document.getElementById('modalConfirmBtn').disabled=!(sv&&act);
+function pickM4(m){
+  ['man','machine','method','material'].forEach(k=>{
+    document.getElementById('chip-'+k).className='m4-chip';
+    document.getElementById('cause-'+k).className='cause-box '+k;
+    document.querySelectorAll('#tags-'+k+' .tag').forEach(t=>t.classList.remove('sel'));
+    document.getElementById('ta-cause-'+k).value='';
+    document.getElementById('ta-fix-'+k).value='';
   });
-});
+  if(_curM===m){_curM=null;_curTag=null;chkModal();return;}
+  _curM=m;_curTag=null;
+  document.getElementById('chip-'+m).className='m4-chip act-'+m;
+  document.getElementById('cause-'+m).className='cause-box '+m+' show';
+  chkModal();
+}
+function selTag(el,m){
+  document.querySelectorAll('#tags-'+m+' .tag').forEach(t=>t.classList.remove('sel'));
+  el.classList.add('sel');_curTag=el.textContent;
+  document.getElementById('ta-cause-'+m).value='';
+  chkModal();
+}
+function onCauseInput(m){
+  const val=document.getElementById('ta-cause-'+m).value.trim();
+  if(val){document.querySelectorAll('#tags-'+m+' .tag').forEach(t=>t.classList.remove('sel'));_curTag=val;}
+  else{_curTag=null;}
+  chkModal();
+}
+function chkModal(){
+  const sv=document.getElementById('modalSvSelect').value;
+  const act=document.getElementById('modalActionSelect').value;
+  const taVal=_curM?document.getElementById('ta-cause-'+_curM).value.trim():'';
+  const fixVal=_curM?document.getElementById('ta-fix-'+_curM).value.trim():'';
+  document.getElementById('modalConfirmBtn').disabled=!(sv&&act&&_curM&&(taVal||_curTag)&&fixVal);
+}
 
 async function confirmApprove(){
   const sv=document.getElementById('modalSvSelect').value;
   const act=document.getElementById('modalActionSelect').value;
-  if(!sv||!act) return;
+  if(!sv||!act||!_curM)return;
   if(!_modalRowGroup){alert('ไม่พบ RowGroup');return;}
+  const causeDetail=_curM?(document.getElementById('ta-cause-'+_curM).value.trim()||_curTag||''):'';
+  const fixDetail=_curM?document.getElementById('ta-fix-'+_curM).value.trim():'';
   const confirmBtn=document.getElementById('modalConfirmBtn');
-  confirmBtn.textContent='⏳ กำลังบันทึก...'; confirmBtn.disabled=true;
+  confirmBtn.textContent='⏳ กำลังบันทึก...';confirmBtn.disabled=true;
   const isDes=act.includes('ทำลาย');
   const label=isDes?'🗑️ ทำลาย/GA':'♻️ เปลี่ยนกล่อง';
   const approvedVal=`✅ ${sv} · ${label}`;
   try{
     const res=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},
-      body:JSON.stringify({action:'approve',rowGroup:_modalRowGroup,boxNo:_modalBoxNo,sv,act,approved:approvedVal})});
+      body:JSON.stringify({
+        action:'approve',rowGroup:_modalRowGroup,boxNo:_modalBoxNo,
+        sv,act,approved:approvedVal,
+        cause4m:_curM,       // → column U (4M)
+        causeDetail,          // → column V (สาเหตุ)
+        fixDetail,            // → column W (แนวทางแก้ไข)
+      })});
     const json=await res.json();
     if(json.success){
-      if(_modalBtn){
-        _modalBtn.className='approve-btn '+(isDes?'done-destroy':'done-change');
-        _modalBtn.style.fontSize='10px';
-        _modalBtn.textContent=approvedVal;
-        _modalBtn.onclick=null;
-      }
+      if(_modalBtn){_modalBtn.className='approve-btn '+(isDes?'done-destroy':'done-change');_modalBtn.style.fontSize='10px';_modalBtn.textContent=approvedVal;_modalBtn.onclick=null;}
       closeModal();
-    } else {
-      alert('❌ บันทึกไม่สำเร็จ กรุณาลองใหม่');
-      confirmBtn.textContent='✓ ยืนยัน'; confirmBtn.disabled=false;
-    }
-  }catch(e){
-    alert('❌ เกิดข้อผิดพลาด: '+e.message);
-    confirmBtn.textContent='✓ ยืนยัน'; confirmBtn.disabled=false;
-  }
+    }else{alert('❌ บันทึกไม่สำเร็จ กรุณาลองใหม่');confirmBtn.textContent='✓ ยืนยัน';confirmBtn.disabled=false;}
+  }catch(e){alert('❌ เกิดข้อผิดพลาด: '+e.message);confirmBtn.textContent='✓ ยืนยัน';confirmBtn.disabled=false;}
 }
 
-// ─── FILTER CHIPS ─────────────────────────────────────────────
+// ── FILTER CHIPS ──────────────────────────────────────────────
 [['shiftChips','shift'],['mcChips','mc'],['sizeChips','size'],['statusChips','status']].forEach(([id,key])=>{
   document.getElementById(id).addEventListener('click',e=>{
     const chip=e.target.closest('.chip');if(!chip)return;
@@ -1175,14 +892,9 @@ async function confirmApprove(){
   });
 });
 
-// ─── CLOCK ────────────────────────────────────────────────────
-function tickClock(){
-  const n=new Date();
-  const t=[n.getHours(),n.getMinutes(),n.getSeconds()].map(x=>String(x).padStart(2,'0')).join(':');
-  const el=document.getElementById('liveClock');if(el)el.textContent=t;
-}
+// ── CLOCK ─────────────────────────────────────────────────────
+function tickClock(){const n=new Date();const t=[n.getHours(),n.getMinutes(),n.getSeconds()].map(x=>String(x).padStart(2,'0')).join(':');const el=document.getElementById('liveClock');if(el)el.textContent=t;}
 tickClock();setInterval(tickClock,1000);
-
 loadData();
 </script>
 </body>
