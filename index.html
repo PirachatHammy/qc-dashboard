@@ -749,12 +749,14 @@ function drillType(typeName,color){
     return pk===_barLabels[_drillIdx]&&(g(r,'type')||'Other')===typeName&&!isOk(r);
   });
 
-  // count 4M from approved rows
+  // count 4M from approved rows — normalize case (man→Man, machine→Machine ฯลฯ)
   const m4cnt={Man:0,Machine:0,Method:0,Material:0};
+  const m4norm={'man':'Man','machine':'Machine','method':'Method','material':'Material','Man':'Man','Machine':'Machine','Method':'Method','Material':'Material'};
   let analyzed=0;
   periodRows.forEach(r=>{
-    const m=g(r,'cause4m');
-    if(m&&m4cnt[m]!==undefined){m4cnt[m]++;analyzed++;}
+    const raw=g(r,'cause4m').trim();
+    const m=m4norm[raw]||m4norm[raw.toLowerCase()]||null;
+    if(m){m4cnt[m]++;analyzed++;}
   });
 
   document.getElementById('drillL2Title').textContent=`สาเหตุ 4M — ${typeName}`;
@@ -784,12 +786,14 @@ function drillM4(m4Key,typeName){
   event.currentTarget.classList.add('sel');
   const mc=M4C[m4Key];
 
-  // get rows with this type + this 4M
+  // get rows with this type + this 4M (normalize case)
+  const m4norm2={'man':'Man','machine':'Machine','method':'Method','material':'Material','Man':'Man','Machine':'Machine','Method':'Method','Material':'Material'};
   const rows=_barDefectData.filter(r=>{
     const pk=getPeriodKey(g(r,'date'));
+    const m4val=m4norm2[g(r,'cause4m').trim()]||m4norm2[g(r,'cause4m').trim().toLowerCase()]||'';
     return pk===_barLabels[_drillIdx]
       &&(g(r,'type')||'Other')===typeName
-      &&g(r,'cause4m')===m4Key
+      &&m4val===m4Key
       &&!isOk(r);
   });
 
