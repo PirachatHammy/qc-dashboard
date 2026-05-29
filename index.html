@@ -84,14 +84,71 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 .bleg{display:inline-flex;align-items:center;gap:5px;font-size:11px;cursor:pointer;padding:3px 10px;border-radius:999px;border:1.5px solid transparent;transition:all .15s;color:var(--ink2);user-select:none;}
 .bleg.off{opacity:0.35;text-decoration:line-through;}
 .bleg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
-.bar-detail{background:var(--bg);border-radius:12px;padding:14px 16px;margin-top:12px;display:none;}
-.bar-detail.show{display:block;}
-.bar-detail-title{font-size:12px;font-weight:600;color:var(--ink);margin-bottom:10px;}
-.bar-stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;}
-.bar-stat{background:var(--card);border-radius:10px;padding:10px 12px;border:1.5px solid var(--border);border-left-width:3px;}
-.bar-stat-lbl{font-size:10px;color:var(--ink3);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.bar-stat-val{font-size:20px;font-weight:800;line-height:1;}
-.bar-stat-pct{font-size:10px;color:var(--ink3);margin-top:2px;}
+/* ── DRILL-DOWN ───────────────────────────────────────────── */
+.bar-detail{margin-top:12px;display:none;flex-direction:column;gap:8px;}
+.bar-detail.show{display:flex;}
+.drill-bc{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink3);flex-wrap:wrap;padding:2px 0 6px;}
+.drill-bc-sep{color:var(--border);}
+.drill-bc-item{color:var(--ink2);cursor:pointer;}
+.drill-bc-item:hover{color:var(--ink);}
+.drill-bc-item.cur{color:var(--ink);font-weight:600;cursor:default;}
+.drill-layer{background:var(--bg);border:1.5px solid var(--border);border-radius:14px;overflow:hidden;}
+.drill-layer-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;cursor:pointer;user-select:none;transition:background .15s;}
+.drill-layer-head:hover{background:rgba(99,102,241,0.04);}
+.drill-layer-title{font-size:12px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:7px;}
+.drill-layer-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:6px;}
+.drill-layer-arrow{font-size:14px;color:var(--ink3);transition:transform .2s;line-height:1;}
+.drill-layer-arrow.open{transform:rotate(90deg);}
+.drill-layer-body{padding:12px 14px;border-top:1px solid var(--border);}
+.drill-layer-body.closed{display:none;}
+.def-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:4px;}
+.def-card{background:var(--card);border-radius:10px;padding:10px 12px;border:1.5px solid var(--border);border-left-width:3px;cursor:pointer;transition:all .15s;}
+.def-card:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(99,102,241,0.10);}
+.def-card.sel{outline:2px solid var(--indigo);outline-offset:1px;}
+.def-card-lbl{font-size:10px;color:var(--ink3);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.def-card-val{font-size:22px;font-weight:800;line-height:1;}
+.def-card-pct{font-size:10px;color:var(--ink3);margin-top:2px;}
+.def-card-hint{font-size:10px;color:var(--indigo);margin-top:4px;opacity:0;}
+.def-card:hover .def-card-hint{opacity:1;}
+.m4-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:4px;}
+.m4-tile{border-radius:10px;padding:10px 12px;border:1.5px solid;cursor:pointer;transition:all .15s;}
+.m4-tile:hover{transform:translateY(-1px);}
+.m4-tile.sel{outline:2px solid;outline-offset:2px;}
+.m4-tile.t-man{background:#E6F1FB;border-color:#B5D4F4;}
+.m4-tile.t-machine{background:#FCEBEB;border-color:#F7C1C1;}
+.m4-tile.t-method{background:#FAEEDA;border-color:#FAC775;}
+.m4-tile.t-material{background:#E1F5EE;border-color:#9FE1CB;}
+.m4-tile.t-man.sel{outline-color:#185FA5;}
+.m4-tile.t-machine.sel{outline-color:#A32D2D;}
+.m4-tile.t-method.sel{outline-color:#854F0B;}
+.m4-tile.t-material.sel{outline-color:#0F6E56;}
+.m4-icon{font-size:16px;display:block;margin-bottom:4px;}
+.m4-name{font-size:10px;font-weight:600;}
+.m4-tile.t-man .m4-name{color:#0C447C;}
+.m4-tile.t-machine .m4-name{color:#791F1F;}
+.m4-tile.t-method .m4-name{color:#633806;}
+.m4-tile.t-material .m4-name{color:#085041;}
+.m4-count{font-size:20px;font-weight:800;line-height:1;margin-top:2px;}
+.m4-tile.t-man .m4-count{color:#185FA5;}
+.m4-tile.t-machine .m4-count{color:#A32D2D;}
+.m4-tile.t-method .m4-count{color:#854F0B;}
+.m4-tile.t-material .m4-count{color:#0F6E56;}
+.m4-pct{font-size:10px;margin-top:2px;}
+.m4-tile.t-man .m4-pct{color:#185FA5;}
+.m4-tile.t-machine .m4-pct{color:#A32D2D;}
+.m4-tile.t-method .m4-pct{color:#854F0B;}
+.m4-tile.t-material .m4-pct{color:#0F6E56;}
+.m4-no-data{font-size:11px;color:var(--ink3);text-align:center;padding:18px;}
+.cause-items{display:flex;flex-direction:column;gap:8px;}
+.cause-item{background:var(--card);border-radius:10px;padding:12px 14px;border:1.5px solid var(--border);}
+.cause-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:6px;}
+.cause-name{font-size:12px;font-weight:600;color:var(--ink);}
+.cause-meta{font-size:10px;color:var(--ink3);white-space:nowrap;flex-shrink:0;}
+.cause-fix{background:var(--bg);border-radius:8px;padding:8px 10px;border-left:3px solid var(--indigo);}
+.cause-fix-lbl{font-size:10px;color:var(--ink3);margin-bottom:3px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;}
+.cause-fix-txt{font-size:12px;color:var(--ink2);line-height:1.5;}
+.cause-no-data{font-size:11px;color:var(--ink3);text-align:center;padding:18px;font-style:italic;}
+.drill-hint{font-size:11px;color:var(--ink3);text-align:center;padding:8px;}
 .hbar-row{display:grid;grid-template-columns:150px 1fr 32px;align-items:center;gap:8px;margin-bottom:8px;}
 .hbar-lbl{font-size:11.5px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .hbar-track{height:8px;background:var(--bg);border-radius:99px;overflow:hidden;}
@@ -445,8 +502,28 @@ tr:hover td{background:rgba(99,102,241,0.04);}
       <canvas id="trendChart" role="img" aria-label="Bar chart แสดงจำนวน Defect แยกตามประเภทและวันที่"></canvas>
     </div>
     <div class="bar-detail" id="barDetail">
-      <div class="bar-detail-title" id="barDetailTitle"></div>
-      <div class="bar-stat-grid" id="barStatGrid"></div>
+      <div class="drill-bc" id="drillBc"></div>
+      <div class="drill-layer" id="drillL1">
+        <div class="drill-layer-head" onclick="toggleDrillLayer(1)">
+          <div class="drill-layer-title">📅 <span id="drillL1Title">Defect</span> <span class="drill-layer-badge" id="drillL1Badge" style="background:var(--red-dim);color:var(--red)"></span></div>
+          <span class="drill-layer-arrow open" id="drillArr1">›</span>
+        </div>
+        <div class="drill-layer-body" id="drillL1Body"></div>
+      </div>
+      <div class="drill-layer" id="drillL2" style="display:none">
+        <div class="drill-layer-head" onclick="toggleDrillLayer(2)">
+          <div class="drill-layer-title">🔍 <span id="drillL2Title">สาเหตุ 4M</span> <span class="drill-layer-badge" id="drillL2Badge" style="background:#E6F1FB;color:#0C447C"></span></div>
+          <span class="drill-layer-arrow open" id="drillArr2">›</span>
+        </div>
+        <div class="drill-layer-body" id="drillL2Body"></div>
+      </div>
+      <div class="drill-layer" id="drillL3" style="display:none">
+        <div class="drill-layer-head" onclick="toggleDrillLayer(3)">
+          <div class="drill-layer-title">💡 <span id="drillL3Title">สาเหตุและแนวทางแก้ไข</span></div>
+          <span class="drill-layer-arrow open" id="drillArr3">›</span>
+        </div>
+        <div class="drill-layer-body" id="drillL3Body"></div>
+      </div>
     </div>
   </div>
 
@@ -598,7 +675,7 @@ function renderTrend(data){
         legend:{display:false},
         tooltip:{backgroundColor:'rgba(30,27,75,0.92)',titleColor:'#c7d2fe',bodyColor:'#e0e7ff',borderColor:'rgba(99,102,241,0.3)',borderWidth:1,padding:10,titleFont:{family:'JetBrains Mono',size:11},bodyFont:{family:'Kanit',size:12},callbacks:{label:c=>` ${c.dataset.label}: ${c.raw}`}}
       },
-      onClick:(e,els)=>{if(!els.length){document.getElementById('barDetail').className='bar-detail';return;}showBarDetail(els[0].index);},
+      onClick:(e,els)=>{if(!els.length){document.getElementById('barDetail').className='bar-detail';_drillIdx=null;_drillType=null;_drillM4=null;return;}showBarDetail(els[0].index);},
       scales:{
         x:{stacked:false,grid:{color:'rgba(99,102,241,0.06)'},ticks:{color:'#9194b8',font:{family:'JetBrains Mono',size:9},autoSkip:true,maxRotation:45,maxTicksLimit:16}},
         y:{beginAtZero:true,grid:{color:'rgba(99,102,241,0.06)'},ticks:{color:'#9194b8',font:{family:'JetBrains Mono',size:9}}}
@@ -624,18 +701,141 @@ function toggleBarSeries(sk,el){
   });
   trendChart.update();
 }
+// ── DRILL-DOWN STATE ──────────────────────────────────────────
+let _drillIdx=null,_drillType=null,_drillM4=null,_drillPeriodLabel='';
+const M4C={
+  Man:{bg:'#E6F1FB',tc:'#0C447C',dc:'#185FA5',cls:'t-man',icon:'👤'},
+  Machine:{bg:'#FCEBEB',tc:'#791F1F',dc:'#A32D2D',cls:'t-machine',icon:'⚙️'},
+  Method:{bg:'#FAEEDA',tc:'#633806',dc:'#854F0B',cls:'t-method',icon:'📋'},
+  Material:{bg:'#E1F5EE',tc:'#085041',dc:'#0F6E56',cls:'t-material',icon:'📦'},
+};
+
 function showBarDetail(idx){
+  _drillIdx=idx;_drillType=null;_drillM4=null;
   const lbl=_barLabels[idx];
-  document.getElementById('barDetailTitle').textContent=`📅 ${barPeriod==='daily'?'วันที่ '+lbl:barPeriod==='weekly'?'สัปดาห์ '+lbl:'เดือน '+lbl}`;
+  _drillPeriodLabel=barPeriod==='daily'?'วันที่ '+lbl:barPeriod==='weekly'?'สัปดาห์ '+lbl:'เดือน '+lbl;
+
+  // Layer 1 — defect types
   const vals=_barSeriesKeys.map((sk,i)=>({sk,color:_barColorArr[i],n:hiddenBarSeries.has(sk)?0:(trendChart.data.datasets[i]?.data[idx]||0)})).filter(v=>v.n>0).sort((a,b)=>b.n-a.n);
   const total=vals.reduce((s,v)=>s+v.n,0)||1;
-  document.getElementById('barStatGrid').innerHTML=vals.map(v=>`
-    <div class="bar-stat" style="border-left-color:${v.color}">
-      <div class="bar-stat-lbl" title="${v.sk}">${v.sk}</div>
-      <div class="bar-stat-val" style="color:${v.color}">${v.n}</div>
-      <div class="bar-stat-pct">${Math.round(v.n/total*100)}% ของวันนี้</div>
-    </div>`).join('')||'<div style="font-size:12px;color:var(--ink3)">ไม่พบ defect</div>';
+  document.getElementById('drillL1Title').textContent=_drillPeriodLabel;
+  document.getElementById('drillL1Badge').textContent=`${total} รายการ`;
+  document.getElementById('drillL1Body').innerHTML=vals.length?`
+    <div class="def-grid">${vals.map(v=>`
+      <div class="def-card" style="border-left-color:${v.color}" onclick="drillType('${v.sk.replace(/'/g,"\\'")}','${v.color}')">
+        <div class="def-card-lbl" title="${v.sk}">${v.sk}</div>
+        <div class="def-card-val" style="color:${v.color}">${v.n}</div>
+        <div class="def-card-pct">${Math.round(v.n/total*100)}%</div>
+        <div class="def-card-hint">กดเพื่อดูสาเหตุ →</div>
+      </div>`).join('')}
+    </div>`:'<div class="drill-hint">ไม่พบ defect ในช่วงนี้</div>';
+  document.getElementById('drillL2').style.display='none';
+  document.getElementById('drillL3').style.display='none';
+  document.getElementById('drillL1Body').className='drill-layer-body';
+  document.getElementById('drillArr1').className='drill-layer-arrow open';
+  setDrillBc(_drillPeriodLabel,null,null);
   document.getElementById('barDetail').className='bar-detail show';
+}
+
+function drillType(typeName,color){
+  _drillType=typeName;_drillM4=null;
+  // highlight selected card
+  document.querySelectorAll('.def-card').forEach(c=>c.classList.remove('sel'));
+  event.currentTarget.classList.add('sel');
+
+  // get rows matching this period+type from allData
+  const periodRows=_barDefectData.filter(r=>{
+    const pk=getPeriodKey(g(r,'date'));
+    return pk===_barLabels[_drillIdx]&&(g(r,'type')||'Other')===typeName&&!isOk(r);
+  });
+
+  // count 4M from approved rows
+  const m4cnt={Man:0,Machine:0,Method:0,Material:0};
+  let analyzed=0;
+  periodRows.forEach(r=>{
+    const m=g(r,'cause4m');
+    if(m&&m4cnt[m]!==undefined){m4cnt[m]++;analyzed++;}
+  });
+
+  document.getElementById('drillL2Title').textContent=`สาเหตุ 4M — ${typeName}`;
+  document.getElementById('drillL2Badge').textContent=analyzed?`วิเคราะห์แล้ว ${analyzed} รายการ`:`ยังไม่มีข้อมูล 4M`;
+
+  const m4Total=Object.values(m4cnt).reduce((s,n)=>s+n,0)||1;
+  document.getElementById('drillL2Body').innerHTML=`
+    <div class="m4-tiles">${Object.entries(m4cnt).map(([k,n])=>`
+      <div class="m4-tile ${M4C[k].cls}" onclick="drillM4('${k}','${typeName.replace(/'/g,"\\'")}')">
+        <span class="m4-icon">${M4C[k].icon}</span>
+        <div class="m4-name">${k}</div>
+        <div class="m4-count">${n}</div>
+        <div class="m4-pct">${Math.round(n/m4Total*100)}%</div>
+      </div>`).join('')}
+    </div>
+    ${analyzed===0?`<div class="m4-no-data">หัวหน้ากะยังไม่ได้กรอกสาเหตุ 4M สำหรับ Defect นี้</div>`:'<div class="drill-hint">กด M ใดก็ได้เพื่อดูรายละเอียดสาเหตุ</div>'}`;
+  document.getElementById('drillL2').style.display='block';
+  document.getElementById('drillL2Body').className='drill-layer-body';
+  document.getElementById('drillArr2').className='drill-layer-arrow open';
+  document.getElementById('drillL3').style.display='none';
+  setDrillBc(_drillPeriodLabel,typeName,null);
+}
+
+function drillM4(m4Key,typeName){
+  _drillM4=m4Key;
+  document.querySelectorAll('.m4-tile').forEach(t=>t.classList.remove('sel'));
+  event.currentTarget.classList.add('sel');
+  const mc=M4C[m4Key];
+
+  // get rows with this type + this 4M
+  const rows=_barDefectData.filter(r=>{
+    const pk=getPeriodKey(g(r,'date'));
+    return pk===_barLabels[_drillIdx]
+      &&(g(r,'type')||'Other')===typeName
+      &&g(r,'cause4m')===m4Key
+      &&!isOk(r);
+  });
+
+  document.getElementById('drillL3Title').textContent=`สาเหตุและแนวทางแก้ไข — ${m4Key}`;
+  document.getElementById('drillL3Body').innerHTML=rows.length?`
+    <div style="margin-bottom:8px;display:flex;align-items:center;gap:6px">
+      <span style="padding:3px 10px;border-radius:999px;font-size:11px;font-weight:600;background:${mc.bg};color:${mc.tc}">${mc.icon} ${m4Key}</span>
+      <span style="font-size:11px;color:var(--ink3)">${rows.length} รายการที่บันทึกไว้</span>
+    </div>
+    <div class="cause-items">${rows.map(r=>{
+      const cause=g(r,'causeDetail')||'—';
+      const fix=g(r,'fixDetail')||'—';
+      const sv=g(r,'sv')||g(r,'approved')||'—';
+      const date=g(r,'date');
+      const defectName=g(r,'defect')||g(r,'type')||'—';
+      return `<div class="cause-item" style="border-left:3px solid ${mc.dc}">
+        <div class="cause-top">
+          <div class="cause-name">${defectName}</div>
+          <div class="cause-meta">${sv} · ${date}</div>
+        </div>
+        <div style="font-size:11px;color:var(--ink3);margin-bottom:6px">สาเหตุ: <span style="color:var(--ink2);font-weight:600">${cause}</span></div>
+        <div class="cause-fix">
+          <div class="cause-fix-lbl">แนวทางแก้ไข</div>
+          <div class="cause-fix-txt">${fix}</div>
+        </div>
+      </div>`;
+    }).join('')}</div>`:`<div class="cause-no-data">ยังไม่มีข้อมูลสาเหตุ — หัวหน้ากะยังไม่ได้กรอกรายละเอียด</div>`;
+  document.getElementById('drillL3').style.display='block';
+  document.getElementById('drillL3Body').className='drill-layer-body';
+  document.getElementById('drillArr3').className='drill-layer-arrow open';
+  setDrillBc(_drillPeriodLabel,typeName,m4Key);
+}
+
+function setDrillBc(a,b,c){
+  document.getElementById('drillBc').innerHTML=
+    `<span class="drill-bc-item ${!b?'cur':''}" onclick="if('${a}'&&${_drillIdx!==null})showBarDetail(${_drillIdx})">${a}</span>`+
+    (b?` <span class="drill-bc-sep">›</span> <span class="drill-bc-item ${!c?'cur':''}" onclick="drillType('${b.replace(/'/g,"\\'")}','${_barColorArr[_barSeriesKeys.indexOf(b)]||'#888'}')">${b}</span>`:'')  +
+    (c?` <span class="drill-bc-sep">›</span> <span class="drill-bc-item cur">${c}</span>`:'');
+}
+
+function toggleDrillLayer(n){
+  const body=document.getElementById(`drillL${n}Body`);
+  const arr=document.getElementById(`drillArr${n}`);
+  const isOpen=!body.classList.contains('closed');
+  body.classList.toggle('closed',isOpen);
+  arr.classList.toggle('open',!isOpen);
 }
 
 // ── LOAD ──────────────────────────────────────────────────────
