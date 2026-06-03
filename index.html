@@ -70,7 +70,6 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 .pt{font-size:13px;font-weight:600;color:var(--ink);}
 .ps{font-size:11px;color:var(--ink3);margin-top:2px;}
 .ptag{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ink3);padding:2px 7px;border:1px solid var(--border);border-radius:4px;}
-/* TREND PANEL */
 .trend-panel{background:var(--card);border:1.5px solid var(--border);border-radius:var(--r);padding:18px 20px;box-shadow:var(--shadow);position:relative;overflow:hidden;margin-bottom:14px;}
 .trend-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--indigo),var(--violet),var(--cyan));}
 .trend-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
@@ -84,7 +83,6 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 .bleg{display:inline-flex;align-items:center;gap:5px;font-size:11px;cursor:pointer;padding:3px 10px;border-radius:999px;border:1.5px solid transparent;transition:all .15s;color:var(--ink2);user-select:none;}
 .bleg.off{opacity:0.35;text-decoration:line-through;}
 .bleg-dot{width:8px;height:8px;border-radius:2px;flex-shrink:0;}
-/* ── DRILL-DOWN ───────────────────────────────────────────── */
 .bar-detail{margin-top:12px;display:none;flex-direction:column;gap:8px;}
 .bar-detail.show{display:flex;}
 .drill-bc{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--ink3);flex-wrap:wrap;padding:2px 0 6px;}
@@ -185,8 +183,25 @@ body{font-family:'Kanit',sans-serif;background:var(--bg);color:var(--ink);min-he
 table{width:100%;border-collapse:collapse;table-layout:fixed;}
 th{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--ink3);font-weight:500;padding:8px 12px;text-align:left;background:var(--bg);border-bottom:1px solid var(--border);white-space:nowrap;}
 td{font-size:12px;color:var(--ink2);padding:9px 12px;border-bottom:1px solid var(--border);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-tr:last-child td{border-bottom:none;}
-tr:hover td{background:rgba(99,102,241,0.04);}
+/* ── MAIN ROW clickable ── */
+.main-row{cursor:pointer;}
+.main-row:hover td{background:rgba(99,102,241,0.05);}
+.main-row.expanded td{background:rgba(99,102,241,0.06);border-bottom:none;}
+/* ── EXPAND ROW ── */
+.exp-row td{padding:0!important;border-top:none!important;}
+.exp-inner{display:none;padding:14px 20px 18px;background:linear-gradient(180deg,rgba(99,102,241,0.05) 0%,rgba(99,102,241,0.01) 100%);border-bottom:1.5px solid var(--border);}
+.exp-inner.open{display:block;}
+.exp-top-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;}
+.exp-m4-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 14px;border-radius:999px;font-size:11px;font-weight:600;}
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:700px){.exp-grid{grid-template-columns:1fr;}}
+.exp-block{background:var(--card);border-radius:12px;padding:13px 15px;border:1.5px solid var(--border);}
+.exp-block-lbl{font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:8px;}
+.exp-block-val{font-size:12.5px;color:var(--ink2);line-height:1.65;white-space:pre-wrap;}
+.exp-fix-val{font-size:12.5px;color:var(--ink2);line-height:1.65;border-left:3px solid var(--indigo);padding-left:10px;white-space:pre-wrap;}
+.exp-meta{margin-top:10px;font-size:10px;color:var(--ink3);}
+.exp-no-data{font-size:12px;color:var(--ink3);font-style:italic;padding:2px 0;}
+/* pills */
 .pill{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;}
 .pill-r{background:var(--red-dim);color:var(--red);}
 .pill-g{background:var(--green-dim);color:var(--green);}
@@ -194,6 +209,7 @@ tr:hover td{background:rgba(99,102,241,0.04);}
 .pill-b{background:rgba(6,182,212,0.1);color:var(--cyan);}
 .pill-v{background:rgba(139,92,246,0.1);color:var(--violet);}
 .pill-n{background:var(--bg);color:var(--ink3);}
+/* loading */
 .loading-screen{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;}
 .loading-spinner{width:56px;height:56px;border:3px solid rgba(99,102,241,0.15);border-top-color:var(--indigo);border-radius:50%;animation:spin .7s linear infinite;}
 .loading-text{font-size:14px;color:var(--ink2);font-weight:500;}
@@ -205,8 +221,7 @@ tr:hover td{background:rgba(99,102,241,0.04);}
 .approve-btn:hover{background:#f59e0b;color:#fff;border-color:#f59e0b;}
 .approve-btn.done-change{background:#d1fae5;color:#065f46;border-color:#6ee7b7;cursor:default;pointer-events:none;}
 .approve-btn.done-destroy{background:#fee2e2;color:#991b1b;border-color:#fca5a5;cursor:default;pointer-events:none;}
-
-/* ══ MODAL 4M ═══════════════════════════════════════════════ */
+/* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(15,14,40,0.55);backdrop-filter:blur(4px);z-index:9998;align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
 .modal-box{background:var(--card);border:1.5px solid var(--border);border-radius:20px;padding:24px 24px 20px;width:500px;max-width:94vw;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(30,27,75,0.22);animation:modalIn .2s ease;}
@@ -277,46 +292,70 @@ tr:hover td{background:rgba(99,102,241,0.04);}
 .modal-confirm:disabled{background:var(--ink3);cursor:not-allowed;}
 .modal-cancel{padding:10px 16px;border-radius:10px;border:1.5px solid var(--border);background:transparent;color:var(--ink3);font-family:'Kanit',sans-serif;font-size:13px;cursor:pointer;transition:all .15s;}
 .modal-cancel:hover{border-color:var(--ink2);color:var(--ink2);}
+
+/* ── EXPAND ROW ── */
+.exp-row td{padding:0!important;border-top:none!important;}
+.exp-inner{display:none;padding:14px 20px 18px;background:linear-gradient(180deg,rgba(99,102,241,0.05) 0%,rgba(99,102,241,0.01) 100%);border-bottom:1.5px solid var(--border);}
+.exp-inner.open{display:block;}
+.exp-top-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;}
+.exp-m4-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 14px;border-radius:999px;font-size:11px;font-weight:600;}
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:700px){.exp-grid{grid-template-columns:1fr;}}
+.exp-block{background:var(--card);border-radius:12px;padding:13px 15px;border:1.5px solid var(--border);}
+.exp-block-lbl{font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:8px;}
+.exp-block-val{font-size:12.5px;color:var(--ink2);line-height:1.65;white-space:pre-wrap;}
+.exp-fix-val{font-size:12.5px;color:var(--ink2);line-height:1.65;border-left:3px solid var(--indigo);padding-left:10px;white-space:pre-wrap;}
+.exp-no-data{font-size:12px;color:var(--ink3);font-style:italic;padding:2px 0;}
+
+/* ── EXPAND ROW ── */
+.main-row{cursor:pointer;}
+.main-row:hover td{background:rgba(99,102,241,0.04);}
+.main-row.expanded td{background:rgba(99,102,241,0.06);border-bottom:none;}
+.exp-row td{padding:0!important;border-top:none!important;}
+.exp-inner{display:none;padding:14px 20px 18px;background:linear-gradient(180deg,rgba(99,102,241,0.05) 0%,rgba(99,102,241,0.01) 100%);border-bottom:1.5px solid var(--border);}
+.exp-inner.open{display:block;}
+.exp-top-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;}
+.exp-m4-badge{display:inline-flex;align-items:center;gap:5px;padding:4px 14px;border-radius:999px;font-size:11px;font-weight:600;}
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:700px){.exp-grid{grid-template-columns:1fr;}}
+.exp-block{background:var(--card);border-radius:12px;padding:13px 15px;border:1.5px solid var(--border);}
+.exp-block-lbl{font-size:10px;font-weight:700;color:var(--ink3);text-transform:uppercase;letter-spacing:.09em;margin-bottom:8px;}
+.exp-block-val{font-size:12.5px;color:var(--ink2);line-height:1.65;white-space:pre-wrap;}
+.exp-fix-val{font-size:12.5px;color:var(--ink2);line-height:1.65;border-left:3px solid var(--indigo);padding-left:10px;white-space:pre-wrap;}
+.exp-no-data{font-size:12px;color:var(--ink3);font-style:italic;padding:2px 0;}
 </style>
 </head>
 <body>
-
 <div class="blob b1"></div>
 <div class="blob b2"></div>
 <div class="blob b3"></div>
 
-<!-- ══ MODAL 4M ═══════════════════════════════════════════════ -->
+<!-- MODAL 4M -->
 <div class="modal-overlay" id="approveModal">
   <div class="modal-box">
     <div class="modal-title">📋 บันทึกการดำเนินการ</div>
     <div class="modal-sub" id="modalDefectLabel">รายการ Defect</div>
     <div class="modal-divider"></div>
-
     <span class="modal-label">หัวหน้ากะที่รับผิดชอบ</span>
     <select class="modal-select" id="modalSvSelect" onchange="chkModal()">
       <option value="">— เลือกชื่อหัวหน้ากะ —</option>
       <option>Amnat</option><option>Suriyun</option><option>Siwakon</option>
       <option>Chaiphat</option><option>Rattanan</option><option>Preecha</option><option>Pakphum</option>
     </select>
-
     <span class="modal-label">การดำเนินการ</span>
     <select class="modal-select" id="modalActionSelect" onchange="chkModal()">
       <option value="">— เลือกการดำเนินการ —</option>
       <option value="เปลี่ยนกล่องใหม่">♻️ เปลี่ยนกล่องใหม่</option>
       <option value="ทำลาย / ส่ง GA">🗑️ ทำลาย / ส่ง GA</option>
     </select>
-
     <div class="modal-divider"></div>
     <span class="modal-label">สาเหตุ 4M <span style="font-size:10px;font-weight:400;text-transform:none">(เลือก 1)</span></span>
-
     <div class="m4-row">
       <div class="m4-chip" id="chip-man" onclick="pickM4('man')"><span class="m4-icon">👤</span>Man</div>
       <div class="m4-chip" id="chip-machine" onclick="pickM4('machine')"><span class="m4-icon">⚙️</span>Machine</div>
       <div class="m4-chip" id="chip-method" onclick="pickM4('method')"><span class="m4-icon">📋</span>Method</div>
       <div class="m4-chip" id="chip-material" onclick="pickM4('material')"><span class="m4-icon">📦</span>Material</div>
     </div>
-
-    <!-- Man -->
     <div id="cause-man" class="cause-box man">
       <div class="cause-col">
         <div class="cause-col-title">สาเหตุ</div>
@@ -335,8 +374,6 @@ tr:hover td{background:rgba(99,102,241,0.04);}
         <textarea id="ta-fix-man" class="cause-ta" rows="5" placeholder="ระบุแนวทางแก้ไข..." oninput="chkModal()"></textarea>
       </div>
     </div>
-
-    <!-- Machine -->
     <div id="cause-machine" class="cause-box machine">
       <div class="cause-col">
         <div class="cause-col-title">สาเหตุ</div>
@@ -355,8 +392,6 @@ tr:hover td{background:rgba(99,102,241,0.04);}
         <textarea id="ta-fix-machine" class="cause-ta" rows="5" placeholder="ระบุแนวทางแก้ไข..." oninput="chkModal()"></textarea>
       </div>
     </div>
-
-    <!-- Method -->
     <div id="cause-method" class="cause-box method">
       <div class="cause-col">
         <div class="cause-col-title">สาเหตุ</div>
@@ -375,8 +410,6 @@ tr:hover td{background:rgba(99,102,241,0.04);}
         <textarea id="ta-fix-method" class="cause-ta" rows="5" placeholder="ระบุแนวทางแก้ไข..." oninput="chkModal()"></textarea>
       </div>
     </div>
-
-    <!-- Material -->
     <div id="cause-material" class="cause-box material">
       <div class="cause-col">
         <div class="cause-col-title">สาเหตุ</div>
@@ -395,14 +428,12 @@ tr:hover td{background:rgba(99,102,241,0.04);}
         <textarea id="ta-fix-material" class="cause-ta" rows="5" placeholder="ระบุแนวทางแก้ไข..." oninput="chkModal()"></textarea>
       </div>
     </div>
-
     <div class="modal-actions">
       <button class="modal-cancel" onclick="closeModal()">ยกเลิก</button>
       <button class="modal-confirm" id="modalConfirmBtn" onclick="confirmApprove()" disabled>✓ ยืนยัน</button>
     </div>
   </div>
 </div>
-<!-- ════════════════════════════════════════════════════════════ -->
 
 <div class="loading-screen" id="loadingScreen">
   <div class="loading-spinner"></div>
@@ -484,7 +515,6 @@ tr:hover td{background:rgba(99,102,241,0.04);}
     <div class="kpi"><div class="kpi-accent" style="background:var(--violet)"></div><div class="kpi-lbl">Defect สูงสุด</div><div class="kpi-val" id="kpiTopDefect" style="font-size:14px;color:var(--violet);line-height:1.3">—</div><div class="kpi-sub" id="kpiTopDefectSub">—</div><div class="kpi-trend tr-r" id="kpiTopDefectPct">—</div></div>
   </div>
 
-  <!-- ══ TREND BAR CHART ══════════════════════════════════════ -->
   <div class="trend-panel">
     <div class="trend-header">
       <div>
@@ -572,8 +602,12 @@ tr:hover td{background:rgba(99,102,241,0.04);}
 
   <div class="tbl-wrap">
     <div class="tbl-hd">
-      <div><div class="pt">รายการล่าสุด</div><div class="ps" id="tblSub">—</div></div>
-      <div style="display:flex;align-items:center;gap:8px">
+      <div>
+        <div class="pt">รายการล่าสุด</div>
+        <div class="ps" id="tblSub">—</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:11px;color:var(--ink3)">👆 คลิกแถวเพื่อดูวิธีแก้ไข</span>
         <a href="https://docs.google.com/spreadsheets/d/1Ie3365pkUS0LFHwEFe5YbRL1J6BZYEAVaHyKuhTMUws/edit?usp=sharing" target="_blank" rel="noopener"
            style="display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:999px;font-size:11px;font-weight:600;color:#6366f1;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.25);text-decoration:none;"
            onmouseover="this.style.background='rgba(99,102,241,0.18)'" onmouseout="this.style.background='rgba(99,102,241,0.08)'">
@@ -622,13 +656,23 @@ const COLORS={
   size:{'72g':'#64748b','250g':'#06b6d4','500g':'#6366f1','1kg':'#8b5cf6'},
   shift:{'1':'#6366f1','2':'#f59e0b','3':'#8b5cf6'},
 };
+// 4M color map
+const M4META={
+  man:{bg:'#E6F1FB',tc:'#0C447C',icon:'👤',label:'Man'},
+  Man:{bg:'#E6F1FB',tc:'#0C447C',icon:'👤',label:'Man'},
+  machine:{bg:'#FCEBEB',tc:'#791F1F',icon:'⚙️',label:'Machine'},
+  Machine:{bg:'#FCEBEB',tc:'#791F1F',icon:'⚙️',label:'Machine'},
+  method:{bg:'#FAEEDA',tc:'#633806',icon:'📋',label:'Method'},
+  Method:{bg:'#FAEEDA',tc:'#633806',icon:'📋',label:'Method'},
+  material:{bg:'#E1F5EE',tc:'#085041',icon:'📦',label:'Material'},
+  Material:{bg:'#E1F5EE',tc:'#085041',icon:'📦',label:'Material'},
+};
 
 let allData=[],filters={shift:'all',mc:'all',size:'all',status:'all'};
 let donutChart=null,trendChart=null;
 let barPeriod='daily',hiddenBarSeries=new Set();
 let _barDefectData=[],_barLabels=[],_barSeriesKeys=[],_barColorArr=[];
 
-// ── BAR CHART ─────────────────────────────────────────────────
 function setBarPeriod(p,btn){
   barPeriod=p;hiddenBarSeries.clear();
   document.querySelectorAll('.tgl').forEach(b=>b.classList.remove('on'));
@@ -659,8 +703,7 @@ function renderTrend(data){
   const colorArr=seriesSorted.map((_,i)=>COLORS.defect[i%COLORS.defect.length]);
   _barColorArr=colorArr;
   const datasets=seriesSorted.map((sk,i)=>({
-    label:sk,
-    data:labels.map(pk=>seriesMap[sk]?.[pk]||0),
+    label:sk,data:labels.map(pk=>seriesMap[sk]?.[pk]||0),
     backgroundColor:hiddenBarSeries.has(sk)?'transparent':colorArr[i]+'cc',
     borderColor:hiddenBarSeries.has(sk)?'transparent':colorArr[i],
     borderWidth:1,borderRadius:3,hidden:hiddenBarSeries.has(sk),
@@ -701,7 +744,6 @@ function toggleBarSeries(sk,el){
   });
   trendChart.update();
 }
-// ── DRILL-DOWN STATE ──────────────────────────────────────────
 let _drillIdx=null,_drillType=null,_drillM4=null,_drillPeriodLabel='';
 const M4C={
   Man:{bg:'#E6F1FB',tc:'#0C447C',dc:'#185FA5',cls:'t-man',icon:'👤'},
@@ -709,13 +751,10 @@ const M4C={
   Method:{bg:'#FAEEDA',tc:'#633806',dc:'#854F0B',cls:'t-method',icon:'📋'},
   Material:{bg:'#E1F5EE',tc:'#085041',dc:'#0F6E56',cls:'t-material',icon:'📦'},
 };
-
 function showBarDetail(idx){
   _drillIdx=idx;_drillType=null;_drillM4=null;
   const lbl=_barLabels[idx];
   _drillPeriodLabel=barPeriod==='daily'?'วันที่ '+lbl:barPeriod==='weekly'?'สัปดาห์ '+lbl:'เดือน '+lbl;
-
-  // Layer 1 — defect types
   const vals=_barSeriesKeys.map((sk,i)=>({sk,color:_barColorArr[i],n:hiddenBarSeries.has(sk)?0:(trendChart.data.datasets[i]?.data[idx]||0)})).filter(v=>v.n>0).sort((a,b)=>b.n-a.n);
   const total=vals.reduce((s,v)=>s+v.n,0)||1;
   document.getElementById('drillL1Title').textContent=_drillPeriodLabel;
@@ -736,20 +775,14 @@ function showBarDetail(idx){
   setDrillBc(_drillPeriodLabel,null,null);
   document.getElementById('barDetail').className='bar-detail show';
 }
-
 function drillType(typeName,color){
   _drillType=typeName;_drillM4=null;
-  // highlight selected card
   document.querySelectorAll('.def-card').forEach(c=>c.classList.remove('sel'));
   event.currentTarget.classList.add('sel');
-
-  // get rows matching this period+type from allData
   const periodRows=_barDefectData.filter(r=>{
     const pk=getPeriodKey(g(r,'date'));
     return pk===_barLabels[_drillIdx]&&(g(r,'type')||'Other')===typeName&&!isOk(r);
   });
-
-  // count 4M from approved rows — normalize case (man→Man, machine→Machine ฯลฯ)
   const m4cnt={Man:0,Machine:0,Method:0,Material:0};
   const m4norm={'man':'Man','machine':'Machine','method':'Method','material':'Material','Man':'Man','Machine':'Machine','Method':'Method','Material':'Material'};
   let analyzed=0;
@@ -758,10 +791,8 @@ function drillType(typeName,color){
     const m=m4norm[raw]||m4norm[raw.toLowerCase()]||null;
     if(m){m4cnt[m]++;analyzed++;}
   });
-
   document.getElementById('drillL2Title').textContent=`สาเหตุ 4M — ${typeName}`;
   document.getElementById('drillL2Badge').textContent=analyzed?`วิเคราะห์แล้ว ${analyzed} รายการ`:`ยังไม่มีข้อมูล 4M`;
-
   const m4Total=Object.values(m4cnt).reduce((s,n)=>s+n,0)||1;
   document.getElementById('drillL2Body').innerHTML=`
     <div class="m4-tiles">${Object.entries(m4cnt).map(([k,n])=>`
@@ -779,24 +810,17 @@ function drillType(typeName,color){
   document.getElementById('drillL3').style.display='none';
   setDrillBc(_drillPeriodLabel,typeName,null);
 }
-
 function drillM4(m4Key,typeName){
   _drillM4=m4Key;
   document.querySelectorAll('.m4-tile').forEach(t=>t.classList.remove('sel'));
   event.currentTarget.classList.add('sel');
   const mc=M4C[m4Key];
-
-  // get rows with this type + this 4M (normalize case)
   const m4norm2={'man':'Man','machine':'Machine','method':'Method','material':'Material','Man':'Man','Machine':'Machine','Method':'Method','Material':'Material'};
   const rows=_barDefectData.filter(r=>{
     const pk=getPeriodKey(g(r,'date'));
     const m4val=m4norm2[g(r,'cause4m').trim()]||m4norm2[g(r,'cause4m').trim().toLowerCase()]||'';
-    return pk===_barLabels[_drillIdx]
-      &&(g(r,'type')||'Other')===typeName
-      &&m4val===m4Key
-      &&!isOk(r);
+    return pk===_barLabels[_drillIdx]&&(g(r,'type')||'Other')===typeName&&m4val===m4Key&&!isOk(r);
   });
-
   document.getElementById('drillL3Title').textContent=`สาเหตุและแนวทางแก้ไข — ${m4Key}`;
   document.getElementById('drillL3Body').innerHTML=rows.length?`
     <div style="margin-bottom:8px;display:flex;align-items:center;gap:6px">
@@ -826,14 +850,12 @@ function drillM4(m4Key,typeName){
   document.getElementById('drillArr3').className='drill-layer-arrow open';
   setDrillBc(_drillPeriodLabel,typeName,m4Key);
 }
-
 function setDrillBc(a,b,c){
   document.getElementById('drillBc').innerHTML=
     `<span class="drill-bc-item ${!b?'cur':''}" onclick="if('${a}'&&${_drillIdx!==null})showBarDetail(${_drillIdx})">${a}</span>`+
-    (b?` <span class="drill-bc-sep">›</span> <span class="drill-bc-item ${!c?'cur':''}" onclick="drillType('${b.replace(/'/g,"\\'")}','${_barColorArr[_barSeriesKeys.indexOf(b)]||'#888'}')">${b}</span>`:'')  +
+    (b?` <span class="drill-bc-sep">›</span> <span class="drill-bc-item ${!c?'cur':''}" onclick="drillType('${b.replace(/'/g,"\\'")}','${_barColorArr[_barSeriesKeys.indexOf(b)]||'#888'}')">${b}</span>`:'')+
     (c?` <span class="drill-bc-sep">›</span> <span class="drill-bc-item cur">${c}</span>`:'');
 }
-
 function toggleDrillLayer(n){
   const body=document.getElementById(`drillL${n}Body`);
   const arr=document.getElementById(`drillArr${n}`);
@@ -842,7 +864,6 @@ function toggleDrillLayer(n){
   arr.classList.toggle('open',!isOpen);
 }
 
-// ── LOAD ──────────────────────────────────────────────────────
 async function loadData(){
   const btn=document.querySelector('.refresh-btn');btn.classList.add('loading');
   try{
@@ -869,7 +890,6 @@ async function loadData(){
   btn.classList.remove('loading');
 }
 
-// ── FILTER ────────────────────────────────────────────────────
 function getFiltered(){
   const dateFrom=document.getElementById('dateFrom').value;
   const dateTo=document.getElementById('dateTo').value;
@@ -901,7 +921,6 @@ function parseDate(str){
 function parseInputDate(str){if(!str)return null;const p=str.split('-');return p.length===3?new Date(parseInt(p[0]),parseInt(p[1])-1,parseInt(p[2])):null;}
 function clearDate(){document.getElementById('dateFrom').value='';document.getElementById('dateTo').value='';document.getElementById('monthSel').value='';renderAll();}
 
-// ── RENDER ALL ────────────────────────────────────────────────
 function renderAll(){
   const data=getFiltered();
   const defectOnly=data.filter(r=>!isOk(r));
@@ -973,14 +992,68 @@ function renderTop5(data){
   c.innerHTML=sorted.length?sorted.map(([detail,n],i)=>`<div class="hbar-row" style="grid-template-columns:1fr 1fr 32px"><div class="hbar-lbl" title="${detail}" style="grid-column:1/-1;font-size:11px;margin-bottom:4px">${i+1}. ${detail}</div><div class="hbar-track" style="grid-column:1/3"><div class="hbar-fill" data-w="${Math.round(n/mx*100)}" style="width:0%;background:${COLORS.defect[i%COLORS.defect.length]}"></div></div><div class="hbar-n">${n}</div></div>`).join(''):'<div class="empty">ไม่มีข้อมูล</div>';
   setTimeout(()=>c.querySelectorAll('.hbar-fill').forEach(el=>el.style.width=el.dataset.w+'%'),80);
 }
+
+// ── RENDER TABLE + EXPAND ROW ─────────────────────────────────
 function renderTable(data){
   const recent=[...data].reverse().slice(0,30);
   document.getElementById('tblSub').textContent=`แสดง ${Math.min(30,data.length)} จาก ${data.length} รายการ`;
-  const shiftPill={'1':'pill-b','2':'pill-a','3':'pill-v'};const mcPill={B:'pill-r',C:'pill-g',H:'pill-a',S:'pill-b'};
-  document.getElementById('tblBody').innerHTML=recent.length?recent.map(r=>{
-    const shift=g(r,'shift'),mc=g(r,'mcNo'),defect=g(r,'defect'),type=g(r,'type'),ok=isOk(r),fileUrl=g(r,'fileUrl');
-    return `<tr><td style="font-family:'JetBrains Mono',monospace;font-size:11px">${g(r,'date')}</td><td><span class="pill ${shiftPill[shift]||'pill-n'}">กะ ${shift}</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'round')}</td><td><span class="pill ${mcPill[mc]||'pill-n'}">${mc||'—'}</span></td><td style="font-family:'JetBrains Mono',monospace">${g(r,'size')||'—'}</td><td title="${defect}">${defect}</td><td><span class="pill ${ok?'pill-g':'pill-r'}">${type||defect}</span></td><td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'boxNo')||'—'}</td><td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'pallet')||'—'}</td><td>${g(r,'sv')}</td><td>${renderApproveBtn(r)}</td><td>${fileUrl?`<a href="${fileUrl}" target="_blank" rel="noopener" class="view-img-btn">🖼️ ดู</a>`:'<span style="color:var(--ink3);font-size:10px">—</span>'}</td></tr>`;
-  }).join(''):'<tr><td colspan="12" class="empty">ไม่มีข้อมูล</td></tr>';
+  const shiftPill={'1':'pill-b','2':'pill-a','3':'pill-v'};
+  const mcPill={B:'pill-r',C:'pill-g',H:'pill-a',S:'pill-b'};
+  const M4META={
+    man:{bg:'#E6F1FB',tc:'#0C447C',icon:'👤',label:'Man'},Man:{bg:'#E6F1FB',tc:'#0C447C',icon:'👤',label:'Man'},
+    machine:{bg:'#FCEBEB',tc:'#791F1F',icon:'⚙️',label:'Machine'},Machine:{bg:'#FCEBEB',tc:'#791F1F',icon:'⚙️',label:'Machine'},
+    method:{bg:'#FAEEDA',tc:'#633806',icon:'📋',label:'Method'},Method:{bg:'#FAEEDA',tc:'#633806',icon:'📋',label:'Method'},
+    material:{bg:'#E1F5EE',tc:'#085041',icon:'📦',label:'Material'},Material:{bg:'#E1F5EE',tc:'#085041',icon:'📦',label:'Material'},
+  };
+  let html='';
+  recent.forEach((r,idx)=>{
+    const shift=g(r,'shift'),mc=g(r,'mcNo'),defect=g(r,'defect'),type=g(r,'type');
+    const ok=isOk(r),fileUrl=g(r,'fileUrl');
+    const cause4m=g(r,'cause4m'),causeDetail=g(r,'causeDetail'),fixDetail=g(r,'fixDetail');
+    const hasFix=!!(cause4m||causeDetail||fixDetail);
+    const m4=M4META[cause4m]||null;
+    const eid='exp-'+idx;
+    html+=`<tr class="main-row" onclick="toggleExp('${eid}',this)">
+      <td style="font-family:'JetBrains Mono',monospace;font-size:11px">${g(r,'date')}</td>
+      <td><span class="pill ${shiftPill[shift]||'pill-n'}">กะ ${shift}</span></td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'round')}</td>
+      <td><span class="pill ${mcPill[mc]||'pill-n'}">${mc||'—'}</span></td>
+      <td style="font-family:'JetBrains Mono',monospace">${g(r,'size')||'—'}</td>
+      <td title="${defect}">${defect}</td>
+      <td><span class="pill ${ok?'pill-g':'pill-r'}">${type||defect}</span></td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'boxNo')||'—'}</td>
+      <td style="font-family:'JetBrains Mono',monospace;font-size:10px">${g(r,'pallet')||'—'}</td>
+      <td>${g(r,'sv')}</td>
+      <td onclick="event.stopPropagation()">${renderApproveBtn(r)}</td>
+      <td onclick="event.stopPropagation()">${fileUrl?`<a href="${fileUrl}" target="_blank" rel="noopener" class="view-img-btn">🖼️ ดู</a>`:'<span style="color:var(--ink3);font-size:10px">—</span>'}</td>
+    </tr>
+    <tr class="exp-row"><td colspan="12"><div class="exp-inner" id="${eid}">`;
+    if(hasFix){
+      html+=`<div class="exp-top-row">`;
+      if(m4)html+=`<span class="exp-m4-badge" style="background:${m4.bg};color:${m4.tc}">${m4.icon} ${m4.label}</span>`;
+      html+=`<span style="font-size:11px;color:var(--ink3)">บันทึกโดย ${g(r,'sv')||'—'} · ${g(r,'date')}</span></div>
+      <div class="exp-grid">
+        <div class="exp-block"><div class="exp-block-lbl">🔍 สาเหตุ</div><div class="exp-block-val">${causeDetail||'—'}</div></div>
+        <div class="exp-block"><div class="exp-block-lbl" style="color:var(--indigo)">💡 แนวทางแก้ไข</div><div class="exp-fix-val">${fixDetail||'—'}</div></div>
+      </div>`;
+    }else{
+      html+=`<div class="exp-no-data">⚠️ ยังไม่มีการบันทึกวิธีแก้ไข`;
+      if(!ok)html+=` — กด "รับทราบ" เพื่อกรอกสาเหตุ 4M`;
+      html+=`</div>`;
+    }
+    html+=`</div></td></tr>`;
+  });
+  document.getElementById('tblBody').innerHTML=recent.length?html:'<tr><td colspan="12" class="empty">ไม่มีข้อมูล</td></tr>';
+}
+
+function toggleExp(eid,mainRow){
+  const inner=document.getElementById(eid);
+  const isOpen=inner.classList.contains('open');
+  document.querySelectorAll('.exp-inner.open').forEach(el=>{
+    if(el.id!==eid){el.classList.remove('open');const prev=el.closest('tr').previousElementSibling;if(prev)prev.classList.remove('expanded');}
+  });
+  inner.classList.toggle('open',!isOpen);
+  if(mainRow)mainRow.classList.toggle('expanded',!isOpen);
 }
 
 // ── MODAL 4M ──────────────────────────────────────────────────
@@ -1072,13 +1145,7 @@ async function confirmApprove(){
   const approvedVal=`✅ ${sv} · ${label}`;
   try{
     const res=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},
-      body:JSON.stringify({
-        action:'approve',rowGroup:_modalRowGroup,boxNo:_modalBoxNo,
-        sv,act,approved:approvedVal,
-        cause4m:_curM,       // → column U (4M)
-        causeDetail,          // → column V (สาเหตุ)
-        fixDetail,            // → column W (แนวทางแก้ไข)
-      })});
+      body:JSON.stringify({action:'approve',rowGroup:_modalRowGroup,boxNo:_modalBoxNo,sv,act,approved:approvedVal,cause4m:_curM,causeDetail,fixDetail})});
     const json=await res.json();
     if(json.success){
       if(_modalBtn){_modalBtn.className='approve-btn '+(isDes?'done-destroy':'done-change');_modalBtn.style.fontSize='10px';_modalBtn.textContent=approvedVal;_modalBtn.onclick=null;}
@@ -1087,7 +1154,6 @@ async function confirmApprove(){
   }catch(e){alert('❌ เกิดข้อผิดพลาด: '+e.message);confirmBtn.textContent='✓ ยืนยัน';confirmBtn.disabled=false;}
 }
 
-// ── FILTER CHIPS ──────────────────────────────────────────────
 [['shiftChips','shift'],['mcChips','mc'],['sizeChips','size'],['statusChips','status']].forEach(([id,key])=>{
   document.getElementById(id).addEventListener('click',e=>{
     const chip=e.target.closest('.chip');if(!chip)return;
@@ -1096,7 +1162,6 @@ async function confirmApprove(){
   });
 });
 
-// ── CLOCK ─────────────────────────────────────────────────────
 function tickClock(){const n=new Date();const t=[n.getHours(),n.getMinutes(),n.getSeconds()].map(x=>String(x).padStart(2,'0')).join(':');const el=document.getElementById('liveClock');if(el)el.textContent=t;}
 tickClock();setInterval(tickClock,1000);
 loadData();
